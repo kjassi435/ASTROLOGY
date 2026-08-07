@@ -2,24 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BRAND, CONTACT, COPYRIGHT, FOOTER_LINKS, FOOTER_SERVICES, LEGAL, SOCIALS } from "@/lib/site";
-import { IconFacebook, IconInstagram, IconMail, IconPhone, IconPin, IconWhatsApp, IconYouTube, IconGooglePlay, IconMobileApp, IconArrowUp } from "./Icons";
-
-const SOCIAL_ICONS: Record<string, React.ReactNode> = {
-  Facebook: <IconFacebook size={18} />,
-  Instagram: <IconInstagram size={18} />,
-  YouTube: <IconYouTube size={18} />,
-  "Google Play": <IconGooglePlay size={18} />,
-  "Mobile App": <IconMobileApp size={18} />,
-};
-
-const SOCIAL_COLORS: Record<string, string> = {
-  Facebook: "#1877F2",
-  Instagram: "#E4405F",
-  YouTube: "#FF0000",
-  "Google Play": "#01875F",
-  "Mobile App": "#0083FE",
-};
+import { BRAND, CONTACT, COPYRIGHT, FOOTER_LINKS, FOOTER_SERVICES, LEGAL } from "@/lib/site";
+import { IconMail, IconPhone, IconPin, IconWhatsApp, IconArrowUp } from "./Icons";
 
 export function Footer() {
   return (
@@ -31,26 +15,6 @@ export function Footer() {
             <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <p className="text-[1.1rem] opacity-80 mb-6">{BRAND.tagline}</p>
-          <div className="flex gap-3 flex-wrap">
-            {SOCIALS.map((s) => (
-              <a
-                key={s.name}
-                href={s.href}
-                target={s.href.startsWith("http") ? "_blank" : undefined}
-                rel="noreferrer"
-                aria-label={s.name}
-                title={s.name}
-                className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center transition hover:-translate-y-1 hover:shadow-lg"
-                style={{ 
-                  backgroundColor: `${SOCIAL_COLORS[s.name]}20`,
-                  color: SOCIAL_COLORS[s.name],
-                  borderColor: `${SOCIAL_COLORS[s.name]}40`
-                }}
-              >
-                {SOCIAL_ICONS[s.name]}
-              </a>
-            ))}
-          </div>
         </div>
 
         <div>

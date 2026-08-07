@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer, FloatingWidgets } from "@/components/Footer";
+import { SocialLinks } from "@/components/SocialLinks";
 import { Preloader } from "@/components/Preloader";
 import { BRAND } from "@/lib/site";
 
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-screen">{children}</main>
         <Footer />
         <FloatingWidgets />
+        <SocialLinks />
       </body>
     </html>
   );
