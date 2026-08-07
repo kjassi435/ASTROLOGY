@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BRAND, CONTACT, COPYRIGHT, FOOTER_LINKS, FOOTER_SERVICES, LEGAL, SOCIALS } from "@/lib/site";
-import { IconFacebook, IconInstagram, IconMail, IconPhone, IconPin, IconYouTube, IconGooglePlay, IconMobileApp, IconArrowUp } from "./Icons";
+import { IconFacebook, IconInstagram, IconMail, IconPhone, IconPin, IconWhatsApp, IconYouTube, IconGooglePlay, IconMobileApp, IconArrowUp } from "./Icons";
 
 const SOCIAL_ICONS: Record<string, React.ReactNode> = {
   Facebook: <IconFacebook size={18} />,
