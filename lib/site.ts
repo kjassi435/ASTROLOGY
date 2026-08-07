@@ -28,9 +28,8 @@ export const SOCIALS = [
   { name: "Facebook", href: "https://www.facebook.com/arvinastro112/" },
   { name: "Instagram", href: "https://www.instagram.com/arvin_astro/" },
   { name: "YouTube", href: "https://www.youtube.com/@arvinastro" },
-  { name: "Android App", href: APPS.android },
-  { name: "WhatsApp Community", href: CONTACT.whatsappCommunity },
-  { name: "Kutumb", href: CONTACT.kutumb },
+  { name: "Google Play", href: APPS.android },
+  { name: "Mobile App", href: APPS.android },
 ];
 
 export const ANNOUNCEMENT = "🚀 New batches starting soon — Join our Live Courses!  Book consultations for Kundli, Vastu & Name Numerology.";

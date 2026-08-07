@@ -3,20 +3,23 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BRAND, CONTACT, COPYRIGHT, FOOTER_LINKS, FOOTER_SERVICES, LEGAL, SOCIALS } from "@/lib/site";
-import { IconFacebook, IconInstagram, IconMail, IconPhone, IconPin, IconWhatsApp, IconYouTube, IconAndroid, IconArrowUp } from "./Icons";
+import { IconFacebook, IconInstagram, IconMail, IconPhone, IconPin, IconYouTube, IconGooglePlay, IconMobileApp, IconArrowUp } from "./Icons";
 
 const SOCIAL_ICONS: Record<string, React.ReactNode> = {
-  Facebook: <IconFacebook size={16} />,
-  Instagram: <IconInstagram size={16} />,
-  YouTube: <IconYouTube size={16} />,
-  "Android App": <IconAndroid size={16} />,
-  "WhatsApp Community": <IconWhatsApp size={16} />,
-  Kutumb: <IconStar />,
+  Facebook: <IconFacebook size={18} />,
+  Instagram: <IconInstagram size={18} />,
+  YouTube: <IconYouTube size={18} />,
+  "Google Play": <IconGooglePlay size={18} />,
+  "Mobile App": <IconMobileApp size={18} />,
 };
 
-function IconStar() {
-  return <span className="text-sm">{"\u2726"}</span>;
-}
+const SOCIAL_COLORS: Record<string, string> = {
+  Facebook: "#1877F2",
+  Instagram: "#E4405F",
+  YouTube: "#FF0000",
+  "Google Play": "#01875F",
+  "Mobile App": "#0083FE",
+};
 
 export function Footer() {
   return (
@@ -37,9 +40,14 @@ export function Footer() {
                 rel="noreferrer"
                 aria-label={s.name}
                 title={s.name}
-                className="w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center text-primary transition hover:bg-primary hover:text-white hover:-translate-y-1"
+                className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center transition hover:-translate-y-1 hover:shadow-lg"
+                style={{ 
+                  backgroundColor: `${SOCIAL_COLORS[s.name]}20`,
+                  color: SOCIAL_COLORS[s.name],
+                  borderColor: `${SOCIAL_COLORS[s.name]}40`
+                }}
               >
-                {SOCIAL_ICONS[s.name] ?? <IconStar />}
+                {SOCIAL_ICONS[s.name]}
               </a>
             ))}
           </div>
