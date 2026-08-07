@@ -38,25 +38,20 @@ export function Marquee() {
   );
 }
 
-export function ServiceCard({ service, index = 0, onEnquiry }: { service: Service; index?: number; onEnquiry?: (service: Service) => void }) {
+export function ServiceCard({ service, index = 0 }: { service: Service; index?: number }) {
   return (
-    <div className={cn("service-card card-lift block relative group cursor-pointer", service.featured && "featured")} onClick={() => onEnquiry?.(service)}>
-      {service.popular ? <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider z-10">Popular</span> : null}
-      {service.featured ? <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider z-10">Featured</span> : null}
+    <Link href={`/services/${service.slug}`} className={cn("service-card card-lift block", service.featured && "featured")}>
+      {service.popular ? <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider">Popular</span> : null}
+      {service.featured ? <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider">Featured</span> : null}
       <div className="w-16 h-16 mb-6 text-primary transition-transform duration-300 group-hover:scale-110">
         <ServiceIcon name={service.icon} size={56} />
       </div>
       <h3 className="text-[1.6rem] mb-3">{service.name}</h3>
       <p className="opacity-80 mb-6 line-clamp-3">{service.tagline}</p>
-      <div className="flex items-center justify-between">
-        <span className="service-link inline-flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3">
-          Enquire Now <IconArrowRight size={16} />
-        </span>
-        <Link href={`/services/${service.slug}`} className="text-xs text-muted-foreground hover:text-primary transition underline" onClick={(e) => e.stopPropagation()}>
-          View Details
-        </Link>
-      </div>
-    </div>
+      <span className="service-link inline-flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3">
+        Learn More <IconArrowRight size={16} />
+      </span>
+    </Link>
   );
 }
 

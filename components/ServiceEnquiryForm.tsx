@@ -2,8 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { CONTACT } from "@/lib/site";
-import type { Service } from "@/lib/services";
-import { IconClose, IconWhatsApp, IconSpinner } from "./Icons";
+import { IconWhatsApp, IconSpinner } from "./Icons";
 
 interface ServiceField {
   label: string;
@@ -103,14 +102,8 @@ const DEFAULT_FIELDS: ServiceField[] = [
   { label: "Your Query", name: "message", placeholder: "Tell us what you need help with" },
 ];
 
-export function ServiceInquiryModal({
-  service,
-  onClose,
-}: {
-  service: Service;
-  onClose: () => void;
-}) {
-  const fields = SERVICE_FIELDS[service.slug] ?? DEFAULT_FIELDS;
+export function ServiceEnquiryForm({ serviceSlug, serviceName }: { serviceSlug: string; serviceName: string }) {
+  const fields = SERVICE_FIELDS[serviceSlug] ?? DEFAULT_FIELDS;
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -126,8 +119,8 @@ export function ServiceInquiryModal({
     const lines: string[] = [
       `Namaste Arvindrun ji! 🙏`,
       ``,
-      `*New Service Inquiry*`,
-      `*Service: ${service.name}*`,
+      `*New Service Enquiry*`,
+      `*Service: ${serviceName}*`,
       ``,
     ];
 
@@ -146,80 +139,58 @@ export function ServiceInquiryModal({
 
     setSending(false);
     setDone(true);
-    setTimeout(onClose, 2000);
   };
 
-  return (
-    <div className="fixed inset-0 z-[3000] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-foreground rounded-2xl border border-primary-hover/30 shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-foreground border-b border-white/10 px-6 py-4 flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-bold text-white">{service.name}</h3>
-            <p className="text-xs text-white/50">Fill in your details to enquire</p>
-          </div>
-          <button onClick={onClose} className="text-white/50 hover:text-white transition p-1">
-            <IconClose size={20} />
-          </button>
+  if (done) {
+    return (
+      <div className="text-center py-6">
+        <div className="w-14 h-14 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-3">
+          <svg className="w-7 h-7 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
         </div>
+        <h4 className="font-semibold text-lg mb-1">Enquiry Sent!</h4>
+        <p className="text-sm opacity-60">We will get back to you on WhatsApp shortly.</p>
+      </div>
+    );
+  }
 
-        {/* Body */}
-        <div className="p-6">
-          {done ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h4 className="text-white font-semibold text-lg mb-1">Inquiry Sent!</h4>
-              <p className="text-white/50 text-sm">We will get back to you on WhatsApp shortly.</p>
-            </div>
-          ) : (
-            <form onSubmit={submit} className="space-y-4">
-              {fields.map((field) => (
-                <div key={field.name}>
-                  <label className="block text-sm font-semibold mb-1.5 text-white/80">
-                    {field.label} {field.required && <span className="text-red-400">*</span>}
-                  </label>
-                  {field.type === "select" ? (
-                    <select
-                      required={field.required}
-                      value={formData[field.name] ?? ""}
-                      onChange={(e) => update(field.name, e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:border-primary focus:outline-none"
-                    >
-                      <option value="" disabled>Select {field.label}</option>
-                      {field.options?.map((opt) => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      required={field.required}
-                      type={field.type ?? "text"}
-                      value={formData[field.name] ?? ""}
-                      onChange={(e) => update(field.name, e.target.value)}
-                      placeholder={field.placeholder}
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 focus:border-primary focus:outline-none"
-                    />
-                  )}
-                </div>
+  return (
+    <form onSubmit={submit} className="space-y-3.5">
+      {fields.map((field) => (
+        <div key={field.name}>
+          <label className="block text-sm font-semibold mb-1.5">
+            {field.label} {field.required && <span className="text-red-500">*</span>}
+          </label>
+          {field.type === "select" ? (
+            <select
+              required={field.required}
+              value={formData[field.name] ?? ""}
+              onChange={(e) => update(field.name, e.target.value)}
+              className="form-control"
+            >
+              <option value="" disabled>Select {field.label}</option>
+              {field.options?.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
               ))}
-
-              <button type="submit" disabled={sending} className="w-full py-3 rounded-xl bg-green-600 hover:bg-green-500 text-white font-semibold transition flex items-center justify-center gap-2 mt-2">
-                {sending ? <IconSpinner size={16} /> : <IconWhatsApp size={16} />}
-                Send on WhatsApp
-              </button>
-              <p className="text-xs text-center text-white/40">We reply within a few hours on WhatsApp.</p>
-            </form>
+            </select>
+          ) : (
+            <input
+              required={field.required}
+              type={field.type ?? "text"}
+              value={formData[field.name] ?? ""}
+              onChange={(e) => update(field.name, e.target.value)}
+              placeholder={field.placeholder}
+              className="form-control"
+            />
           )}
         </div>
-      </div>
-    </div>
+      ))}
+      <button type="submit" disabled={sending} className="btn btn-whatsapp btn-full mt-2">
+        {sending ? <IconSpinner size={16} /> : <IconWhatsApp size={16} />}
+        Enquire Now
+      </button>
+      <p className="text-xs text-center opacity-50">We reply within a few hours on WhatsApp.</p>
+    </form>
   );
 }

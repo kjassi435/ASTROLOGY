@@ -1,17 +1,18 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { SERVICES, type Service } from "@/lib/services";
+import { SERVICES } from "@/lib/services";
 import { PageHero } from "@/components/PageHero";
 import { SectionHeader, ServiceCard } from "@/components/Cards";
-import { ServiceInquiryModal } from "@/components/ServiceInquiryModal";
 import { Reveal } from "@/components/Preloader";
 import { IconArrowRight, IconCheck } from "@/components/Icons";
 
-export default function ServicesPage() {
-  const [inquiryService, setInquiryService] = useState<Service | null>(null);
+export const metadata: Metadata = {
+  title: "Our Services — Astrology, Vastu & Name Designing | Arvin Astro",
+  description:
+    "Expert Astrology, Vastu & Name Designing services. Kundli Analysis, Vastu Consultation, Name Analysis, Company & Newborn Name Designing, Logo Designing and more.",
+};
 
+export default function ServicesPage() {
   return (
     <>
       <PageHero
@@ -25,7 +26,7 @@ export default function ServicesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
             {SERVICES.map((service, i) => (
               <Reveal key={service.slug} delay={(i % 3) * 100}>
-                <ServiceCard service={service} index={i} onEnquiry={setInquiryService} />
+                <ServiceCard service={service} index={i} />
               </Reveal>
             ))}
           </div>
@@ -80,8 +81,6 @@ export default function ServicesPage() {
           </Reveal>
         </div>
       </section>
-
-      {inquiryService && <ServiceInquiryModal service={inquiryService} onClose={() => setInquiryService(null)} />}
     </>
   );
 }

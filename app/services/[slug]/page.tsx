@@ -8,7 +8,7 @@ import { PageHero } from "@/components/PageHero";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Preloader";
 import { IconCheck, IconClock, IconExternal, IconPhone, IconWhatsApp } from "@/components/Icons";
-import { BookingForm } from "@/components/Forms";
+import { ServiceEnquiryForm } from "@/components/ServiceEnquiryForm";
 
 export const dynamicParams = true;
 
@@ -162,8 +162,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             </Reveal>
             <Reveal delay={100}>
               <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7">
-                <h3 className="text-xl mb-5">Send us Message</h3>
-                <BookingForm serviceSlug={service.slug} />
+                <h3 className="text-xl mb-5">Enquire Now</h3>
+                <ServiceEnquiryForm serviceSlug={service.slug} serviceName={service.name} />
               </div>
             </Reveal>
             <Reveal delay={150}>

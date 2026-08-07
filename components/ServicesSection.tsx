@@ -1,15 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { SERVICES, type Service } from "@/lib/services";
+import { SERVICES } from "@/lib/services";
 import { SectionHeader, ServiceCard } from "@/components/Cards";
-import { ServiceInquiryModal } from "@/components/ServiceInquiryModal";
 import { Reveal } from "@/components/Preloader";
 import { IconArrowRight } from "@/components/Icons";
 
 export function ServicesSection() {
-  const [inquiryService, setInquiryService] = useState<Service | null>(null);
   const homeServices = SERVICES.filter((s) => s.slug !== "mobile-analysis");
   return (
     <section className="bg-section-blue section" id="services">
@@ -23,7 +20,7 @@ export function ServicesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
           {homeServices.map((service, i) => (
             <Reveal key={service.slug} delay={(i % 3) * 100}>
-              <ServiceCard service={service} index={i} onEnquiry={setInquiryService} />
+              <ServiceCard service={service} index={i} />
             </Reveal>
           ))}
         </div>
@@ -33,7 +30,6 @@ export function ServicesSection() {
           </Link>
         </div>
       </div>
-      {inquiryService && <ServiceInquiryModal service={inquiryService} onClose={() => setInquiryService(null)} />}
     </section>
   );
 }
