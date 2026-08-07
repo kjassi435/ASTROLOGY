@@ -1,0 +1,423 @@
+import Link from "next/link";
+import type { Course, CourseType } from "@/lib/courses";
+import type { Book } from "@/lib/books";
+import type { Product } from "@/lib/products";
+import type { Service } from "@/lib/services";
+import type { Testimonial } from "@/lib/testimonials";
+import { cn, formatINR, waLink } from "@/lib/utils";
+import { CONTACT } from "@/lib/site";
+import { Reveal } from "./Preloader";
+import { IconArrowRight, IconCheck, IconExternal, IconPlay, IconVideo, IconAward, IconUsers } from "./Icons";
+
+export function SectionHeader({ subtitle, title, desc, center = false }: { subtitle: string; title: React.ReactNode; desc?: string; center?: boolean }) {
+  return (
+    <div className={cn("section-header", center && "center")}>
+      <span className="section-subtitle">{subtitle}</span>
+      <h2 className="section-title">{title}</h2>
+      {desc ? <p className="section-desc">{desc}</p> : null}
+    </div>
+  );
+}
+
+export function Marquee() {
+  const items = ["Astrologer", "Name Numerology Expert", "Vastu Consultant", "Teacher", "Consultant", "Mentor", "Spiritual Guide"];
+  const track = [...items, ...items];
+  return (
+    <div className="marquee-section" aria-hidden>
+      <div className="marquee-track">
+        <div className="marquee-content">
+          {track.map((item, i) => (
+            <span key={i} className="flex items-center gap-10">
+              {item}
+              <span className="dot">{"\u2726"}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ServiceCard({ service, index = 0 }: { service: Service; index?: number }) {
+  return (
+    <Link href={`/services/${service.slug}`} className={cn("service-card card-lift block", service.featured && "featured")}>
+      {service.popular ? <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider">Popular</span> : null}
+      {service.featured ? <span className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider">Featured</span> : null}
+      <div className="w-16 h-16 mb-6 text-primary transition-transform duration-300 group-hover:scale-110">
+        <ServiceIcon name={service.icon} size={56} />
+      </div>
+      <h3 className="text-[1.6rem] mb-3">{service.name}</h3>
+      <p className="opacity-80 mb-6 line-clamp-3">{service.tagline}</p>
+      <span className="service-link inline-flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3">
+        Learn More <IconArrowRight size={16} />
+      </span>
+    </Link>
+  );
+}
+
+const SERVICE_ICONS: Record<string, React.ReactNode> = {
+  kundli: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="2" />
+      <path d="M32 4v56M4 32h56" stroke="currentColor" strokeWidth="1" />
+      <circle cx="32" cy="32" r="10" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
+    </svg>
+  ),
+  vastu: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 8L8 20v24l24 12 24-12V20L32 8z" stroke="currentColor" strokeWidth="2" />
+      <path d="M8 20l24 12m0 0l24-12M32 32v24" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  ),
+  name: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 48h32M16 32h32M16 16h32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="16" cy="16" r="2.5" fill="currentColor" />
+      <circle cx="32" cy="32" r="2.5" fill="currentColor" />
+      <circle cx="48" cy="48" r="2.5" fill="currentColor" />
+    </svg>
+  ),
+  combos: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="24" stroke="currentColor" strokeWidth="2" strokeDasharray="5 5" />
+      <circle cx="32" cy="32" r="12" stroke="currentColor" strokeWidth="2" />
+      <path d="M32 8v10M32 46v10M8 32h10M46 32h10" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  ),
+  company: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 52h48M16 52V20l16-10 16 10v32" stroke="currentColor" strokeWidth="2" />
+      <path d="M28 52V38h8v14" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  ),
+  analysis: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 46l14-14 10 10 16-18" stroke="currentColor" strokeWidth="2" />
+      <path d="M38 24h12v12" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  ),
+  baby: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="34" r="18" stroke="currentColor" strokeWidth="2" />
+      <circle cx="25" cy="30" r="1.8" fill="currentColor" />
+      <circle cx="39" cy="30" r="1.8" fill="currentColor" />
+      <path d="M27 38c2 2.5 8 2.5 10 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
+  mobile: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="18" y="6" width="28" height="52" rx="6" stroke="currentColor" strokeWidth="2" />
+      <path d="M26 14h12M30 50h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
+  logo: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="12" y="12" width="40" height="40" rx="10" stroke="currentColor" strokeWidth="2" />
+      <path d="M32 18l4 10 10 4-10 4-4 10-4-10-10-4 10-4 4-10z" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  ),
+  meet: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="22" r="12" stroke="currentColor" strokeWidth="2" />
+      <path d="M14 54c2-12 8-18 18-18s16 6 18 18" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  ),
+};
+
+export function ServiceIcon({ name, size = 56 }: { name: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden>
+      {SERVICE_ICONS[name] ?? SERVICE_ICONS.kundli}
+    </svg>
+  );
+}
+
+const COURSE_GRADIENTS: Record<CourseType, string> = {
+  live: "linear-gradient(135deg, #0083fe, #006dd4)",
+  recorded: "linear-gradient(135deg, #0f172a, #1e293b)",
+  free: "linear-gradient(135deg, #00fff0, #0083fe)",
+};
+
+export function CourseCard({ course }: { course: Course }) {
+  const isFree = course.type === "free";
+  const ctaLabel = course.type === "live" ? "Know More" : course.type === "free" ? "Learn Now" : course.price ? "Buy Now" : "Buy Now";
+  const ctaHref = isFree ? course.youtubeUrl! : `/courses/${course.type}/${course.slug}`;
+  const typeLabel = course.type === "live" ? "Live" : course.type === "recorded" ? "Recorded" : "Free";
+  const typeColor = course.type === "live" ? "bg-primary text-white" : course.type === "recorded" ? "bg-card text-foreground" : "bg-foreground text-bg";
+
+  return (
+    <article className="bg-card rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-sm)] card-lift border border-muted flex flex-col">
+      <Link href={ctaHref} className="relative block h-44 flex items-center justify-center text-foreground" style={{ background: COURSE_GRADIENTS[course.type] }} aria-label={course.title}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={course.image} alt={course.title} className="w-full h-full object-cover" loading="lazy" />
+        <span className={`absolute top-4 left-4 px-3.5 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider ${typeColor}`}>
+          {course.badge ?? typeLabel}
+        </span>
+      </Link>
+      <div className="p-7 flex flex-col flex-1">
+        <div className="text-xs text-muted-foreground mb-2 flex items-center gap-2">
+          <IconAward size={13} /> By {course.teacher}
+        </div>
+        <h3 className="text-[1.5rem] mb-2">
+          <Link href={ctaHref} className="hover:text-primary transition">
+            {course.title}
+          </Link>
+        </h3>
+        <p className="text-sm opacity-75 mb-5 flex-1 line-clamp-2">{course.tagline}</p>
+        {course.features && (
+          <div className="flex flex-wrap gap-2 mb-5">
+            {course.features.map((f) => (
+              <span key={f} className="text-[0.7rem] px-2.5 py-1 rounded-full bg-bg text-foreground font-medium border border-muted">
+                {f}
+              </span>
+            ))}
+          </div>
+        )}
+        <div className="flex items-center justify-between gap-3 border-t border-muted pt-5 mt-auto">
+          {course.type === "recorded" && course.duration ? (
+            <div>
+              <span className="block text-xs text-muted-foreground mb-1">{course.duration}</span>
+              <span className="text-2xl font-bold text-foreground">{formatINR(course.price ?? 0)}</span>
+            </div>
+          ) : course.price ? (
+            <div>
+              <span className="text-2xl font-bold text-foreground">{formatINR(course.price)}</span>
+              {course.originalPrice ? <span className="ml-2 text-sm text-muted-foreground line-through">{formatINR(course.originalPrice)}</span> : null}
+            </div>
+          ) : (
+            <span className="text-sm font-semibold text-muted-foreground">{isFree ? "Free" : "Price on request"}</span>
+          )}
+          <Link href={ctaHref} className={isFree ? "btn btn-whatsapp btn-sm" : "btn btn-primary btn-sm"}>
+            {isFree ? <IconPlay size={14} /> : null} {ctaLabel}
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export function TestimonialCard({ t, index = 0 }: { t: Testimonial; index?: number }) {
+  return (
+    <RevealCard index={index}>
+      <div className="h-full p-8 bg-card rounded-[var(--radius-lg)] border border-muted card-lift relative flex flex-col">
+        <span className="absolute top-3 right-6 text-[5rem] text-primary opacity-30 leading-none select-none">&quot;</span>
+        <div className="star-row mb-5" aria-label="5 star rating">
+          {"\u2605\u2605\u2605\u2605\u2605".split("").map((s, i) => (
+            <span key={i}>{s}</span>
+          ))}
+        </div>
+        <p className="text-[0.95rem] opacity-90 mb-6 flex-1 leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+        <div className="flex items-center gap-3.5 pt-5 border-t border-muted">
+          <span className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold">{t.initials}</span>
+          <div>
+            <div className="font-semibold text-sm">{t.name}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">
+              {t.badge} {"\u00B7"} {t.source}
+            </div>
+          </div>
+        </div>
+      </div>
+    </RevealCard>
+  );
+}
+
+export function RevealCard({ children, index = 0 }: { children: React.ReactNode; index?: number }) {
+  return (
+    <Reveal delay={(index % 3) * 100} className="h-full">
+      {children}
+    </Reveal>
+  );
+}
+
+const BOOK_COLORS = [
+  { gradient: "from-[#00fff0]/50 to-[#0083fe]/30", accent: "#0083fe", glow: "#00fff0" },
+  { gradient: "from-[#fbbf24]/50 to-[#f59e0b]/30", accent: "#d97706", glow: "#fbbf24" },
+  { gradient: "from-[#34d399]/50 to-[#10b981]/30", accent: "#059669", glow: "#34d399" },
+  { gradient: "from-[#a78bfa]/50 to-[#8b5cf6]/30", accent: "#7c3aed", glow: "#a78bfa" },
+  { gradient: "from-[#f472b6]/50 to-[#ec4899]/30", accent: "#db2777", glow: "#f472b6" },
+  { gradient: "from-[#fb923c]/50 to-[#f97316]/30", accent: "#ea580c", glow: "#fb923c" },
+  { gradient: "from-[#38bdf8]/50 to-[#0ea5e9]/30", accent: "#0284c7", glow: "#38bdf8" },
+  { gradient: "from-[#c084fc]/50 to-[#a855f7]/30", accent: "#9333ea", glow: "#c084fc" },
+  { gradient: "from-[#2dd4bf]/50 to-[#14b8a6]/30", accent: "#0d9488", glow: "#2dd4bf" },
+  { gradient: "from-[#fb7185]/50 to-[#f43f5e]/30", accent: "#e11d48", glow: "#fb7185" },
+  { gradient: "from-[#facc15]/50 to-[#eab308]/30", accent: "#ca8a04", glow: "#facc15" },
+  { gradient: "from-[#60a5fa]/50 to-[#3b82f6]/30", accent: "#2563eb", glow: "#60a5fa" },
+];
+
+export function BookCard({ book, index = 0 }: { book: Book; index?: number }) {
+  const color = BOOK_COLORS[index % BOOK_COLORS.length];
+
+  return (
+    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col group min-h-[300px]">
+      {/* Light glass background */}
+      <div className="absolute inset-0 bg-white/70" />
+
+      {/* Colored gradient overlay */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${color.gradient}`} />
+
+      {/* Glow orb */}
+      <div
+        className="absolute -top-16 -right-16 w-40 h-40 rounded-full blur-3xl opacity-40"
+        style={{ background: color.glow }}
+      />
+      <div
+        className="absolute -bottom-16 -left-16 w-32 h-32 rounded-full blur-3xl opacity-30"
+        style={{ background: color.accent }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 p-5 flex flex-col flex-1">
+        {/* Header: Label + Menu */}
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-foreground/50 text-xs font-medium">Recommended Book</span>
+          <button className="text-foreground/30 hover:text-foreground/60 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+              <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Title + Author */}
+        <div className="text-center mb-auto py-4">
+          <h3 className="text-foreground font-bold text-lg leading-snug mb-2 line-clamp-2">{book.title}</h3>
+          {book.note && (
+            <p className="text-foreground/50 text-xs line-clamp-2">{book.note}</p>
+          )}
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-foreground/10 my-4" />
+
+        {/* Footer: Buy Button */}
+        <div className="flex items-center justify-between">
+          <div className="w-7 h-7 rounded-full bg-white/60 flex items-center justify-center border border-white/80">
+            <span className="text-foreground/40 text-xs">✦</span>
+          </div>
+          <a
+            href={book.buyUrl}
+            target="_blank"
+            rel="noreferrer noopener sponsored"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 shadow-sm"
+            style={{
+              background: `linear-gradient(135deg, ${color.accent}, ${color.glow})`,
+              color: "#fff",
+            }}
+          >
+            Buy on Amazon
+            <IconExternal size={12} />
+          </a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+const PRODUCT_COLORS = [
+  { gradient: "from-[#00fff0]/50 to-[#0083fe]/30", accent: "#0083fe", glow: "#00fff0" },
+  { gradient: "from-[#34d399]/50 to-[#10b981]/30", accent: "#059669", glow: "#34d399" },
+  { gradient: "from-[#a78bfa]/50 to-[#8b5cf6]/30", accent: "#7c3aed", glow: "#a78bfa" },
+  { gradient: "from-[#fb923c]/50 to-[#f97316]/30", accent: "#ea580c", glow: "#fb923c" },
+];
+
+export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
+  const color = PRODUCT_COLORS[index % PRODUCT_COLORS.length];
+
+  return (
+    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col group min-h-[300px]">
+      {/* Light glass background */}
+      <div className="absolute inset-0 bg-white/70" />
+
+      {/* Colored gradient overlay */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${color.gradient}`} />
+
+      {/* Glow orb */}
+      <div
+        className="absolute -top-16 -right-16 w-40 h-40 rounded-full blur-3xl opacity-40"
+        style={{ background: color.glow }}
+      />
+      <div
+        className="absolute -bottom-16 -left-16 w-32 h-32 rounded-full blur-3xl opacity-30"
+        style={{ background: color.accent }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 p-5 flex flex-col flex-1">
+        {/* Header: Label + Menu */}
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-foreground/50 text-xs font-medium">Vastu Product</span>
+          <button className="text-foreground/30 hover:text-foreground/60 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+              <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Title + Description */}
+        <div className="text-center mb-auto py-4">
+          <h3 className="text-foreground font-bold text-lg leading-snug mb-2 line-clamp-2">{product.title}</h3>
+          {product.note && (
+            <p className="text-foreground/50 text-xs line-clamp-2">{product.note}</p>
+          )}
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-foreground/10 my-4" />
+
+        {/* Footer: Buy Button */}
+        <div className="flex items-center justify-between">
+          <div className="w-7 h-7 rounded-full bg-white/60 flex items-center justify-center border border-white/80">
+            <span className="text-foreground/40 text-xs">✦</span>
+          </div>
+          <a
+            href={product.buyUrl}
+            target="_blank"
+            rel="noreferrer noopener sponsored"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 shadow-sm"
+            style={{
+              background: `linear-gradient(135deg, ${color.accent}, ${color.glow})`,
+              color: "#fff",
+            }}
+          >
+            Buy on Amazon
+            <IconExternal size={12} />
+          </a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export function CourseEnrollBar({ course }: { course: Course }) {
+  const enrollHref =
+    course.type === "free" && course.youtubeUrl
+      ? course.youtubeUrl
+      : course.buyUrl
+        ? course.buyUrl
+        : waLink(CONTACT.phoneMainRaw, `Namaste Arvindrun ji, I want to enroll in the "${course.title}" course. Please share the details.`);
+  return (
+    <a
+      href={enrollHref}
+      target={enrollHref.startsWith("http") ? "_blank" : undefined}
+      rel="noreferrer"
+      className={course.type === "free" ? "btn btn-whatsapp" : "btn btn-primary"}
+    >
+      {course.type === "free" ? (
+        <>
+          <IconPlay size={16} /> Learn Now {"\u2014"} Free on YouTube
+        </>
+      ) : course.type === "live" ? (
+        "Enroll in This Course"
+      ) : course.buyUrl ? (
+        <>
+          Buy Now {"\u2014"} {course.price ? formatINR(course.price) : "Check Price"} <IconExternal size={14} />
+        </>
+      ) : (
+        "Enroll Now"
+      )}
+    </a>
+  );
+}
+
+export function TypeIcon({ type }: { type: CourseType }) {
+  return type === "live" ? <IconVideo size={16} /> : type === "recorded" ? <IconUsers size={16} /> : <IconCheck size={16} />;
+}

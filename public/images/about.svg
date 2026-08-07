@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1067" viewBox="0 0 800 1067">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBFBF5"/>
+      <stop offset="1" stop-color="#FEED9F"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1067" fill="url(#g)"/>
+  <circle cx="720" cy="128.04" r="128" fill="none" stroke="#D0A823" stroke-width="2" opacity="0.5"/>
+  <circle cx="64" cy="960.3000000000001" r="176" fill="none" stroke="#D0A823" stroke-width="2" opacity="0.35" stroke-dasharray="8 10"/>
+  <circle cx="120" cy="192.06" r="14" fill="#D0A823" opacity="0.25"/>
+  <circle cx="200" cy="874.94" r="10" fill="#D0A823" opacity="0.25"/>
+  <circle cx="600" cy="128.04" r="18" fill="#D0A823" opacity="0.25"/>
+  <circle cx="680" cy="832.26" r="12" fill="#D0A823" opacity="0.25"/>
+  <circle cx="400" cy="533.5" r="8" fill="#D0A823" opacity="0.25"/>
+  <text x="400" y="234.74" font-family="Georgia, serif" font-size="128" fill="#D0A823" text-anchor="middle">✦</text>
+  <text x="400" y="565.5" font-family="Georgia, serif" font-weight="600" font-size="80" fill="#504C41" text-anchor="middle">Arvindrun Vijay</text>
+  <text x="400" y="713.5" font-family="Arial, sans-serif" font-size="36" fill="#6b6759" text-anchor="middle">Your Photo Here</text>
+</svg>

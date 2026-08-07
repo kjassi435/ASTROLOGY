@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="726" viewBox="0 0 2048 726">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FEED9F"/>
+      <stop offset="1" stop-color="#F7D327"/>
+    </linearGradient>
+  </defs>
+  <rect width="2048" height="726" fill="url(#g)"/>
+  <circle cx="1843.2" cy="87.11999999999999" r="116.16" fill="none" stroke="#D0A823" stroke-width="2" opacity="0.5"/>
+  <circle cx="163.84" cy="653.4" r="159.72" fill="none" stroke="#D0A823" stroke-width="2" opacity="0.35" stroke-dasharray="8 10"/>
+  <circle cx="307.2" cy="130.68" r="14" fill="#D0A823" opacity="0.25"/>
+  <circle cx="512" cy="595.32" r="10" fill="#D0A823" opacity="0.25"/>
+  <circle cx="1536" cy="87.12" r="18" fill="#D0A823" opacity="0.25"/>
+  <circle cx="1740.8" cy="566.28" r="12" fill="#D0A823" opacity="0.25"/>
+  <circle cx="1024" cy="363" r="8" fill="#D0A823" opacity="0.25"/>
+  <text x="1024" y="159.72" font-family="Georgia, serif" font-size="116.16" fill="#D0A823" text-anchor="middle">✦</text>
+  <text x="1024" y="392.04" font-family="Georgia, serif" font-weight="600" font-size="72.6" fill="#504C41" text-anchor="middle">Arvindrun Vijay</text>
+  <text x="1024" y="526.35" font-family="Arial, sans-serif" font-size="32.67" fill="#6b6759" text-anchor="middle">Astrologer  ·  Numerology Expert  ·  Vastu Consultant</text>
+</svg>

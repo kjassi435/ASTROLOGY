@@ -1,0 +1,11 @@
+{
+  "pages": [
+    { "slug": "home", "title": "Homepage", "fields": ["heroTitle", "heroSubtitle", "aboutText", "ctaText"] },
+    { "slug": "about", "title": "About Page", "fields": ["title", "subtitle", "bio"] },
+    { "slug": "services", "title": "Services Page", "fields": ["title", "subtitle", "description"] },
+    { "slug": "contact", "title": "Contact Page", "fields": ["title", "subtitle", "address", "phone", "email"] },
+    { "slug": "books", "title": "Books Page", "fields": ["title", "subtitle"] },
+    { "slug": "courses", "title": "Courses Page", "fields": ["title", "subtitle", "description"] },
+    { "slug": "blog", "title": "Blog Page", "fields": ["title", "subtitle"] }
+  ]
+}

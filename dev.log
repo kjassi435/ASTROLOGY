@@ -1,0 +1,128 @@
+
+> arvin-astro@1.0.0 dev
+> next dev
+
+   ▲ Next.js 15.5.22
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.6:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 3s (1749 modules)
+ GET / 200 in 4700ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2.5s (1767 modules)
+ GET /index.html 404 in 3412ms
+ ✓ Compiled in 947ms (809 modules)
+ GET / 200 in 335ms
+ GET / 200 in 862ms
+ GET /franchise.html 404 in 137ms
+ GET /privacy.html 404 in 160ms
+ ○ Compiling /sitemap.xml ...
+ ✓ Compiled /sitemap.xml in 937ms (1772 modules)
+ GET /sitemap.xml 200 in 1117ms
+ ✓ Compiled /robots.txt in 429ms (1775 modules)
+ GET /robots.txt 200 in 500ms
+ GET / 200 in 1176ms
+ GET / 200 in 657ms
+ ○ Compiling /about ...
+ ✓ Compiled /about in 693ms (1780 modules)
+ GET /about 200 in 881ms
+ ✓ Compiled /services in 378ms (1760 modules)
+ GET /services 200 in 653ms
+ GET /about 200 in 63ms
+ GET /services 200 in 91ms
+ ○ Compiling /services/[slug] ...
+ ✓ Compiled /services/[slug] in 1110ms (1773 modules)
+ GET /services/meet-me-personally 200 in 1847ms
+ GET /services/kundli-analysis 200 in 77ms
+ GET /services/name-analysis 200 in 64ms
+ GET /services/company-name 200 in 62ms
+ ✓ Compiled /courses in 444ms (1775 modules)
+ GET /courses 200 in 876ms
+ ○ Compiling /courses/recorded ...
+ ✓ Compiled /courses/recorded in 566ms (1777 modules)
+ GET /courses/recorded 200 in 787ms
+ GET / 200 in 1080ms
+ ○ Compiling /courses/free ...
+ ✓ Compiled /courses/free in 1167ms (1777 modules)
+ GET /courses/free 200 in 1415ms
+ GET /courses/free 200 in 398ms
+ GET /courses/free 200 in 232ms
+ GET /courses/free 200 in 242ms
+ GET /courses/free 200 in 234ms
+ ○ Compiling /courses/live ...
+ ✓ Compiled /courses/live in 771ms (1209 modules)
+ GET /courses/live 200 in 922ms
+ ○ Compiling /courses/live/[slug] ...
+ ✓ Compiled /courses/live/[slug] in 638ms (1211 modules)
+ GET /courses/live/predictive-numerology-course 200 in 1424ms
+ GET /services 200 in 110ms
+ GET /services/logo-designing 200 in 88ms
+ GET /services/vastu-consultation 200 in 67ms
+ GET /services/kundli-analysis 200 in 70ms
+ GET /services/vastu-consultation 200 in 61ms
+ GET /services/name-analysis 200 in 58ms
+ GET /services/consultation-combos 200 in 61ms
+ GET /services/company-name 200 in 60ms
+ GET /services/company-analysis 200 in 64ms
+ GET /services/newborn-name 200 in 66ms
+ GET /services/mobile-analysis 200 in 51ms
+ GET /services/logo-designing 200 in 57ms
+ GET /services/meet-me-personally 200 in 62ms
+ GET /services/company-name 200 in 60ms
+ ✓ Compiled / in 490ms (977 modules)
+ GET / 200 in 845ms
+ GET /services/vastu-consultation 200 in 95ms
+ ○ Compiling /books ...
+ ✓ Compiled /books in 894ms (1776 modules)
+ GET /books 200 in 1117ms
+ ○ Compiling /vastu-products ...
+ ✓ Compiled /vastu-products in 579ms (1777 modules)
+ GET /vastu-products 200 in 864ms
+ ○ Compiling /contact ...
+ ✓ Compiled /contact in 1332ms (1780 modules)
+ GET /contact 200 in 1477ms
+ ✓ Compiled /blog in 397ms (1786 modules)
+ GET /blog 200 in 490ms
+ GET /blog 200 in 190ms
+ GET /contact 200 in 79ms
+ ✓ Compiled /services in 475ms (975 modules)
+ GET /services 200 in 685ms
+ GET /contact 200 in 63ms
+ GET /blog 200 in 86ms
+ GET /vastu-products 200 in 73ms
+ GET / 200 in 250ms
+ GET / 200 in 1135ms
+ ○ Compiling /courses/recorded ...
+ ✓ Compiled /courses/recorded in 603ms (974 modules)
+ GET /courses/recorded 200 in 839ms
+ ✓ Compiled /courses in 470ms (973 modules)
+ GET /courses 200 in 638ms
+ ✓ Compiled /courses/free in 492ms (975 modules)
+ GET /courses/free 200 in 616ms
+ ✓ Compiled /courses/live in 468ms (973 modules)
+ GET /courses/live 200 in 605ms
+ ○ Compiling /courses/live/[slug] ...
+ ✓ Compiled /courses/live/[slug] in 993ms (977 modules)
+ GET /courses/live/predictive-numerology-course 200 in 1226ms
+ GET / 200 in 207ms
+ ✓ Compiled /contact in 344ms (979 modules)
+ GET /contact 200 in 499ms
+ ✓ Compiled /blog in 310ms (983 modules)
+ GET /blog 200 in 517ms
+ ○ Compiling /blog/[slug] ...
+ ✓ Compiled /blog/[slug] in 945ms (1786 modules)
+ GET /blog/21-pillars-gochar-research-arvindrun-vnjay 200 in 1935ms
+ GET /blog 200 in 54ms
+ ○ Compiling /vastu-products ...
+ ✓ Compiled /vastu-products in 631ms (986 modules)
+ GET /vastu-products 200 in 810ms
+ ✓ Compiled /books in 403ms (987 modules)
+ GET /books 200 in 604ms
+ ○ Compiling /about ...
+ ✓ Compiled /about in 510ms (416 modules)
+ GET /about 200 in 779ms
+ ✓ Compiled / in 309ms (983 modules)
+ GET / 200 in 535ms
