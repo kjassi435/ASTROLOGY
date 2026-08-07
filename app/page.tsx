@@ -6,10 +6,11 @@ import { POSTS } from "@/lib/blog";
 import { TESTIMONIALS } from "@/lib/testimonials";
 import { FAQS } from "@/lib/faqs";
 import { JsonLd } from "@/components/JsonLd";
-import { Marquee, SectionHeader, ServiceCard, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
+import { Marquee, SectionHeader, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
 import { Reveal, StatCounter } from "@/components/Preloader";
 import { FaqList } from "@/components/FaqList";
 import { BookingForm } from "@/components/Forms";
+import { ServicesSection } from "@/components/ServicesSection";
 import HeroMoon from "@/components/HeroMoon";
 import DailyHoroscope from "@/components/DailyHoroscope";
 import { IconArrowRight, IconCalendar, IconClock, IconHeart, IconMail, IconPhone, IconPin, IconPlay, IconSparkle, IconUsers, IconVideo, IconAward, IconWhatsApp } from "@/components/Icons";
@@ -114,34 +115,6 @@ function AboutStrip() {
               </a>
             </div>
           </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServicesSection() {
-  const homeServices = SERVICES.filter((s) => s.slug !== "mobile-analysis");
-  return (
-    <section className="bg-section-blue section" id="services">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHeader
-          center
-          subtitle="What We Offer"
-          title={<>Transformative <span className="text-accent">Services</span></>}
-          desc="Personalized guidance rooted in ancient wisdom, designed for modern life challenges"
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-          {homeServices.map((service, i) => (
-            <Reveal key={service.slug} delay={(i % 3) * 100}>
-              <ServiceCard service={service} index={i} />
-            </Reveal>
-          ))}
-        </div>
-        <div className="text-center mt-12">
-          <Link href="/services" className="btn btn-outline">
-            See All Services <IconArrowRight size={16} />
-          </Link>
         </div>
       </div>
     </section>
