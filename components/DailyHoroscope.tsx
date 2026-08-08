@@ -385,10 +385,10 @@ function SignCards({ onSelect }: { onSelect: (sign: ZodiacSign) => void }) {
             className="flex items-center gap-3 p-4 rounded-2xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all duration-300 text-left cursor-pointer group"
           >
             <span
-              className="w-11 h-11 rounded-full flex items-center justify-center text-xl shrink-0 transition-transform duration-300 group-hover:scale-110"
-              style={{ backgroundColor: color.bg, color: color.text }}
+              className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
+              style={{ backgroundColor: color.bg }}
             >
-              {sign.symbol}
+              <span style={{ color: color.text, fontSize: "1.25rem", lineHeight: 1 }}>{sign.symbol}</span>
             </span>
             <div>
               <div className="font-semibold text-sm text-gray-900">{sign.hindi} / {sign.english}</div>
