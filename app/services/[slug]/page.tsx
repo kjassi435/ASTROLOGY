@@ -3,11 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SERVICES, getService } from "@/lib/services";
 import { CONTACT } from "@/lib/site";
-import { formatINR, waLink } from "@/lib/utils";
 import { PageHero } from "@/components/PageHero";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Preloader";
-import { IconCheck, IconClock, IconExternal, IconPhone, IconWhatsApp } from "@/components/Icons";
+import { IconCheck, IconPhone } from "@/components/Icons";
 import { ServiceEnquiryForm } from "@/components/ServiceEnquiryForm";
 
 export const dynamicParams = true;
@@ -67,57 +66,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 </ul>
               </div>
             </Reveal>
-
-            <h2 className="text-3xl mb-6">
-              Choose Your <span className="text-accent">Plan</span>
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-              {service.tiers.map((tier, i) => (
-                <Reveal key={tier.name} delay={i * 100}>
-                  <div className="h-full flex flex-col bg-card rounded-[var(--radius-lg)] border-2 border-primary-hover/20 p-8 card-lift">
-                    {tier.price ? (
-                      <div className="mb-3">
-                        <span className="text-[2.6rem] font-bold text-foreground leading-none">{formatINR(tier.price)}</span>
-                        <span className="ml-1 text-sm text-foreground/60">one-time</span>
-                      </div>
-                    ) : (
-                      <div className="text-[1.6rem] font-bold text-primary-hover mb-4">{tier.priceNote ?? "Price on request"}</div>
-                    )}
-                    <h3 className="text-xl mb-2">{tier.name}</h3>
-                    {tier.duration ? (
-                      <div className="flex items-center gap-2 text-sm text-foreground/70 mb-1">
-                        <IconClock size={15} className="text-primary-hover" /> {tier.duration}
-                      </div>
-                    ) : null}
-                    {tier.mode ? <div className="text-xs text-foreground/60 mb-5">{tier.mode}</div> : null}
-                    <ul className="space-y-2.5 mb-8 flex-1">
-                      {tier.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2.5 text-sm">
-                          <span className="mt-0.5 w-5 h-5 rounded-full bg-primary text-foreground flex items-center justify-center shrink-0">
-                            <IconCheck size={12} />
-                          </span>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    {tier.payLink ? (
-                      <a href={tier.payLink} target="_blank" rel="noreferrer" className="btn btn-primary btn-full">
-                        Consult at {formatINR(tier.price!)} <IconExternal size={14} />
-                      </a>
-                    ) : (
-                      <a
-                        href={waLink(CONTACT.phoneMainRaw, `Namaste Arvindrun ji, I want to book "${service.name}" (${tier.name}). Please share the next available slot.`)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn btn-whatsapp btn-full"
-                      >
-                        <IconWhatsApp size={16} /> Enquire &amp; Book
-                      </a>
-                    )}
-                  </div>
-                </Reveal>
-              ))}
-            </div>
 
             <Reveal>
               <div className="bg-foreground text-bg rounded-[var(--radius-lg)] p-7 sm:p-8 mb-10">
