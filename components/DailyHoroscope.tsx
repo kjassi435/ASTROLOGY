@@ -359,25 +359,25 @@ function ConstellationMap({ onSelect }: { onSelect: (sign: ZodiacSign) => void }
 
 /* ─── Sign Cards ─── */
 const SIGN_COLORS: Record<string, { bg: string; text: string }> = {
-  aries:      { bg: "#FEE2E2", text: "#EF4444" },
-  taurus:     { bg: "#FFE4D6", text: "#F97316" },
-  gemini:     { bg: "#FEF9C3", text: "#CA8A04" },
-  cancer:     { bg: "#FEF3C7", text: "#D97706" },
-  leo:        { bg: "#FEF08A", text: "#CA8A04" },
-  virgo:      { bg: "#DCFCE7", text: "#16A34A" },
-  libra:      { bg: "#D1FAE5", text: "#059669" },
-  scorpio:    { bg: "#CCFBF1", text: "#0D9488" },
-  sagittarius:{ bg: "#DBEAFE", text: "#2563EB" },
-  capricorn:  { bg: "#E9D5FF", text: "#9333EA" },
-  aquarius:   { bg: "#F3E8FF", text: "#7C3AED" },
-  pisces:     { bg: "#FCE7F3", text: "#DB2777" },
+  aries:      { bg: "#EF4444", text: "#FFFFFF" },
+  taurus:     { bg: "#F97316", text: "#FFFFFF" },
+  gemini:     { bg: "#EAB308", text: "#FFFFFF" },
+  cancer:     { bg: "#F59E0B", text: "#FFFFFF" },
+  leo:        { bg: "#EAB308", text: "#FFFFFF" },
+  virgo:      { bg: "#22C55E", text: "#FFFFFF" },
+  libra:      { bg: "#14B8A6", text: "#FFFFFF" },
+  scorpio:    { bg: "#06B6D4", text: "#FFFFFF" },
+  sagittarius:{ bg: "#3B82F6", text: "#FFFFFF" },
+  capricorn:  { bg: "#8B5CF6", text: "#FFFFFF" },
+  aquarius:   { bg: "#7C3AED", text: "#FFFFFF" },
+  pisces:     { bg: "#EC4899", text: "#FFFFFF" },
 };
 
 function SignCards({ onSelect }: { onSelect: (sign: ZodiacSign) => void }) {
   return (
     <div className="grid grid-cols-2 gap-3">
       {ZODIAC_SIGNS.map((sign) => {
-        const color = SIGN_COLORS[sign.slug] ?? { bg: "#E0F2FE", text: "#0284C7" };
+        const color = SIGN_COLORS[sign.slug] ?? { bg: "#0EA5E9", text: "#FFFFFF" };
         return (
           <button
             key={sign.slug}
