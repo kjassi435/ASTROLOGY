@@ -30,8 +30,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const service = getService(slug);
   if (!service) notFound();
 
-  const others = SERVICES.filter((s) => s.slug !== slug);
-
   return (
     <>
       <PageHero
@@ -90,24 +88,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           </div>
 
           <aside className="space-y-6 lg:sticky lg:top-28 self-start">
-            <Reveal>
-              <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7">
-                <h3 className="text-xl mb-5">Other Services</h3>
-                <ul className="space-y-1">
-                  {others.map((s) => (
-                    <li key={s.slug}>
-                      <Link
-                        href={`/services/${s.slug}`}
-                        className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-sm hover:bg-card hover:text-primary-hover transition"
-                      >
-                        {s.name}
-                        <span className="text-primary-hover">→</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
             <Reveal delay={100}>
               <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7">
                 <h3 className="text-xl mb-5">Enquire Now</h3>
