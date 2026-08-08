@@ -358,24 +358,45 @@ function ConstellationMap({ onSelect }: { onSelect: (sign: ZodiacSign) => void }
 }
 
 /* ─── Sign Cards ─── */
+const SIGN_COLORS: Record<string, { bg: string; text: string }> = {
+  aries:      { bg: "#FEE2E2", text: "#EF4444" },
+  taurus:     { bg: "#FFE4D6", text: "#F97316" },
+  gemini:     { bg: "#FEF9C3", text: "#CA8A04" },
+  cancer:     { bg: "#FEF3C7", text: "#D97706" },
+  leo:        { bg: "#FEF08A", text: "#CA8A04" },
+  virgo:      { bg: "#DCFCE7", text: "#16A34A" },
+  libra:      { bg: "#D1FAE5", text: "#059669" },
+  scorpio:    { bg: "#CCFBF1", text: "#0D9488" },
+  sagittarius:{ bg: "#DBEAFE", text: "#2563EB" },
+  capricorn:  { bg: "#E9D5FF", text: "#9333EA" },
+  aquarius:   { bg: "#F3E8FF", text: "#7C3AED" },
+  pisces:     { bg: "#FCE7F3", text: "#DB2777" },
+};
+
 function SignCards({ onSelect }: { onSelect: (sign: ZodiacSign) => void }) {
   return (
     <div className="grid grid-cols-2 gap-3">
-      {ZODIAC_SIGNS.map((sign) => (
-        <button
-          key={sign.slug}
-          onClick={() => onSelect(sign)}
-          className="flex items-center gap-3 p-3 rounded-xl border border-primary-hover/20 bg-card hover:border-primary hover:bg-primary/5 transition-all duration-300 text-left cursor-pointer group"
-        >
-          <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl shrink-0 group-hover:bg-primary/20 transition text-primary">
-            {sign.symbol}
-          </span>
-          <div>
-            <div className="font-semibold text-sm text-foreground">{sign.hindi} / {sign.english}</div>
-            <div className="text-xs text-muted-foreground">{sign.hindiTransliteration}</div>
-          </div>
-        </button>
-      ))}
+      {ZODIAC_SIGNS.map((sign) => {
+        const color = SIGN_COLORS[sign.slug] ?? { bg: "#E0F2FE", text: "#0284C7" };
+        return (
+          <button
+            key={sign.slug}
+            onClick={() => onSelect(sign)}
+            className="flex items-center gap-3 p-4 rounded-2xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all duration-300 text-left cursor-pointer group"
+          >
+            <span
+              className="w-11 h-11 rounded-full flex items-center justify-center text-xl shrink-0 transition-transform duration-300 group-hover:scale-110"
+              style={{ backgroundColor: color.bg, color: color.text }}
+            >
+              {sign.symbol}
+            </span>
+            <div>
+              <div className="font-semibold text-sm text-gray-900">{sign.hindi} / {sign.english}</div>
+              <div className="text-[0.65rem] text-gray-400 uppercase tracking-wider mt-0.5">{sign.hindiTransliteration}</div>
+            </div>
+          </button>
+        );
+      })}
     </div>
   );
 }
