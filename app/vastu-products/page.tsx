@@ -24,7 +24,7 @@ export default function ProductsPage() {
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             {PRODUCTS.map((product, i) => (
-              <Reveal key={product.title} delay={(i % 4) * 60}>
+              <Reveal key={product.title} delay={(i % 4) * 60} className="h-full">
                 <ProductCard product={product} index={i} />
               </Reveal>
             ))}

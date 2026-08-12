@@ -352,7 +352,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
   const color = PRODUCT_COLORS[index % PRODUCT_COLORS.length];
 
   return (
-    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col group min-h-[300px]">
+    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col group min-h-[300px] h-full">
       {/* Light glass background */}
       <div className="absolute inset-0 bg-white/70" />
 
