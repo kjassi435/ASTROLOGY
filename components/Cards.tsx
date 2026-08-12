@@ -387,7 +387,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           src={product.image}
           alt={product.title}
           loading="lazy"
-          className="w-full h-40 object-cover rounded-lg shadow-lg mb-4 border border-foreground/10"
+          className="w-full h-40 object-contain rounded-lg shadow-lg mb-4 border border-foreground/10 bg-white/40 p-2"
         />
 
         {/* Title + Description */}
