@@ -54,10 +54,20 @@ export function Header() {
               {CONTACT.addressShort}
             </span>
           </div>
-          <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 opacity-80 hover:opacity-100 hover:text-primary transition">
-            <IconMail size={14} />
-            {CONTACT.email}
-          </a>
+          <div className="flex items-center gap-5">
+            <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 opacity-80 hover:opacity-100 hover:text-primary transition">
+              <IconMail size={14} />
+              {CONTACT.email}
+            </a>
+            <span className="flex items-center gap-3 border-l border-muted pl-5">
+              <a href={APPS.ios} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 hover:text-primary transition">
+                iOS App
+              </a>
+              <a href={APPS.android} target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 hover:text-primary transition">
+                Android App
+              </a>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -167,9 +177,14 @@ export function Header() {
                 <a href={`tel:${CONTACT.phoneMainRaw}`} className="flex items-center gap-2 text-sm font-semibold">
                   <IconPhone size={16} className="text-primary" /> {CONTACT.phoneMain}
                 </a>
-                <a href={APPS.android} className="text-xs text-primary underline">
-                  Android App
-                </a>
+                <div className="flex items-center gap-3 text-xs">
+                  <a href={APPS.ios} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                    iOS App
+                  </a>
+                  <a href={APPS.android} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                    Android App
+                  </a>
+                </div>
               </div>
             </div>
           </nav>

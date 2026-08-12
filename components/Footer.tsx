@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BRAND, CONTACT, COPYRIGHT, FOOTER_LINKS, FOOTER_SERVICES, LEGAL } from "@/lib/site";
+import { BRAND, APPS, CONTACT, COPYRIGHT, FOOTER_LINKS, FOOTER_SERVICES, LEGAL } from "@/lib/site";
 import { IconMail, IconPhone, IconPin, IconWhatsApp, IconArrowUp } from "./Icons";
 
 export function Footer() {
@@ -15,6 +15,31 @@ export function Footer() {
             <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <p className="text-[1.1rem] opacity-80 mb-6">{BRAND.tagline}</p>
+          <h4 className="text-bg text-lg mb-4">Download Our App</h4>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={APPS.ios}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 bg-bg/10 border border-primary/30 hover:border-primary rounded-xl px-4 py-2.5 transition"
+            >
+              <span className="leading-tight">
+                <span className="block text-[0.6rem] uppercase tracking-wider opacity-70">Download on the</span>
+                <span className="block text-sm font-semibold">App Store</span>
+              </span>
+            </a>
+            <a
+              href={APPS.android}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 bg-bg/10 border border-primary/30 hover:border-primary rounded-xl px-4 py-2.5 transition"
+            >
+              <span className="leading-tight">
+                <span className="block text-[0.6rem] uppercase tracking-wider opacity-70">Get it on</span>
+                <span className="block text-sm font-semibold">Google Play</span>
+              </span>
+            </a>
+          </div>
         </div>
 
         <div>

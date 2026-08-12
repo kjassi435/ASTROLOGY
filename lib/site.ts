@@ -29,7 +29,7 @@ export const SOCIALS = [
   { name: "Instagram", href: "https://www.instagram.com/arvin_astro/" },
   { name: "YouTube", href: "https://www.youtube.com/@arvinastro" },
   { name: "Google Play", href: APPS.android },
-  { name: "Mobile App", href: APPS.android },
+  { name: "Mobile App", href: APPS.ios },
 ];
 
 export const ANNOUNCEMENT = "🚀 New batches starting soon — Join our Live Courses!  Book consultations for Kundli, Vastu & Name Numerology.";

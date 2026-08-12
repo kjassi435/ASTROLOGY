@@ -76,7 +76,8 @@ export default async function RecordedCoursePage({ params }: { params: Promise<{
           <aside className="lg:sticky lg:top-28 self-start space-y-5">
             <Reveal>
               <div className="bg-card rounded-[var(--radius-lg)] border-2 border-primary-hover/25 overflow-hidden">
-                <div className="gradient-band h-40 flex items-center justify-center text-[3rem] text-primary-hover">✦</div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
                 <div className="p-7">
                   {course.price ? (
                     <div className="mb-5">

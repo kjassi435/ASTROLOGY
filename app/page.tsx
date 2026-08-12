@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BRAND, CONTACT, STATS } from "@/lib/site";
+import { BRAND, APPS, CONTACT, STATS } from "@/lib/site";
 import { SERVICES } from "@/lib/services";
 import { RECORDED_COURSES, FREE_COURSES, LIVE_COURSES } from "@/lib/courses";
 import { POSTS } from "@/lib/blog";
@@ -315,6 +315,65 @@ function CtaSection() {
   );
 }
 
+function AppSection() {
+  return (
+    <section className="bg-bg section pt-0">
+      <div className="max-w-[1280px] mx-auto px-6">
+        <Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-card p-8 sm:p-12 rounded-[var(--radius-xl)] shadow-[var(--shadow-lg)] border-2 border-primary-hover/20 relative overflow-hidden">
+            <span className="absolute -top-10 -right-10 text-[12rem] text-primary opacity-10 select-none pointer-events-none">✦</span>
+            <div>
+              <span className="section-subtitle">Learn Anywhere, Anytime</span>
+              <h2 className="text-[clamp(1.8rem,3vw,2.6rem)] font-medium mb-4">
+                Take <span className="text-accent">Arvin Astro</span> with you — Download the App
+              </h2>
+              <p className="opacity-85 mb-8 max-w-lg">
+                Access all our courses, live classes, recorded lectures, and consultation bookings right from your phone with the Arvin Astro app.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href={APPS.ios}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-foreground text-bg rounded-2xl px-6 py-3.5 hover:bg-foreground/90 transition shadow-md"
+                >
+                  <span className="leading-tight text-left">
+                    <span className="block text-[0.65rem] uppercase tracking-widest opacity-70">Download on the</span>
+                    <span className="block text-lg font-bold">App Store</span>
+                  </span>
+                </a>
+                <a
+                  href={APPS.android}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-foreground text-bg rounded-2xl px-6 py-3.5 hover:bg-foreground/90 transition shadow-md"
+                >
+                  <span className="leading-tight text-left">
+                    <span className="block text-[0.65rem] uppercase tracking-widest opacity-70">Get it on</span>
+                    <span className="block text-lg font-bold">Google Play</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div className="hidden lg:block text-center">
+              <div className="inline-block bg-foreground text-bg rounded-[var(--radius-lg)] p-8 shadow-[var(--shadow-lg)] border-2 border-primary">
+                <div className="text-6xl mb-3">✦</div>
+                <div className="text-2xl font-bold mb-1">Arvin Astro</div>
+                <div className="text-sm opacity-75 mb-4">Learn · Consult · Grow</div>
+                <div className="flex gap-2 justify-center">
+                  <span className="w-2 h-2 rounded-full bg-primary" />
+                  <span className="w-2 h-2 rounded-full bg-primary/50" />
+                  <span className="w-2 h-2 rounded-full bg-primary/30" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function BlogTeaser() {
   const [first, ...rest] = POSTS;
   return (
@@ -393,6 +452,7 @@ export default function HomePage() {
       <JourneySection />
       <YouTubeSection />
       <TestimonialsSection />
+      <AppSection />
       <BlogTeaser />
       <CtaSection />
     </>

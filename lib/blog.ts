@@ -140,7 +140,7 @@ export const POSTS: BlogPost[] = [
       "The Science of Predictive Accuracy — my comprehensive research bringing scientific accuracy to Vedic Astrology through the Ashtakavarga system.",
     date: "March 1, 2026",
     readTime: "14 min read",
-    image: "/images/blog/ashtakavarga.svg",
+    image: "/images/blog/ashtakavarga.jpg",
     content: [
       {
         paragraphs: [
@@ -177,7 +177,7 @@ export const POSTS: BlogPost[] = [
       "An expert-level research post on the 81-grid Vastu Purusha Mandala — synthesizing classical texts with modern application for measurable results.",
     date: "February 24, 2026",
     readTime: "12 min read",
-    image: "/images/blog/vastu-mandala.svg",
+    image: "/images/blog/vastu-mandala.jpg",
     content: [
       {
         paragraphs: [
@@ -216,7 +216,7 @@ export const POSTS: BlogPost[] = [
       "This research by Arvin Astro aims to demystify the 7.5-year transit of Saturn — a blend of classical texts and modern chart verification.",
     date: "February 18, 2026",
     readTime: "13 min read",
-    image: "/images/blog/sadhe-sati.svg",
+    image: "/images/blog/sadhe-sati.jpg",
     content: [
       {
         paragraphs: [

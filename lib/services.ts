@@ -5,6 +5,7 @@ export interface ServiceTier {
   duration?: string;
   mode?: string;
   payLink?: string;
+  image?: string;
   features: string[];
 }
 
@@ -46,6 +47,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Kundli Analysis Pro",
+        image: "/images/services/kundli-pro.png",
         price: 4999,
         duration: "40 minutes",
         mode: "Video Call Consultation",
@@ -90,17 +92,44 @@ export const SERVICES: Service[] = [
     ],
     tiers: [
       {
-        name: "Vastu Consultation",
-        priceNote: "Price on request",
-        duration: "30–45 minutes",
-        mode: "Video Call with floor plan",
-        features: ["Live floor-plan review", "Zone-by-zone analysis", "Practical remedies", "Follow-up on WhatsApp"],
+        name: "On-Site Vastu Consultation",
+        image: "/images/services/vastu-onsite.png",
+        price: 40999,
+        duration: "On-site visit · UPTO 1500 SQ. FT.",
+        mode: "For residential & office spaces in Delhi/NCR",
+        payLink: "https://u.payu.in/hrziRkbCsa2d",
+        features: [
+          "For residential & office spaces in Delhi/NCR up to 1500 sq ft",
+          "Two scheduled on-site visits for a detailed, firsthand evaluation of your space",
+          "Meticulous analysis of floor plan, spatial layout & energy patterns",
+          "1-hour personalized Zoom session with detailed written report",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
+      },
+      {
+        name: "Online Vastu Consultation",
+        image: "/images/services/vastu-online.png",
+        price: 30999,
+        duration: "Online · UPTO 1500 SQ. FT.",
+        mode: "For residential & office spaces in Delhi/NCR",
+        payLink: "https://u.payu.in/ZrN224sw1Xm2",
+        features: [
+          "For residential & office spaces up to 1500 sq ft",
+          "Three (3) dedicated 30-minute online sessions via Zoom",
+          "Thorough review of floor plan & energy-pattern assessment",
+          "Focused, practical solutions with personalized recommendations",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: [
       "Share your floor plan (hand-drawn or soft copy) before the consultation.",
       "Your consultation will be scheduled after confirmation on WhatsApp.",
       "Remedies provided are simple and do not require structural changes in most cases.",
+      "An additional fee of ₹10,000 is applicable for every area increment of 500 sq ft beyond the base package (on-site consultation).",
+      "An additional fee of ₹7,000 is applicable for every area increment of 500 sq ft beyond the base package (online consultation).",
+      "Should a third (or subsequent) on-site visit be necessary or requested, an additional fee of ₹5,000 will be charged per visit.",
+      "Our expertise lies in providing expert guidance and sustainable solutions — we do not sell or provide Vastu remedies.",
     ],
   },
   {
@@ -124,16 +153,23 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Name Analysis",
-        priceNote: "Price on request",
-        duration: "20–30 minutes",
+        image: "/images/services/name-analysis.png",
+        duration: "15–20 minutes",
         mode: "Video Call Consultation",
-        features: ["Complete name vibration analysis", "Birth chart alignment", "Correction spellings provided"],
+        payLink: "https://u.payu.in/EIZbmyMbFPBn",
+        features: [
+          "Complete name vibration analysis",
+          "Birth chart alignment",
+          "Correction spellings provided",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: [
       "Provide your full name as used officially and your date of birth.",
       "Consultation scheduled on WhatsApp after confirmation.",
       "Name correction requires 2–3 days of analysis before the call.",
+      "After the name analysis, name correction is available for an additional ₹3,100 and a new name design for an additional ₹7,100.",
     ],
   },
   {
@@ -156,17 +192,39 @@ export const SERVICES: Service[] = [
     ],
     tiers: [
       {
-        name: "Complete Life Combo",
-        priceNote: "Price on request",
-        duration: "60–90 minutes",
-        mode: "Video Call (split sessions)",
-        features: ["Kundli + Name + Number + Vastu", "Detailed written report", "Priority slot booking"],
+        name: "Combo Horoscope & Name Analysis",
+        image: "/images/services/combo.png",
+        price: 6999,
+        duration: "50 minutes",
+        mode: "Video Call Consultation",
+        payLink: "https://u.payu.in/GIllYVlPiD1y",
+        features: [
+          "One horoscope with detailed analysis within the time limit",
+          "One name analysis & compatibility of your name with your numbers & horoscope",
+          "Guidance on whether you need a name correction or a new name",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
+      },
+      {
+        name: "Super Combo Horoscope & Name & Mobile Number",
+        image: "/images/services/super-combo.png",
+        price: 9999,
+        duration: "60 minutes",
+        mode: "Video Call Consultation",
+        payLink: "https://u.payu.in/Vry2P4OEB8OR",
+        features: [
+          "Everything in the Combo — horoscope + name analysis with compatibility",
+          "Your lucky number from date of birth & where you can use it",
+          "Current number good/bad report with issues & suggested numbers",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: [
       "Combo sessions are split into two calls for deeper coverage.",
       "All reports are shared in PDF after the sessions.",
       "Book early — combo slots are limited each month.",
+      "After the name analysis, name correction is available for an additional ₹3,100 and a new name design for an additional ₹7,100.",
     ],
   },
   {
@@ -192,10 +250,17 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Company Name Designing",
-        priceNote: "Price on request",
-        duration: "2–4 working days",
-        mode: "Deliverable-based service",
-        features: ["Multiple name options", "Numerology validation", "Written report"],
+        image: "/images/services/company-name.png",
+        price: 15999,
+        duration: "15 minutes",
+        mode: "Video Call Consultation",
+        payLink: "https://u.payu.in/JrdiHkcxttRd",
+        features: [
+          "Company name designed as per your profession & business nature",
+          "Name with positive energies to convert leads into business",
+          "Multiple name options & written report",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: [
@@ -226,13 +291,23 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Company Name Analysis",
-        priceNote: "Price on request",
-        duration: "1–2 working days",
-        mode: "Deliverable-based service",
-        features: ["Detailed analysis report", "Correction options", "Priority WhatsApp support"],
+        image: "/images/services/company-analysis.png",
+        price: 3999,
+        duration: "15 minutes",
+        mode: "Video Call Consultation",
+        payLink: "https://u.payu.in/6JW7OW7d28A4",
+        features: [
+          "Analysis of your company name based on your profession & type of work",
+          "Check whether your current name truly suits your profession",
+          "New name suggestion matching your industry & services",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
-    bookingNotes: ["Provide your exact registered business name and incorporation date."],
+    bookingNotes: [
+      "Provide your exact registered business name and incorporation date.",
+      "Company name designing after the analysis is available for ₹11,000 — the complete outcome and explanation are shared with you on a voice call.",
+    ],
   },
   {
     slug: "newborn-name",
@@ -257,10 +332,17 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Newborn Baby Name Design",
-        priceNote: "Price on request",
-        duration: "2–3 working days",
-        mode: "Deliverable-based service",
-        features: ["Kundli-aligned names", "Full report with meanings", "Family consultation call"],
+        image: "/images/services/newborn-name.png",
+        price: 9999,
+        duration: "15 minutes",
+        mode: "Video Call Meeting",
+        payLink: "https://u.payu.in/8rMiFkoxysko",
+        features: [
+          "Baby name designed as per his/her numbers & astrological chart",
+          "Name aligned with nakshatra, rashi & pada for lifelong growth",
+          "Full report with meanings & guidance",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: [
@@ -291,10 +373,18 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Mobile Number Analysis",
-        priceNote: "Price on request",
-        duration: "15–20 minutes",
+        image: "/images/services/mobile-analysis.png",
+        price: 2999,
+        duration: "15 minutes",
         mode: "Video Call / WhatsApp Audio",
-        features: ["Current number analysis", "Recommended numbers", "Written summary on WhatsApp"],
+        payLink: "https://u.payu.in/RJkBmi5y2dRv",
+        features: [
+          "Current number good/bad check with issues it can give",
+          "Your lucky number from your date of birth & where you can use it",
+          "Suggested numbers to be chosen",
+          "Written summary on WhatsApp",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: ["Provide your current mobile number and date of birth."],
@@ -321,10 +411,18 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Logo Designing",
-        priceNote: "Price on request",
-        duration: "3–5 working days",
-        mode: "Deliverable-based service",
-        features: ["3 concepts", "2 revision rounds", "Final files + guide"],
+        image: "/images/services/logo-designing.png",
+        price: 16999,
+        duration: "15 minutes",
+        mode: "Video Call Consultation",
+        payLink: "https://u.payu.in/NI8RKR7BpD52",
+        features: [
+          "Complete logo created for you — no need to hire any designer",
+          "Ready-to-use logo aligned with your planetary energies",
+          "Designed to bring luck, balance & success",
+          "Final files + branding guide",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: [
@@ -352,11 +450,19 @@ export const SERVICES: Service[] = [
     ],
     tiers: [
       {
-        name: "In-Person Session",
-        priceNote: "Price on request",
-        duration: "60 minutes",
+        name: "Meet Me Personally",
+        image: "/images/services/meet-me.png",
+        price: 11999,
+        duration: "75 minutes",
         mode: "In person (Greater Noida West) / Premium video for global clients",
-        features: ["Private 1-on-1 session", "All questions answered", "Remedy plan"],
+        payLink: "https://u.payu.in/uJS78aMmctuW",
+        features: [
+          "Personal meet with Arvindrun Vnjay near Ek Murti Circle, Greater Noida West",
+          "One Horoscope, Name & Mobile consultation combo",
+          "60 minutes of consultation time",
+          "Private 1-on-1 session with remedy plan",
+          "After payment, share the screenshot on WhatsApp +91 9319305731",
+        ],
       },
     ],
     bookingNotes: [

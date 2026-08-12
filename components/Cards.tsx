@@ -181,7 +181,10 @@ export function CourseCard({ course }: { course: Course }) {
             </div>
           ) : course.price ? (
             <div>
-              <span className="text-2xl font-bold text-foreground">{formatINR(course.price)}</span>
+              <span className="text-2xl font-bold text-foreground">
+                {formatINR(course.price)}
+                {course.type === "live" ? <span className="text-xs font-medium opacity-60 ml-1">/class</span> : null}
+              </span>
               {course.originalPrice ? <span className="ml-2 text-sm text-muted-foreground line-through">{formatINR(course.originalPrice)}</span> : null}
             </div>
           ) : (
@@ -294,6 +297,15 @@ export function BookCard({ book, index = 0 }: { book: Book; index?: number }) {
           </button>
         </div>
 
+        {/* Cover image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={book.image}
+          alt={book.title}
+          loading="lazy"
+          className="w-28 h-40 object-cover rounded-lg shadow-lg mx-auto mb-4 border border-foreground/10"
+        />
+
         {/* Title + Author */}
         <div className="text-center mb-auto py-4">
           <h3 className="text-foreground font-bold text-lg leading-snug mb-2 line-clamp-2">{book.title}</h3>
@@ -369,6 +381,15 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           </button>
         </div>
 
+        {/* Product image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={product.image}
+          alt={product.title}
+          loading="lazy"
+          className="w-full h-40 object-cover rounded-lg shadow-lg mb-4 border border-foreground/10"
+        />
+
         {/* Title + Description */}
         <div className="text-center mb-auto py-4">
           <h3 className="text-foreground font-bold text-lg leading-snug mb-2 line-clamp-2">{product.title}</h3>
@@ -423,7 +444,7 @@ export function CourseEnrollBar({ course }: { course: Course }) {
           <IconPlay size={16} /> Learn Now {"\u2014"} Free on YouTube
         </>
       ) : course.type === "live" ? (
-        "Enroll in This Course"
+        course.price ? `Enroll Now — ₹${course.price}/class` : "Enroll in This Course"
       ) : course.buyUrl ? (
         <>
           Buy Now {"\u2014"} {course.price ? formatINR(course.price) : "Check Price"} <IconExternal size={14} />

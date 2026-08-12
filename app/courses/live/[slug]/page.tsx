@@ -44,6 +44,62 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
               <p className="text-lg opacity-90 leading-relaxed mb-8">{course.description}</p>
             </Reveal>
 
+            {course.startsFrom ? (
+              <Reveal>
+                <div className="bg-foreground text-bg rounded-[var(--radius-lg)] p-6 sm:p-7 mb-8 flex flex-wrap items-center gap-4">
+                  <span className="text-3xl">🎓</span>
+                  <div>
+                    <div className="text-xs uppercase tracking-wider text-primary font-semibold mb-1">New Batch</div>
+                    <div className="text-xl font-bold">{course.startsFrom}</div>
+                  </div>
+                  {course.priceNote ? <span className="ml-auto text-sm opacity-80">{course.priceNote}</span> : null}
+                </div>
+              </Reveal>
+            ) : null}
+
+            {course.about ? (
+              <Reveal>
+                <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
+                  <h2 className="text-2xl mb-4">About This Course</h2>
+                  <p className="opacity-80 leading-relaxed">{course.about}</p>
+                </div>
+              </Reveal>
+            ) : null}
+
+            {course.whyJoin?.length ? (
+              <Reveal>
+                <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
+                  <h2 className="text-2xl mb-5">Why Join?</h2>
+                  <ul className="space-y-3">
+                    {course.whyJoin.map((item) => (
+                      <li key={item} className="flex items-start gap-3 text-sm">
+                        <span className="mt-0.5 w-5 h-5 rounded-full bg-primary text-foreground flex items-center justify-center shrink-0">
+                          <IconCheck size={12} />
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ) : null}
+
+            {course.perks?.length ? (
+              <Reveal>
+                <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
+                  <h2 className="text-2xl mb-5">Perks of Enrollment</h2>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {course.perks.map((p) => (
+                      <li key={p} className="flex items-start gap-2.5 text-sm">
+                        <span className="mt-0.5 w-5 h-5 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0 text-[0.6rem]">✦</span>
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ) : null}
+
             <Reveal>
               <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
                 <h2 className="text-2xl mb-5">What You Get</h2>
@@ -62,7 +118,7 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
 
             <Reveal>
               <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7">
-                <h2 className="text-2xl mb-5">Course Syllabus</h2>
+                <h2 className="text-2xl mb-5">What You Will Learn</h2>
                 <ol className="space-y-3">
                   {course.syllabus?.map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm">
@@ -91,7 +147,8 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
           <aside className="lg:sticky lg:top-28 self-start space-y-5">
             <Reveal>
               <div className="bg-card rounded-[var(--radius-lg)] border-2 border-primary-hover/25 overflow-hidden">
-                <div className="gradient-band h-40 flex items-center justify-center text-[3rem] text-primary-hover">✦</div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
                 <div className="p-7">
                   <div className="text-xl mb-4">Live Batch — Enroll Now</div>
                   <div className="space-y-2.5 text-sm mb-6">
@@ -108,6 +165,16 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
                     </div>
                   </div>
                   <CourseEnrollBar course={course} />
+                  {course.payUrl ? (
+                    <a
+                      href={course.payUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary w-full justify-center mt-3"
+                    >
+                      Pay Now {course.price ? `— ₹${course.price}/class` : ""}
+                    </a>
+                  ) : null}
                 </div>
               </div>
             </Reveal>
