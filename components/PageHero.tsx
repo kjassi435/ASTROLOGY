@@ -1,9 +1,16 @@
 import type { ReactNode } from "react";
 import { Breadcrumbs } from "./Breadcrumbs";
 
-export function PageHero({ title, subtitle, items, children }: { title: ReactNode; subtitle?: string; items: Array<{ label: string; href?: string }>; children?: ReactNode }) {
+export function PageHero({ title, subtitle, items, children, backgroundImage }: { title: ReactNode; subtitle?: string; items: Array<{ label: string; href?: string }>; children?: ReactNode; backgroundImage?: string }) {
   return (
     <section className="bg-card relative overflow-hidden pt-14 pb-12 border-b border-muted">
+      {backgroundImage ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={backgroundImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none select-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-card via-card/80 to-transparent pointer-events-none" />
+        </>
+      ) : null}
       <span className="absolute top-4 left-8 text-[6rem] text-primary opacity-15 select-none pointer-events-none">{"\u2726"}</span>
       <span className="absolute bottom-4 right-10 text-[4rem] text-primary opacity-10 select-none pointer-events-none">{"\u2726"}</span>
       <div className="max-w-[1280px] mx-auto px-6 relative z-[2]">

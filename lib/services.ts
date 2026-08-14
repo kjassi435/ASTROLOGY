@@ -14,6 +14,7 @@ export interface Service {
   name: string;
   tagline: string;
   icon: string;
+  heroImage?: string;
   featured?: boolean;
   popular?: boolean;
   description: string;
@@ -26,6 +27,7 @@ export interface Service {
 export const SERVICES: Service[] = [
   {
     slug: "kundli-analysis",
+    heroImage: "/images/services/kundli-analysis.png",
     name: "Kundli Analysis",
     tagline: "Understand the cosmic blueprint influencing your personality, success and life events.",
     icon: "kundli",
@@ -72,6 +74,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "vastu-consultation",
+    heroImage: "/images/services/vastu-consultation.png",
     name: "Vastu Consultation",
     tagline: "Receive practical science backed Vastu solutions for Home, Office, Shops & Showrooms.",
     icon: "vastu",
@@ -134,6 +137,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "name-analysis",
+    heroImage: "/images/services/name-analysis.png",
     name: "Name Analysis",
     tagline: "Your name whispers cosmic secrets. Find your path with a name analysis from the stars.",
     icon: "name",
@@ -174,6 +178,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "consultation-combos",
+    heroImage: "/images/services/consultation-combos.png",
     name: "Consultation Combos",
     tagline: "Don't just predict, transform. Our combo offers guidance, remedies, and a path to certainty.",
     icon: "combos",
@@ -229,6 +234,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "company-name",
+    heroImage: "/images/services/company-name.png",
     name: "Company Name Designing",
     tagline:
       "Selecting auspicious letters, numbers, colors, and shapes based on astrology and numerology helps create a unique identity and attracts prosperity for your enterprise.",
@@ -271,6 +277,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "company-analysis",
+    heroImage: "/images/services/company-analysis.png",
     name: "Company Name Analysis",
     tagline:
       "Carefully chosen names aligned with favorable planets and elements boost growth, prosperity, and harmony in business operations.",
@@ -311,6 +318,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "newborn-name",
+    heroImage: "/images/services/newborn-name.png",
     name: "Newborn Baby Name",
     tagline:
       "Choose the perfect name for your newborn with astrological insights that brings harmony, fortune and positivity in life.",
@@ -353,6 +361,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "mobile-analysis",
+    heroImage: "/images/services/mobile-analysis.png",
     name: "Complete One Mobile Number Analysis",
     tagline:
       "Each number carries planetary vibration and brings financial growth when aligned with your date of birth or life path number.",
@@ -391,6 +400,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "logo-designing",
+    heroImage: "/images/services/logo-designing.png",
     name: "Logo Designing",
     tagline:
       "Crafting celestial-inspired logos that reflect ArvinAstro's spiritual guidance, cosmic wisdom, and trusted astrology identity.",
@@ -432,6 +442,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "meet-me-personally",
+    heroImage: "/images/services/meet-me-personally.png",
     name: "Meet Me Personally",
     tagline: "Experience personal guidance from Arvin Astro to align your energy, purpose, and spiritual path.",
     icon: "meet",
