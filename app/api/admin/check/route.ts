@@ -11,3 +11,10 @@ export async function GET() {
 
   return NextResponse.json({ authenticated: true });
 }
+
+export async function DELETE() {
+  const cookieStore = await cookies();
+  cookieStore.delete("admin-token");
+  return NextResponse.json({ authenticated: false });
+}
+

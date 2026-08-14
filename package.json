@@ -12,12 +12,14 @@
     "@libsql/client": "^0.17.4",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.7.0",
+    "@tanstack/react-query": "^5.101.4",
     "dotenv": "^17.4.2",
     "lucide-react": "^1.30.0",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.7.0",
+    "sonner": "^2.0.8",
     "three": "^0.185.1"
   },
   "devDependencies": {

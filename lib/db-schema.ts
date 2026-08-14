@@ -96,5 +96,12 @@ export async function initDB() {
       password_hash TEXT NOT NULL,
       created_at TEXT DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS site_content (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      slug TEXT UNIQUE NOT NULL,
+      fields TEXT,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
   `);
 }

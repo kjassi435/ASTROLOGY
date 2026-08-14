@@ -1,21 +1,22 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { readFile } from "fs/promises";
-import path from "path";
+import { requireAdmin, unauthorized } from "@/lib/admin-auth";
+import { ensureDb, getSiteContent, saveSiteContent } from "@/lib/cms";
+
+const PAGES = [
+  { slug: "home", title: "Homepage", fields: ["heroTitle", "heroSubtitle", "aboutText", "ctaText"] },
+  { slug: "about", title: "About Page", fields: ["title", "subtitle", "bio"] },
+  { slug: "services", title: "Services Page", fields: ["title", "subtitle", "description"] },
+  { slug: "contact", title: "Contact Page", fields: ["title", "subtitle", "address", "phone", "email"] },
+  { slug: "books", title: "Books Page", fields: ["title", "subtitle"] },
+  { slug: "courses", title: "Courses Page", fields: ["title", "subtitle", "description"] },
+  { slug: "blog", title: "Blog Page", fields: ["title", "subtitle"] },
+];
 
 export async function GET() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("admin-token");
-
-  if (!token || token.value !== "authenticated") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  try {
-    const filePath = path.join(process.cwd(), "content", "pages.json");
-    const data = await readFile(filePath, "utf-8");
-    return NextResponse.json(JSON.parse(data));
-  } catch {
-    return NextResponse.json({ pages: [] });
-  }
+  if (!(await requireAdmin())) return unauthorized();
+  await ensureDb();
+  const items = await Promise.all(
+    PAGES.map(async (p) => ({ ...p, fields: await getSiteContent(p.slug) }))
+  );
+  return NextResponse.json({ items });
 }
