@@ -373,7 +373,7 @@ function AppSection() {
               <img
                 src="/images/app-mockup.png"
                 alt="Arvin Astro App"
-                className="w-full max-w-[360px] h-auto drop-shadow-2xl"
+                className="w-full max-w-[180px] h-auto drop-shadow-2xl"
               />
             </div>
           </div>
