@@ -42,7 +42,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         title={service.name}
         subtitle={service.tagline}
         items={[{ label: "Our Services", href: "/services" }, { label: service.name }]}
-        backgroundImage={service.heroImage}
+        image={service.heroImage}
       />
 
       <section className="bg-bg section pt-14">
