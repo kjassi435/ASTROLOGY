@@ -128,8 +128,29 @@ img { max-width: 100%; height: auto; }
   letter-spacing: 3px;
   margin-bottom: 16px;
 }
-.section-title { font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.15; }
+.section-title {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+.section-title .text-accent {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #00c6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
 .section-desc { font-size: 1.1rem; color: var(--color-muted-foreground); margin-top: 16px; }
+
+/* Course card title dual-color */
+.course-title {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-foreground) 50%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 /* ============ PRELOADER ============ */
 .preloader {

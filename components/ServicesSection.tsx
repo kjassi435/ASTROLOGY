@@ -14,8 +14,8 @@ export function ServicesSection({ services }: { services: Service[] }) {
         <SectionHeader
           center
           subtitle="What We Offer"
-          title={<>Transformative <span className="text-accent">Services</span></>}
-          desc="Personalized guidance rooted in ancient wisdom, designed for modern life challenges"
+          title={<>Astrology & Vastu <span className="text-accent">Services</span></>}
+          desc="Personalized Vedic astrology, name numerology, and Vastu consultations tailored to your life's challenges — from career and marriage to health and prosperity."
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
           {homeServices.map((service, i) => (

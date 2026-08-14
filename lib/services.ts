@@ -311,7 +311,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "newborn-name",
-    name: "Newborn Baby Name Design",
+    name: "Newborn Baby Name",
     tagline:
       "Choose the perfect name for your newborn with astrological insights that brings harmony, fortune and positivity in life.",
     icon: "baby",
@@ -331,7 +331,7 @@ export const SERVICES: Service[] = [
     ],
     tiers: [
       {
-        name: "Newborn Baby Name Design",
+        name: "Newborn Baby Name",
         image: "/images/services/newborn-name.png",
         price: 9999,
         duration: "15 minutes",

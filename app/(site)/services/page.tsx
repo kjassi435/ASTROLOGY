@@ -46,7 +46,7 @@ export default async function ServicesPage() {
                 "Combining ancient Vedic Wisdom with modern scientific approaches for results that actually work",
                 "Vastu is not just about changing furniture — it is about balancing the five elements (Panchbhootas) of your space",
                 "Company Name Designing based on numerology and phonetic vibrations for an auspicious start",
-                "Newborn Baby Name Designing that is astrologically powerful for the child's future",
+                "Newborn Baby Name that is astrologically powerful for the child's future",
                 "Logo Designing based on Vastu and color therapy principles so your brand radiates power, trust, and growth",
                 "Mobile Number Analysis to help you choose numbers that attract opportunities",
                 "Consultation Combos for a holistic approach combining astrology, vastu, and numerology",

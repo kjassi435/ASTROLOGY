@@ -159,7 +159,7 @@ export function CourseCard({ course }: { course: Course }) {
           <IconAward size={13} /> By {course.teacher}
         </div>
         <h3 className="text-[1.5rem] mb-2">
-          <Link href={ctaHref} className="hover:text-primary transition">
+          <Link href={ctaHref} className="course-title hover:opacity-80 transition">
             {course.title}
           </Link>
         </h3>
