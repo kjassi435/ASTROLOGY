@@ -7,18 +7,19 @@ export function Button({
   variant = "primary",
   className,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "secondary" | "ghost" | "danger" | "outline" }) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "secondary" | "ghost" | "danger" | "outline" | "success" }) {
   const styles: Record<string, string> = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-slate-800 hover:bg-slate-700 text-white",
-    ghost: "bg-transparent hover:bg-slate-100 text-slate-700",
-    outline: "border border-slate-300 hover:bg-slate-50 text-slate-700",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
+    primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-[0_5px_0_0_#1d4ed8]",
+    secondary: "bg-slate-800 hover:bg-slate-700 text-white shadow-[0_5px_0_0_#1f2937]",
+    ghost: "bg-transparent hover:bg-slate-100 text-slate-700 shadow-none active:translate-y-0",
+    outline: "border border-slate-300 hover:bg-slate-50 text-slate-700 shadow-[0_5px_0_0_#cbd5e1]",
+    danger: "bg-red-600 hover:bg-red-700 text-white shadow-[0_5px_0_0_#b91c1c]",
+    success: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-[0_5px_0_0_#047857]",
   };
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed",
+        "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-100 active:translate-y-[3px] active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-y-0",
         styles[variant],
         className
       )}

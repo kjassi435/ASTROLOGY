@@ -21,7 +21,7 @@ import { Button, Input, Card } from "./ui";
 import { ResourceManager, type FieldDef } from "./ResourceManager";
 import { Overview } from "./Overview";
 import { Enquiries } from "./Enquiries";
-import { SiteContent } from "./SiteContent";
+import SiteContent from "./SiteContent";
 
 const SERVICE_FIELDS: FieldDef[] = [
   { name: "slug", label: "Slug", required: true, placeholder: "kundli-analysis" },

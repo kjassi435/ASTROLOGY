@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LIVE_COURSES } from "@/lib/courses";
+import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { CourseCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     "Professional live Numerology, Vastu & Astrology occult courses. Learn from India's expert Numerologist and Vastu Consultant Arvindrun Vnjay with interactive live classes.",
 };
 
-export default function LiveCoursesPage() {
+export default async function LiveCoursesPage() {
+  const liveCourses = (await getCourses()).filter((c) => c.type === "live");
   return (
     <>
       <PageHero
@@ -22,7 +23,7 @@ export default function LiveCoursesPage() {
       <section className="bg-bg section pt-14">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-            {LIVE_COURSES.map((course, i) => (
+            {liveCourses.map((course, i) => (
               <Reveal key={course.slug} delay={(i % 2) * 100}>
                 <CourseCard course={course} />
               </Reveal>

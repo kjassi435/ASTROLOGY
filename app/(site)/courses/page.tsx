@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { RECORDED_COURSES, FREE_COURSES, LIVE_COURSES } from "@/lib/courses";
+import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { CourseCard, SectionHeader } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
@@ -12,7 +12,11 @@ export const metadata: Metadata = {
     "Live, Recorded and Free courses on Astrology, Name Numerology, Numerology and Vastu by Arvindrun Vnjay. Certified professional courses for India and global learners.",
 };
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+  const courses = await getCourses();
+  const liveCourses = courses.filter((c) => c.type === "live");
+  const recordedCourses = courses.filter((c) => c.type === "recorded");
+  const freeCourses = courses.filter((c) => c.type === "free");
   return (
     <>
       <PageHero
@@ -42,7 +46,7 @@ export default function CoursesPage() {
 
           <SectionHeader center subtitle="Live Courses" title={<>Learn Live with <span className="text-accent">Arvindrun Vnjay</span></>} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mb-16">
-            {LIVE_COURSES.slice(0, 2).map((course, i) => (
+            {liveCourses.slice(0, 2).map((course, i) => (
               <Reveal key={course.slug} delay={i * 100}>
                 <CourseCard course={course} />
               </Reveal>
@@ -51,7 +55,7 @@ export default function CoursesPage() {
 
           <SectionHeader center subtitle="Recorded Courses" title={<>Most Popular <span className="text-accent">Recorded Courses</span></>} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mb-16">
-            {RECORDED_COURSES.slice(0, 3).map((course, i) => (
+            {recordedCourses.slice(0, 3).map((course, i) => (
               <Reveal key={course.slug} delay={(i % 3) * 100}>
                 <CourseCard course={course} />
               </Reveal>
@@ -60,7 +64,7 @@ export default function CoursesPage() {
 
           <SectionHeader center subtitle="Free Courses" title={<>Start Your Journey <span className="text-accent">Free</span></>} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-            {FREE_COURSES.map((course, i) => (
+            {freeCourses.map((course, i) => (
               <Reveal key={course.slug} delay={(i % 4) * 80}>
                 <CourseCard course={course} />
               </Reveal>

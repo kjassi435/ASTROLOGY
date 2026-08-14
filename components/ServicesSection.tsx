@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { SERVICES } from "@/lib/services";
+import type { Service } from "@/lib/services";
 import { SectionHeader, ServiceCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 import { IconArrowRight } from "@/components/Icons";
 
-export function ServicesSection() {
-  const homeServices = SERVICES.filter((s) => s.slug !== "mobile-analysis");
+export function ServicesSection({ services }: { services: Service[] }) {
+  const homeServices = services.filter((s) => s.slug !== "mobile-analysis");
   return (
     <section className="bg-section-blue section" id="services">
       <div className="max-w-[1280px] mx-auto px-6">

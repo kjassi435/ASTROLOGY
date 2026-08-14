@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PRODUCTS } from "@/lib/products";
+import { getProducts } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { ProductCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     "Buy genuine vastu products, energy products, remedies and spiritual items recommended by Arvindrun Vnjay. Certified vastu products for home and office.",
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await getProducts();
   return (
     <>
       <PageHero
@@ -23,7 +24,7 @@ export default function ProductsPage() {
       <section className="bg-bg section pt-14">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-            {PRODUCTS.map((product, i) => (
+            {products.map((product, i) => (
               <Reveal key={product.title} delay={(i % 4) * 60} className="h-full">
                 <ProductCard product={product} index={i} />
               </Reveal>

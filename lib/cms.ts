@@ -1,5 +1,12 @@
+import { unstable_noStore as noStore } from "next/cache";
 import client from "./db";
 import { initDB } from "./db-schema";
+import type { Service } from "./services";
+import type { Course } from "./courses";
+import type { Book } from "./books";
+import type { Product } from "./products";
+import type { BlogPost } from "./blog";
+import type { Testimonial } from "./testimonials";
 import { SERVICES } from "./services";
 import { COURSES, RECORDED_COURSES, FREE_COURSES, LIVE_COURSES } from "./courses";
 import { BOOKS } from "./books";
@@ -54,7 +61,8 @@ export type ServiceInput = {
   booking_notes?: string;
 };
 
-export async function getServices(): Promise<ServiceInput[]> {
+export async function getServices(): Promise<Service[]> {
+  noStore();
   try {
     const r = await rows("SELECT * FROM services ORDER BY id");
     if (r.length) {
@@ -63,11 +71,12 @@ export async function getServices(): Promise<ServiceInput[]> {
   } catch {
     /* table missing -> fallback */
   }
-  return SERVICES as unknown as ServiceInput[];
+  return SERVICES;
 }
 
-function mapService(r: Row): ServiceInput {
+function mapService(r: Row): Service {
   return {
+    id: Number(r.id),
     slug: String(r.slug),
     name: String(r.name),
     tagline: r.tagline ? String(r.tagline) : undefined,
@@ -75,11 +84,11 @@ function mapService(r: Row): ServiceInput {
     featured: Number(r.featured ?? 0),
     popular: Number(r.popular ?? 0),
     description: r.description ? String(r.description) : undefined,
-    long_description: r.long_description ? String(r.long_description) : undefined,
+    longDescription: r.long_description ? [String(r.long_description)] : [],
     includes: j(r.includes, [] as string[]),
     tiers: j(r.tiers, [] as unknown[]),
-    booking_notes: r.booking_notes ? String(r.booking_notes) : undefined,
-  };
+    bookingNotes: r.booking_notes ? [String(r.booking_notes)] : [],
+  } as unknown as Service;
 }
 
 export async function saveService(input: ServiceInput, id?: number) {
@@ -120,35 +129,37 @@ export type CourseInput = {
   duration?: string;
 };
 
-export async function getCourses(): Promise<CourseInput[]> {
+export async function getCourses(): Promise<Course[]> {
+  noStore();
   try {
     const r = await rows("SELECT * FROM courses ORDER BY id");
     if (r.length) return r.map(mapCourse);
   } catch {
     /* fallback */
   }
-  return [...LIVE_COURSES, ...RECORDED_COURSES, ...FREE_COURSES] as unknown as CourseInput[];
+  return [...LIVE_COURSES, ...RECORDED_COURSES, ...FREE_COURSES];
 }
 
-function mapCourse(r: Row): CourseInput {
+function mapCourse(r: Row): Course {
   return {
+    id: Number(r.id),
     slug: String(r.slug),
     title: String(r.title),
-    type: (r.type as CourseInput["type"]) ?? "recorded",
+    type: (r.type as Course["type"]) ?? "recorded",
     category: r.category ? String(r.category) : undefined,
     teacher: r.teacher ? String(r.teacher) : undefined,
     tagline: r.tagline ? String(r.tagline) : undefined,
     description: r.description ? String(r.description) : undefined,
     price: r.price != null ? Number(r.price) : undefined,
-    original_price: r.original_price != null ? Number(r.original_price) : undefined,
-    buy_url: r.buy_url ? String(r.buy_url) : undefined,
-    youtube_url: r.youtube_url ? String(r.youtube_url) : undefined,
+    originalPrice: r.original_price != null ? Number(r.original_price) : undefined,
+    buyUrl: r.buy_url ? String(r.buy_url) : undefined,
+    youtubeUrl: r.youtube_url ? String(r.youtube_url) : undefined,
     badge: r.badge ? String(r.badge) : undefined,
     image: r.image ? String(r.image) : undefined,
     features: j(r.features, [] as string[]),
     syllabus: j(r.syllabus, [] as string[]),
     duration: r.duration ? String(r.duration) : undefined,
-  };
+  } as unknown as Course;
 }
 
 export async function saveCourse(input: CourseInput, id?: number) {
@@ -172,14 +183,22 @@ export async function deleteCourse(id: number) {
 /* ----------------------------- BOOKS ----------------------------- */
 export type BookInput = { title: string; note?: string; image?: string; buy_url?: string };
 
-export async function getBooks(): Promise<BookInput[]> {
+export async function getBooks(): Promise<Book[]> {
+  noStore();
   try {
     const r = await rows("SELECT * FROM books ORDER BY id");
-    if (r.length) return r.map((x) => ({ title: String(x.title), note: x.note ? String(x.note) : undefined, image: x.image ? String(x.image) : undefined, buy_url: x.buy_url ? String(x.buy_url) : undefined }));
+    if (r.length)
+      return r.map((x) => ({
+        id: Number(x.id),
+        title: String(x.title),
+        note: x.note ? String(x.note) : undefined,
+        image: x.image ? String(x.image) : undefined,
+        buyUrl: x.buy_url ? String(x.buy_url) : undefined,
+      })) as unknown as Book[];
   } catch {
     /* fallback */
   }
-  return BOOKS as unknown as BookInput[];
+  return BOOKS;
 }
 
 export async function saveBook(input: BookInput, id?: number) {
@@ -197,14 +216,22 @@ export async function deleteBook(id: number) {
 /* ----------------------------- PRODUCTS ----------------------------- */
 export type ProductInput = { title: string; note?: string; image?: string; buy_url?: string };
 
-export async function getProducts(): Promise<ProductInput[]> {
+export async function getProducts(): Promise<Product[]> {
+  noStore();
   try {
     const r = await rows("SELECT * FROM products ORDER BY id");
-    if (r.length) return r.map((x) => ({ title: String(x.title), note: x.note ? String(x.note) : undefined, image: x.image ? String(x.image) : undefined, buy_url: x.buy_url ? String(x.buy_url) : undefined }));
+    if (r.length)
+      return r.map((x) => ({
+        id: Number(x.id),
+        title: String(x.title),
+        note: x.note ? String(x.note) : undefined,
+        image: x.image ? String(x.image) : undefined,
+        buyUrl: x.buy_url ? String(x.buy_url) : undefined,
+      })) as unknown as Product[];
   } catch {
     /* fallback */
   }
-  return PRODUCTS as unknown as ProductInput[];
+  return PRODUCTS;
 }
 
 export async function saveProduct(input: ProductInput, id?: number) {
@@ -231,14 +258,26 @@ export type PostInput = {
   content?: string;
 };
 
-export async function getPosts(): Promise<PostInput[]> {
+export async function getPosts(): Promise<BlogPost[]> {
+  noStore();
   try {
     const r = await rows("SELECT * FROM posts ORDER BY id");
-    if (r.length) return r.map((x) => ({ slug: String(x.slug), title: String(x.title), category: x.category ? String(x.category) : undefined, excerpt: x.excerpt ? String(x.excerpt) : undefined, date: x.date ? String(x.date) : undefined, read_time: x.read_time ? String(x.read_time) : undefined, image: x.image ? String(x.image) : undefined, content: x.content ? String(x.content) : undefined }));
+    if (r.length)
+      return r.map((x) => ({
+        id: Number(x.id),
+        slug: String(x.slug),
+        title: String(x.title),
+        category: x.category ? String(x.category) : undefined,
+        excerpt: x.excerpt ? String(x.excerpt) : undefined,
+        date: x.date ? String(x.date) : undefined,
+        readTime: x.read_time ? String(x.read_time) : undefined,
+        image: x.image ? String(x.image) : undefined,
+        content: x.content ? String(x.content) : undefined,
+      })) as unknown as BlogPost[];
   } catch {
     /* fallback */
   }
-  return POSTS as unknown as PostInput[];
+  return POSTS;
 }
 
 export async function savePost(input: PostInput, id?: number) {
@@ -256,14 +295,23 @@ export async function deletePost(id: number) {
 /* ----------------------------- TESTIMONIALS ----------------------------- */
 export type TestimonialInput = { name: string; initials?: string; text?: string; source?: string; badge?: string };
 
-export async function getTestimonials(): Promise<TestimonialInput[]> {
+export async function getTestimonials(): Promise<Testimonial[]> {
+  noStore();
   try {
     const r = await rows("SELECT * FROM testimonials ORDER BY id");
-    if (r.length) return r.map((x) => ({ name: String(x.name), initials: x.initials ? String(x.initials) : undefined, text: x.text ? String(x.text) : undefined, source: x.source ? String(x.source) : undefined, badge: x.badge ? String(x.badge) : undefined }));
+    if (r.length)
+      return r.map((x) => ({
+        id: Number(x.id),
+        name: String(x.name),
+        initials: x.initials ? String(x.initials) : undefined,
+        text: x.text ? String(x.text) : undefined,
+        source: x.source ? String(x.source) : undefined,
+        badge: x.badge ? String(x.badge) : undefined,
+      })) as unknown as Testimonial[];
   } catch {
     /* fallback */
   }
-  return TESTIMONIALS as unknown as TestimonialInput[];
+  return TESTIMONIALS;
 }
 
 export async function saveTestimonial(input: TestimonialInput, id?: number) {

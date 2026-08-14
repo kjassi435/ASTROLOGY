@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FREE_COURSES } from "@/lib/courses";
+import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { CourseCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
     "Start your occult journey for free! Learn Astrology, Numerology & Vastu with expert teacher Arvindrun Vnjay. Free recorded lessons and tutorials on YouTube.",
 };
 
-export default function FreeCoursesPage() {
+export default async function FreeCoursesPage() {
+  const freeCourses = (await getCourses()).filter((c) => c.type === "free");
   return (
     <>
       <PageHero
@@ -24,7 +25,7 @@ export default function FreeCoursesPage() {
       <section className="bg-bg section pt-14">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-            {FREE_COURSES.map((course, i) => (
+            {freeCourses.map((course, i) => (
               <Reveal key={course.slug} delay={(i % 2) * 100}>
                 <CourseCard course={course} />
               </Reveal>

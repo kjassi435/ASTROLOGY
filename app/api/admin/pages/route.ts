@@ -1,22 +1,31 @@
 import { NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/admin-auth";
 import { ensureDb, getSiteContent, saveSiteContent } from "@/lib/cms";
-
-const PAGES = [
-  { slug: "home", title: "Homepage", fields: ["heroTitle", "heroSubtitle", "aboutText", "ctaText"] },
-  { slug: "about", title: "About Page", fields: ["title", "subtitle", "bio"] },
-  { slug: "services", title: "Services Page", fields: ["title", "subtitle", "description"] },
-  { slug: "contact", title: "Contact Page", fields: ["title", "subtitle", "address", "phone", "email"] },
-  { slug: "books", title: "Books Page", fields: ["title", "subtitle"] },
-  { slug: "courses", title: "Courses Page", fields: ["title", "subtitle", "description"] },
-  { slug: "blog", title: "Blog Page", fields: ["title", "subtitle"] },
-];
+import { SITE_PAGES } from "@/lib/site-content";
 
 export async function GET() {
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
   const items = await Promise.all(
-    PAGES.map(async (p) => ({ ...p, fields: await getSiteContent(p.slug) }))
+    SITE_PAGES.map(async (p) => ({
+      slug: p.slug,
+      title: p.title,
+      fields: p.fields,
+      values: await getSiteContent(p.slug),
+    }))
   );
   return NextResponse.json({ items });
+}
+
+export async function POST(req: Request) {
+  if (!(await requireAdmin())) return unauthorized();
+  await ensureDb();
+  const body = await req.json();
+  const slug = String(body.slug ?? "");
+  if (!SITE_PAGES.some((p) => p.slug === slug)) {
+    return NextResponse.json({ error: "Unknown page" }, { status: 400 });
+  }
+  const fields = body.fields && typeof body.fields === "object" ? body.fields : {};
+  await saveSiteContent(slug, fields);
+  return NextResponse.json({ ok: true });
 }

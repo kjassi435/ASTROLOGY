@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { POSTS, BLOG_CATEGORIES } from "@/lib/blog";
+import { BLOG_CATEGORIES } from "@/lib/blog";
+import { getPosts } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { IconArrowRight } from "@/components/Icons";
@@ -11,7 +12,8 @@ export const metadata: Metadata = {
     "Read practical articles on Astrology, Name Numerology, Numerology & Vastu from expert Arvindrun Vnjay. Learn remedies, tips and deep occult science insights.",
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getPosts();
   return (
     <>
       <PageHero
@@ -32,7 +34,7 @@ export default function BlogPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {POSTS.map((post, i) => (
+            {posts.map((post, i) => (
               <Reveal key={post.slug} delay={(i % 3) * 100}>
                 <Link href={`/blog/${post.slug}`} className="group bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 overflow-hidden flex flex-col h-full card-lift">
                   <div className="aspect-[16/10] overflow-hidden">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { RECORDED_COURSES, type CourseCategory } from "@/lib/courses";
+import { type CourseCategory, type Course } from "@/lib/courses";
+import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { CourseCard, SectionHeader } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
@@ -17,10 +18,11 @@ const CATEGORIES: { key: CourseCategory; label: string }[] = [
   { key: "astrology", label: "⭐️ Astrology Courses" },
 ];
 
-const coursesInCategory = (key: CourseCategory) =>
-  RECORDED_COURSES.filter((c) => c.category === key).sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+const coursesInCategory = (list: Course[], key: CourseCategory) =>
+  list.filter((c) => c.category === key).sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
 
-export default function RecordedCoursesPage() {
+export default async function RecordedCoursesPage() {
+  const recordedCourses = (await getCourses()).filter((c) => c.type === "recorded");
   return (
     <>
       <PageHero
@@ -43,7 +45,7 @@ export default function RecordedCoursesPage() {
           </div>
 
           {CATEGORIES.map(({ key, label }) => {
-            const courses = coursesInCategory(key);
+            const courses = coursesInCategory(recordedCourses, key);
             if (courses.length === 0) return null;
             return (
               <div key={key} className="mb-16 last:mb-0">

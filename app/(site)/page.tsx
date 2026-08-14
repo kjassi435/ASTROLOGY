@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { BRAND, APPS, CONTACT, STATS } from "@/lib/site";
-import { SERVICES } from "@/lib/services";
-import { RECORDED_COURSES, FREE_COURSES, LIVE_COURSES } from "@/lib/courses";
-import { POSTS } from "@/lib/blog";
-import { TESTIMONIALS } from "@/lib/testimonials";
+import { getServices, getCourses, getPosts, getTestimonials } from "@/lib/cms";
 import { FAQS } from "@/lib/faqs";
 import { JsonLd } from "@/components/JsonLd";
 import { Marquee, SectionHeader, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
@@ -121,8 +118,12 @@ function AboutStrip() {
   );
 }
 
-function CoursesSection() {
-  const [featured, recorded, free] = [LIVE_COURSES[0], RECORDED_COURSES[0], FREE_COURSES[0]];
+async function CoursesSection() {
+  const courses = await getCourses();
+  const live = courses.find((c) => c.type === "live");
+  const recorded = courses.find((c) => c.type === "recorded");
+  const free = courses.find((c) => c.type === "free");
+  const featured = [live, recorded, free].filter(Boolean) as typeof courses;
   return (
     <section className="bg-bg section" id="courses">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -133,7 +134,7 @@ function CoursesSection() {
           desc="A complete platform for Astrology, Numerology, Name Numerology & Vastu"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-          {[featured, recorded, free].map((course, i) => (
+          {featured.map((course, i) => (
             <Reveal key={course.slug} delay={i * 100}>
               <CourseCard course={course} />
             </Reveal>
@@ -231,13 +232,14 @@ function YouTubeSection() {
   );
 }
 
-function TestimonialsSection() {
+async function TestimonialsSection() {
+  const testimonials = await getTestimonials();
   return (
     <section className="bg-bg section" id="testimonials">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHeader center subtitle="Testimonials" title={<>What Our <span className="text-accent">Students</span> Say</>} desc="Real reviews from our students on Google" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-          {TESTIMONIALS.map((t, i) => (
+          {testimonials.map((t, i) => (
             <TestimonialCard key={t.name} t={t} index={i} />
           ))}
         </div>
@@ -374,14 +376,14 @@ function AppSection() {
   );
 }
 
-function BlogTeaser() {
-  const [first, ...rest] = POSTS;
+async function BlogTeaser() {
+  const posts = await getPosts();
   return (
     <section className="bg-bg section pt-0" id="blog">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHeader center subtitle="From the Blog" title={<>Latest <span className="text-accent">Research</span> &amp; Insights</>} desc="Deep dives into astrology, numerology and vastu — by Arvindrun Vnjay" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-          {POSTS.slice(0, 3).map((post, i) => (
+          {posts.slice(0, 3).map((post, i) => (
             <Reveal key={post.slug} delay={i * 100}>
               <Link href={`/blog/${post.slug}`} className="block h-full bg-card rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-sm)] card-lift border border-primary-hover/15 group">
                 <div className="h-44 overflow-hidden">
@@ -439,7 +441,8 @@ const homeJsonLd = {
   ],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const services = await getServices();
   return (
     <>
       <JsonLd data={homeJsonLd} />
@@ -447,7 +450,7 @@ export default function HomePage() {
       <Marquee />
       <DailyHoroscope />
       <AboutStrip />
-      <ServicesSection />
+      <ServicesSection services={services} />
       <CoursesSection />
       <JourneySection />
       <YouTubeSection />
