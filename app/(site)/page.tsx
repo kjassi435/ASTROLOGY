@@ -369,17 +369,12 @@ function AppSection() {
                 </a>
               </div>
             </div>
-            <div className="hidden lg:block text-center">
-              <div className="inline-block bg-foreground text-bg rounded-[var(--radius-lg)] p-8 shadow-[var(--shadow-lg)] border-2 border-primary">
-                <div className="text-6xl mb-3">✦</div>
-                <div className="text-2xl font-bold mb-1">Arvin Astro</div>
-                <div className="text-sm opacity-75 mb-4">Learn · Consult · Grow</div>
-                <div className="flex gap-2 justify-center">
-                  <span className="w-2 h-2 rounded-full bg-primary" />
-                  <span className="w-2 h-2 rounded-full bg-primary/50" />
-                  <span className="w-2 h-2 rounded-full bg-primary/30" />
-                </div>
-              </div>
+            <div className="hidden lg:flex justify-center items-center">
+              <img
+                src="/images/app-mockup.png"
+                alt="Arvin Astro App"
+                className="w-full max-w-[360px] h-auto drop-shadow-2xl"
+              />
             </div>
           </div>
         </Reveal>
