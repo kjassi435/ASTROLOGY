@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SERVICES, getService } from "@/lib/services";
+import { SERVICES, type Service } from "@/lib/services";
+import { getServices } from "@/lib/cms";
 import { CONTACT } from "@/lib/site";
 import { PageHero } from "@/components/PageHero";
 import { JsonLd } from "@/components/JsonLd";
@@ -12,13 +13,16 @@ import { formatINR, waLink } from "@/lib/utils";
 
 export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return SERVICES.map((s) => ({ slug: s.slug }));
+async function resolveService(slug: string): Promise<Service | undefined> {
+  const base = SERVICES.find((s) => s.slug === slug);
+  const db = (await getServices()).find((s) => s.slug === slug);
+  if (!base && !db) return undefined;
+  return (db ? { ...(base ?? {}), ...(db as Service) } : base) as Service;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await resolveService(slug);
   if (!service) return { title: "Service Not Found" };
   return {
     title: `${service.name} — Book Consultation | Arvin Astro`,
@@ -28,8 +32,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await resolveService(slug);
   if (!service) notFound();
+  const others = (await getServices()).filter((s) => s.slug !== service.slug);
 
   return (
     <>
@@ -141,7 +146,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7">
                 <h3 className="text-xl mb-5">Other Services</h3>
                 <ul className="space-y-1">
-                  {SERVICES.filter((s) => s.slug !== service.slug).map((s) => (
+                  {others.map((s) => (
                     <li key={s.slug}>
                       <Link
                         href={`/services/${s.slug}`}

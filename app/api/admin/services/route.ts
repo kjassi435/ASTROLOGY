@@ -13,6 +13,6 @@ export async function POST(req: Request) {
   await ensureDb();
   const body = (await req.json()) as ServiceInput;
   if (!body.slug || !body.name) return NextResponse.json({ error: "slug and name required" }, { status: 400 });
-  await saveService(body);
-  return NextResponse.json({ success: true });
+  const id = await saveService(body);
+  return NextResponse.json({ id });
 }

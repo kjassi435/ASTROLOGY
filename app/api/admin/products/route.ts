@@ -13,6 +13,6 @@ export async function POST(req: Request) {
   await ensureDb();
   const body = (await req.json()) as ProductInput;
   if (!body.title) return NextResponse.json({ error: "title required" }, { status: 400 });
-  await saveProduct(body);
-  return NextResponse.json({ success: true });
+  const id = await saveProduct(body);
+  return NextResponse.json({ id });
 }

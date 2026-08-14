@@ -13,6 +13,6 @@ export async function POST(req: Request) {
   await ensureDb();
   const body = (await req.json()) as TestimonialInput;
   if (!body.name) return NextResponse.json({ error: "name required" }, { status: 400 });
-  await saveTestimonial(body);
-  return NextResponse.json({ success: true });
+  const id = await saveTestimonial(body);
+  return NextResponse.json({ id });
 }

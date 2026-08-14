@@ -7,8 +7,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   await ensureDb();
   const { id } = await params;
   const body = (await req.json()) as ServiceInput;
-  await saveService(body, Number(id));
-  return NextResponse.json({ success: true });
+  const resultId = await saveService(body, Number(id));
+  return NextResponse.json({ id: resultId });
 }
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {

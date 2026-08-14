@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPost } from "@/lib/blog";
+import { POSTS, type BlogPost } from "@/lib/blog";
+import { getPosts } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { waLink } from "@/lib/utils";
@@ -11,16 +12,34 @@ import { JsonLd } from "@/components/JsonLd";
 
 export const dynamicParams = true;
 
+async function resolvePost(slug: string): Promise<BlogPost | undefined> {
+  const base = POSTS.find((p) => p.slug === slug);
+  const db = (await getPosts()).find((p) => p.slug === slug);
+  if (!base && !db) return undefined;
+  if (base) {
+    return {
+      ...base,
+      title: db?.title ?? base.title,
+      category: db?.category ?? base.category,
+      excerpt: db?.excerpt ?? base.excerpt,
+      date: db?.date ?? base.date,
+      image: db?.image ?? base.image,
+      readTime: db?.readTime ?? base.readTime,
+    };
+  }
+  return db ? { ...(db as BlogPost), content: [] } : undefined;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
-  if (!post) return { title: "Article Not Found | Arvin Astro" };
+  const post = await resolvePost(slug);
+  if (!post) return { title: "Article Not Found | Arvin Astro Blog" };
   return { title: `${post.title} | Arvin Astro Blog`, description: post.excerpt };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await resolvePost(slug);
 
   if (!post) notFound();
 

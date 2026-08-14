@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BRAND, APPS, CONTACT, STATS } from "@/lib/site";
-import { getServices, getCourses, getPosts, getTestimonials } from "@/lib/cms";
+import { getServices, getCourses, getPosts, getTestimonials, getSiteContent } from "@/lib/cms";
 import { FAQS } from "@/lib/faqs";
 import { JsonLd } from "@/components/JsonLd";
 import { Marquee, SectionHeader, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
@@ -12,18 +12,26 @@ import HeroMoon from "@/components/HeroMoon";
 import DailyHoroscope from "@/components/DailyHoroscope";
 import { IconArrowRight, IconCalendar, IconClock, IconHeart, IconMail, IconPhone, IconPin, IconPlay, IconSparkle, IconUsers, IconVideo, IconAward, IconWhatsApp } from "@/components/Icons";
 
-function Hero() {
+function Hero({ heroTitle, heroSubtitle }: { heroTitle?: string; heroSubtitle?: string }) {
   return (
     <section className="relative min-h-screen bg-hero-glow flex items-center overflow-hidden pt-28 pb-16" id="home">
       <div className="container relative z-[2] mx-auto max-w-[1280px] px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         <div className="text-center lg:text-left">
           <h1 className="font-medium mt-6 mb-6 text-[clamp(2.6rem,5vw,4.2rem)] leading-[1.05] text-foreground">
-            Align Your Life with <br className="hidden sm:block" />
-            <span className="text-primary-hover">Cosmic Wisdom</span>
+            {heroTitle ?? (
+              <>
+                Align Your Life with <br className="hidden sm:block" />
+                <span className="text-primary-hover">Cosmic Wisdom</span>
+              </>
+            )}
           </h1>
           <p className="text-[1.1rem] opacity-85 mb-9 max-w-[540px] mx-auto lg:mx-0">
-            Expert guidance in <strong className="text-primary-hover">Astrology</strong>, <strong className="text-primary-hover">Name Numerology</strong>, and{" "}
-            <strong className="text-primary-hover">Vastu Shastra</strong> to unlock health, wealth, and lasting happiness.
+            {heroSubtitle ?? (
+              <>
+                Expert guidance in <strong className="text-primary-hover">Astrology</strong>, <strong className="text-primary-hover">Name Numerology</strong>, and{" "}
+                <strong className="text-primary-hover">Vastu Shastra</strong> to unlock health, wealth, and lasting happiness.
+              </>
+            )}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
             <Link href="/services" className="btn btn-primary">
@@ -58,7 +66,7 @@ function Hero() {
   );
 }
 
-function AboutStrip() {
+function AboutStrip({ aboutText }: { aboutText?: string }) {
   return (
     <section className="bg-bg section" id="about">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -82,7 +90,7 @@ function AboutStrip() {
           </Reveal>
           <Reveal delay={120}>
             <p className="text-[1.3rem] text-foreground leading-relaxed mb-5">
-              A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights.
+              {aboutText ?? "A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights."}
             </p>
             <p className="opacity-85 mb-8">
               With over <strong>8 years of dedicated practice</strong>, I have guided <strong>2666+ students</strong> and provided{" "}
@@ -258,7 +266,7 @@ async function TestimonialsSection() {
   );
 }
 
-function CtaSection() {
+function CtaSection({ ctaText }: { ctaText?: string }) {
   return (
     <section className="bg-bg section pt-0" id="contact-home">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -268,7 +276,11 @@ function CtaSection() {
             <div className="relative">
               <span className="section-subtitle">Begin Your Cosmic Journey Today</span>
               <h2 className="text-[clamp(2rem,3.5vw,2.8rem)] font-medium mb-5">
-                Align your karma with <span className="text-accent">cosmic energy</span>.
+                {ctaText ?? (
+                  <>
+                    Align your karma with <span className="text-accent">cosmic energy</span>.
+                  </>
+                )}
               </h2>
               <p className="opacity-85 mb-8">
                 Get personalized guidance on astrology, name numerology, and vastu for health, wealth, and happiness.
@@ -443,13 +455,14 @@ const homeJsonLd = {
 
 export default async function HomePage() {
   const services = await getServices();
+  const home = await getSiteContent("home");
   return (
     <>
       <JsonLd data={homeJsonLd} />
-      <Hero />
+      <Hero heroTitle={home.heroTitle} heroSubtitle={home.heroSubtitle} />
       <Marquee />
       <DailyHoroscope />
-      <AboutStrip />
+      <AboutStrip aboutText={home.aboutText} />
       <ServicesSection services={services} />
       <CoursesSection />
       <JourneySection />
@@ -457,7 +470,7 @@ export default async function HomePage() {
       <TestimonialsSection />
       <AppSection />
       <BlogTeaser />
-      <CtaSection />
+      <CtaSection ctaText={home.ctaText} />
     </>
   );
 }

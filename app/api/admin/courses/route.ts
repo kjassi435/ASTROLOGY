@@ -13,6 +13,6 @@ export async function POST(req: Request) {
   await ensureDb();
   const body = (await req.json()) as CourseInput;
   if (!body.slug || !body.title) return NextResponse.json({ error: "slug and title required" }, { status: 400 });
-  await saveCourse(body);
-  return NextResponse.json({ success: true });
+  const id = await saveCourse(body);
+  return NextResponse.json({ id });
 }

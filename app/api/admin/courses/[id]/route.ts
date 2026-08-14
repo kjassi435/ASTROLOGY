@@ -6,8 +6,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
   const { id } = await params;
-  await saveCourse((await req.json()), Number(id));
-  return NextResponse.json({ success: true });
+  const resultId = await saveCourse((await req.json()), Number(id));
+  return NextResponse.json({ id: resultId });
 }
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {

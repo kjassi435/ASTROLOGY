@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LIVE_COURSES } from "@/lib/courses";
+import { COURSES, type Course } from "@/lib/courses";
+import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Preloader";
 import { JsonLd } from "@/components/JsonLd";
@@ -10,13 +11,16 @@ import { CONTACT } from "@/lib/site";
 
 export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return LIVE_COURSES.map((c) => ({ slug: c.slug }));
+async function resolveCourse(slug: string): Promise<Course | undefined> {
+  const base = COURSES.find((c) => c.slug === slug);
+  const db = (await getCourses()).find((c) => c.slug === slug);
+  if (!base && !db) return undefined;
+  return (db ? { ...(base ?? {}), ...(db as Course) } : base) as Course;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const course = LIVE_COURSES.find((c) => c.slug === slug);
+  const course = await resolveCourse(slug);
   if (!course) return { title: "Course Not Found" };
   return {
     title: `${course.title} — Live Course | Arvin Astro`,
@@ -26,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function LiveCoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const course = LIVE_COURSES.find((c) => c.slug === slug);
+  const course = await resolveCourse(slug);
   if (!course) notFound();
 
   return (

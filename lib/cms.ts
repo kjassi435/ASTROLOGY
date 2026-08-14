@@ -42,8 +42,18 @@ async function rows(sql: string, params: unknown[] = []): Promise<Row[]> {
   return res.rows as Row[];
 }
 
-async function run(sql: string, params: unknown[] = []): Promise<void> {
-  await client.execute({ sql, args: params as never[] });
+// Convert pasted Google Drive share links into direct image URLs so they render.
+function normalizeImageUrl(url?: string | null): string | undefined {
+  if (!url) return undefined;
+  const s = url.trim();
+  const m = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || s.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m) return `https://drive.google.com/uc?export=view&id=${m[1]}`;
+  return s;
+}
+
+async function run(sql: string, params: unknown[] = []): Promise<{ lastInsertRowid: number | bigint }> {
+  const res = await client.execute({ sql, args: params as never[] });
+  return { lastInsertRowid: (res.lastInsertRowid as number | bigint) ?? 0 };
 }
 
 /* ----------------------------- SERVICES ----------------------------- */
@@ -91,17 +101,19 @@ function mapService(r: Row): Service {
   } as unknown as Service;
 }
 
-export async function saveService(input: ServiceInput, id?: number) {
+export async function saveService(input: ServiceInput, id?: number): Promise<number> {
   if (id) {
     await run(
       `UPDATE services SET slug=?, name=?, tagline=?, icon=?, featured=?, popular=?, description=?, long_description=?, includes=?, tiers=?, booking_notes=? WHERE id=?`,
       [input.slug, input.name, input.tagline ?? null, input.icon ?? null, input.featured ?? 0, input.popular ?? 0, input.description ?? null, input.long_description ?? null, JSON.stringify(input.includes ?? []), JSON.stringify(input.tiers ?? []), input.booking_notes ?? null, id]
     );
+    return id;
   } else {
-    await run(
+    const res = await run(
       `INSERT INTO services (slug, name, tagline, icon, featured, popular, description, long_description, includes, tiers, booking_notes) VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
       [input.slug, input.name, input.tagline ?? null, input.icon ?? null, input.featured ?? 0, input.popular ?? 0, input.description ?? null, input.long_description ?? null, JSON.stringify(input.includes ?? []), JSON.stringify(input.tiers ?? []), input.booking_notes ?? null]
     );
+    return Number(res.lastInsertRowid);
   }
 }
 
@@ -162,17 +174,19 @@ function mapCourse(r: Row): Course {
   } as unknown as Course;
 }
 
-export async function saveCourse(input: CourseInput, id?: number) {
+export async function saveCourse(input: CourseInput, id?: number): Promise<number> {
   if (id) {
     await run(
       `UPDATE courses SET slug=?, title=?, type=?, category=?, teacher=?, tagline=?, description=?, price=?, original_price=?, buy_url=?, youtube_url=?, badge=?, image=?, features=?, syllabus=?, duration=? WHERE id=?`,
-      [input.slug, input.title, input.type, input.category ?? null, input.teacher ?? "Arvindrun Vnjay", input.tagline ?? null, input.description ?? null, input.price ?? null, input.original_price ?? null, input.buy_url ?? null, input.youtube_url ?? null, input.badge ?? null, input.image ?? null, JSON.stringify(input.features ?? []), JSON.stringify(input.syllabus ?? []), input.duration ?? null, id]
+      [input.slug, input.title, input.type, input.category ?? null, input.teacher ?? "Arvindrun Vnjay", input.tagline ?? null, input.description ?? null, input.price ?? null, input.original_price ?? null, input.buy_url ?? null, input.youtube_url ?? null, input.badge ?? null, normalizeImageUrl(input.image) ?? null, JSON.stringify(input.features ?? []), JSON.stringify(input.syllabus ?? []), input.duration ?? null, id]
     );
+    return id;
   } else {
-    await run(
+    const res = await run(
       `INSERT INTO courses (slug, title, type, category, teacher, tagline, description, price, original_price, buy_url, youtube_url, badge, image, features, syllabus, duration) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-      [input.slug, input.title, input.type, input.category ?? null, input.teacher ?? "Arvindrun Vnjay", input.tagline ?? null, input.description ?? null, input.price ?? null, input.original_price ?? null, input.buy_url ?? null, input.youtube_url ?? null, input.badge ?? null, input.image ?? null, JSON.stringify(input.features ?? []), JSON.stringify(input.syllabus ?? []), input.duration ?? null]
+      [input.slug, input.title, input.type, input.category ?? null, input.teacher ?? "Arvindrun Vnjay", input.tagline ?? null, input.description ?? null, input.price ?? null, input.original_price ?? null, input.buy_url ?? null, input.youtube_url ?? null, input.badge ?? null, normalizeImageUrl(input.image) ?? null, JSON.stringify(input.features ?? []), JSON.stringify(input.syllabus ?? []), input.duration ?? null]
     );
+    return Number(res.lastInsertRowid);
   }
 }
 
@@ -201,11 +215,13 @@ export async function getBooks(): Promise<Book[]> {
   return BOOKS;
 }
 
-export async function saveBook(input: BookInput, id?: number) {
+export async function saveBook(input: BookInput, id?: number): Promise<number> {
   if (id) {
-    await run("UPDATE books SET title=?, note=?, image=?, buy_url=? WHERE id=?", [input.title, input.note ?? null, input.image ?? null, input.buy_url ?? null, id]);
+    await run("UPDATE books SET title=?, note=?, image=?, buy_url=? WHERE id=?", [input.title, input.note ?? null, normalizeImageUrl(input.image) ?? null, input.buy_url ?? null, id]);
+    return id;
   } else {
-    await run("INSERT INTO books (title, note, image, buy_url) VALUES (?,?,?,?)", [input.title, input.note ?? null, input.image ?? null, input.buy_url ?? null]);
+    const res = await run("INSERT INTO books (title, note, image, buy_url) VALUES (?,?,?,?)", [input.title, input.note ?? null, normalizeImageUrl(input.image) ?? null, input.buy_url ?? null]);
+    return Number(res.lastInsertRowid);
   }
 }
 
@@ -234,11 +250,13 @@ export async function getProducts(): Promise<Product[]> {
   return PRODUCTS;
 }
 
-export async function saveProduct(input: ProductInput, id?: number) {
+export async function saveProduct(input: ProductInput, id?: number): Promise<number> {
   if (id) {
-    await run("UPDATE products SET title=?, note=?, image=?, buy_url=? WHERE id=?", [input.title, input.note ?? null, input.image ?? null, input.buy_url ?? null, id]);
+    await run("UPDATE products SET title=?, note=?, image=?, buy_url=? WHERE id=?", [input.title, input.note ?? null, normalizeImageUrl(input.image) ?? null, input.buy_url ?? null, id]);
+    return id;
   } else {
-    await run("INSERT INTO products (title, note, image, buy_url) VALUES (?,?,?,?)", [input.title, input.note ?? null, input.image ?? null, input.buy_url ?? null]);
+    const res = await run("INSERT INTO products (title, note, image, buy_url) VALUES (?,?,?,?)", [input.title, input.note ?? null, normalizeImageUrl(input.image) ?? null, input.buy_url ?? null]);
+    return Number(res.lastInsertRowid);
   }
 }
 
@@ -280,11 +298,13 @@ export async function getPosts(): Promise<BlogPost[]> {
   return POSTS;
 }
 
-export async function savePost(input: PostInput, id?: number) {
+export async function savePost(input: PostInput, id?: number): Promise<number> {
   if (id) {
-    await run("UPDATE posts SET slug=?, title=?, category=?, excerpt=?, date=?, read_time=?, image=?, content=? WHERE id=?", [input.slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, input.read_time ?? null, input.image ?? null, input.content ?? null, id]);
+    await run("UPDATE posts SET slug=?, title=?, category=?, excerpt=?, date=?, read_time=?, image=?, content=? WHERE id=?", [input.slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, input.read_time ?? null, normalizeImageUrl(input.image) ?? null, input.content ?? null, id]);
+    return id;
   } else {
-    await run("INSERT INTO posts (slug, title, category, excerpt, date, read_time, image, content) VALUES (?,?,?,?,?,?,?,?)", [input.slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, input.read_time ?? null, input.image ?? null, input.content ?? null]);
+    const res = await run("INSERT INTO posts (slug, title, category, excerpt, date, read_time, image, content) VALUES (?,?,?,?,?,?,?,?)", [input.slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, input.read_time ?? null, normalizeImageUrl(input.image) ?? null, input.content ?? null]);
+    return Number(res.lastInsertRowid);
   }
 }
 
@@ -314,11 +334,13 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   return TESTIMONIALS;
 }
 
-export async function saveTestimonial(input: TestimonialInput, id?: number) {
+export async function saveTestimonial(input: TestimonialInput, id?: number): Promise<number> {
   if (id) {
     await run("UPDATE testimonials SET name=?, initials=?, text=?, source=?, badge=? WHERE id=?", [input.name, input.initials ?? null, input.text ?? null, input.source ?? null, input.badge ?? null, id]);
+    return id;
   } else {
-    await run("INSERT INTO testimonials (name, initials, text, source, badge) VALUES (?,?,?,?,?)", [input.name, input.initials ?? null, input.text ?? null, input.source ?? null, input.badge ?? null]);
+    const res = await run("INSERT INTO testimonials (name, initials, text, source, badge) VALUES (?,?,?,?,?)", [input.name, input.initials ?? null, input.text ?? null, input.source ?? null, input.badge ?? null]);
+    return Number(res.lastInsertRowid);
   }
 }
 
