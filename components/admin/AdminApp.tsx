@@ -4,18 +4,9 @@ import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
-  LayoutDashboard,
-  Sparkles,
-  GraduationCap,
-  BookOpen,
-  Package,
-  Newspaper,
-  MessageSquare,
-  Star,
-  FileText,
-  LogOut,
-  ExternalLink,
-  Database,
+  LayoutDashboard, Sparkles, GraduationCap, BookOpen, Package,
+  Newspaper, MessageSquare, Star, FileText, LogOut, ExternalLink,
+  Database, Settings, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import { Button, Input, Card } from "./ui";
 import { ResourceManager, type FieldDef } from "./ResourceManager";
@@ -89,18 +80,19 @@ const TESTIMONIAL_FIELDS: FieldDef[] = [
   { name: "badge", label: "Badge" },
 ];
 
-type TabId = "overview" | "services" | "courses" | "books" | "products" | "posts" | "testimonials" | "enquiries" | "sitecontent";
+type TabId = "overview" | "services" | "courses" | "books" | "products" | "posts" | "testimonials" | "enquiries" | "sitecontent" | "settings";
 
-const NAV: { id: TabId; label: string; icon: React.ComponentType<{ size?: number }> }[] = [
-  { id: "overview", label: "Dashboard", icon: LayoutDashboard },
-  { id: "services", label: "Services", icon: Sparkles },
-  { id: "courses", label: "Courses", icon: GraduationCap },
-  { id: "books", label: "Books", icon: BookOpen },
-  { id: "products", label: "Vastu Products", icon: Package },
-  { id: "posts", label: "Blog", icon: Newspaper },
-  { id: "testimonials", label: "Testimonials", icon: Star },
-  { id: "enquiries", label: "Enquiries", icon: MessageSquare },
-  { id: "sitecontent", label: "Site Content", icon: FileText },
+const NAV: { id: TabId; label: string; icon: React.ComponentType<{ size?: number }>; color?: string }[] = [
+  { id: "overview", label: "Dashboard", icon: LayoutDashboard, color: "from-blue-500 to-indigo-600" },
+  { id: "services", label: "Services", icon: Sparkles, color: "from-amber-500 to-orange-600" },
+  { id: "courses", label: "Courses", icon: GraduationCap, color: "from-green-500 to-emerald-600" },
+  { id: "books", label: "Books", icon: BookOpen, color: "from-purple-500 to-violet-600" },
+  { id: "products", label: "Vastu Products", icon: Package, color: "from-pink-500 to-rose-600" },
+  { id: "posts", label: "Blog", icon: Newspaper, color: "from-cyan-500 to-blue-600" },
+  { id: "testimonials", label: "Testimonials", icon: Star, color: "from-yellow-500 to-amber-600" },
+  { id: "enquiries", label: "Enquiries", icon: MessageSquare, color: "from-teal-500 to-cyan-600" },
+  { id: "sitecontent", label: "Site Content", icon: FileText, color: "from-indigo-500 to-purple-600" },
+  { id: "settings", label: "Settings", icon: Settings, color: "from-slate-500 to-gray-600" },
 ];
 
 export default function AdminApp() {
@@ -109,11 +101,10 @@ export default function AdminApp() {
   const [tab, setTab] = useState<TabId>("overview");
   const [password, setPassword] = useState("");
   const [logging, setLogging] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/check")
-      .then((r) => setAuthed(r.ok))
-      .catch(() => setAuthed(false));
+    fetch("/api/admin/check").then((r) => setAuthed(r.ok)).catch(() => setAuthed(false));
   }, []);
 
   async function seed() {
@@ -131,39 +122,33 @@ export default function AdminApp() {
       body: JSON.stringify({ password }),
     });
     setLogging(false);
-    if (res.ok) {
-      setAuthed(true);
-      toast.success("Welcome back");
-    } else {
-      toast.error("Invalid password");
-    }
+    if (res.ok) { setAuthed(true); toast.success("Welcome back"); }
+    else toast.error("Invalid password");
   }
 
   function logout() {
-    fetch("/api/admin/check", { method: "DELETE" }).finally(() => {
-      setAuthed(false);
-      qc.clear();
-    });
+    fetch("/api/admin/check", { method: "DELETE" }).finally(() => { setAuthed(false); qc.clear(); });
   }
 
-  if (authed === null) {
-    return <div className="flex min-h-screen items-center justify-center text-slate-400">Loading…</div>;
-  }
+  if (authed === null) return <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">Loading…</div>;
 
   if (!authed) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-100 p-6">
-        <Card className="w-full max-w-sm p-8">
-          <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-slate-900">Admin Panel</h1>
-            <p className="mt-1 text-sm text-slate-500">Arvin Astro Content Manager</p>
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-6">
+        <Card className="w-full max-w-sm p-8 bg-white/95 backdrop-blur shadow-2xl">
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25">
+              <Sparkles size={28} />
+            </div>
+            <h1 className="text-2xl font-bold text-slate-900">Arvin Astro</h1>
+            <p className="mt-1 text-sm text-slate-500">Content Management System</p>
           </div>
           <form onSubmit={login} className="space-y-4">
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Password</label>
               <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter admin password" autoFocus />
             </div>
-            <Button type="submit" className="w-full" disabled={logging}>
+            <Button type="submit" className="w-full shadow-lg shadow-blue-500/25" disabled={logging}>
               {logging ? "Signing in…" : "Sign In"}
             </Button>
           </form>
@@ -173,80 +158,115 @@ export default function AdminApp() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-100">
-      <aside className="hidden w-64 shrink-0 flex-col bg-slate-900 text-slate-200 lg:flex">
-        <div className="flex items-center gap-2 px-6 py-5 text-lg font-bold text-white">
-          <Sparkles size={20} className="text-blue-400" /> Arvin Astro
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <aside className={`${collapsed ? "w-20" : "w-64"} hidden flex-col bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-200 transition-all duration-300 lg:flex`}>
+        <div className="flex items-center gap-3 px-5 py-5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30">
+            <Sparkles size={18} />
+          </div>
+          {!collapsed && <span className="text-lg font-bold text-white">Arvin Astro</span>}
         </div>
-        <nav className="flex-1 space-y-1 px-3">
+        <nav className="flex-1 space-y-1 px-3 mt-2">
           {NAV.map((n) => {
             const Icon = n.icon;
+            const active = tab === n.id;
             return (
-              <button
-                key={n.id}
-                onClick={() => setTab(n.id)}
-                className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
-                  tab === n.id ? "bg-blue-600 text-white" : "text-slate-300 hover:bg-slate-800"
+              <button key={n.id} onClick={() => setTab(n.id)}
+                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+                  active ? "bg-white/10 text-white shadow-lg shadow-black/10" : "text-slate-400 hover:bg-white/5 hover:text-white"
                 }`}
+                title={collapsed ? n.label : undefined}
               >
-                <Icon size={18} /> {n.label}
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${active ? `bg-gradient-to-br ${n.color} shadow-md` : "bg-slate-700/50"}`}>
+                  <Icon size={16} />
+                </div>
+                {!collapsed && n.label}
               </button>
             );
           })}
         </nav>
-        <div className="space-y-1 border-t border-slate-800 p-3">
-          <button onClick={seed} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800">
-            <Database size={18} /> Seed Database
+        <div className="space-y-1 border-t border-slate-700/50 p-3">
+          <button onClick={() => setCollapsed(!collapsed)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 hover:bg-white/5 hover:text-white">
+            {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+            {!collapsed && "Collapse"}
           </button>
-          <a href="/" target="_blank" className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800">
-            <ExternalLink size={18} /> View Site
+          <button onClick={seed} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 hover:bg-white/5 hover:text-white">
+            <Database size={18} /> {!collapsed && "Seed Database"}
+          </button>
+          <a href="/" target="_blank" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 hover:bg-white/5 hover:text-white">
+            <ExternalLink size={18} /> {!collapsed && "View Site"}
           </a>
-          <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-800">
-            <LogOut size={18} /> Logout
+          <button onClick={logout} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 hover:bg-red-500/10 hover:text-red-400">
+            <LogOut size={18} /> {!collapsed && "Logout"}
           </button>
         </div>
       </aside>
 
-      <div className="flex-1">
-        <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
-          <div className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-            {NAV.find((n) => n.id === tab)?.label}
+      <div className="flex-1 min-w-0">
+        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200/60 bg-white/80 backdrop-blur-xl px-6 py-4">
+          <div>
+            <h2 className="text-lg font-bold text-slate-800">{NAV.find((n) => n.id === tab)?.label}</h2>
           </div>
-          <div className="flex items-center gap-2 lg:hidden">
-            <select value={tab} onChange={(e) => setTab(e.target.value as TabId)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm">
-              {NAV.map((n) => (
-                <option key={n.id} value={n.id}>
-                  {n.label}
-                </option>
-              ))}
+          <div className="flex items-center gap-3">
+            <select value={tab} onChange={(e) => setTab(e.target.value as TabId)} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm lg:hidden">
+              {NAV.map((n) => (<option key={n.id} value={n.id}>{n.label}</option>))}
             </select>
           </div>
         </header>
-
         <main className="p-6">
           {tab === "overview" && <Overview onNavigate={(t) => setTab(t as TabId)} />}
-          {tab === "services" && (
-            <ResourceManager resource="services" title="Services" columns={[{ key: "name", label: "Name" }, { key: "tagline", label: "Tagline" }]} fields={SERVICE_FIELDS} addLabel="Add Service" />
-          )}
-          {tab === "courses" && (
-            <ResourceManager
-              resource="courses"
-              title="Courses"
-              columns={[{ key: "title", label: "Title" }, { key: "type", label: "Type" }, { key: "price", label: "Price" }]}
-              fields={COURSE_FIELDS}
-              addLabel="Add Course"
-            />
-          )}
-          {tab === "books" && <ResourceManager resource="books" title="Books" columns={[{ key: "title", label: "Title" }]} fields={BOOK_FIELDS} addLabel="Add Book" />}
-          {tab === "products" && <ResourceManager resource="products" title="Vastu Products" columns={[{ key: "title", label: "Title" }]} fields={PRODUCT_FIELDS} addLabel="Add Product" />}
-          {tab === "posts" && (
-            <ResourceManager resource="posts" title="Blog Posts" columns={[{ key: "title", label: "Title" }, { key: "category", label: "Category" }]} fields={POST_FIELDS} addLabel="Add Post" />
-          )}
-          {tab === "testimonials" && <ResourceManager resource="testimonials" title="Testimonials" columns={[{ key: "name", label: "Name" }, { key: "source", label: "Source" }]} fields={TESTIMONIAL_FIELDS} addLabel="Add Testimonial" />}
+          {tab === "services" && <ResourceManager resource="services" title="Services" columns={[{ key: "name", label: "Name" }, { key: "tagline", label: "Tagline" }, { key: "slug", label: "Slug" }]} fields={SERVICE_FIELDS} addLabel="Add Service" />}
+          {tab === "courses" && <ResourceManager resource="courses" title="Courses" columns={[{ key: "title", label: "Title" }, { key: "type", label: "Type" }, { key: "price", label: "Price" }, { key: "category", label: "Category" }]} fields={COURSE_FIELDS} addLabel="Add Course" />}
+          {tab === "books" && <ResourceManager resource="books" title="Books" columns={[{ key: "title", label: "Title" }, { key: "note", label: "Note" }]} fields={BOOK_FIELDS} addLabel="Add Book" />}
+          {tab === "products" && <ResourceManager resource="products" title="Vastu Products" columns={[{ key: "title", label: "Title" }, { key: "note", label: "Note" }]} fields={PRODUCT_FIELDS} addLabel="Add Product" />}
+          {tab === "posts" && <ResourceManager resource="posts" title="Blog Posts" columns={[{ key: "title", label: "Title" }, { key: "category", label: "Category" }, { key: "date", label: "Date" }]} fields={POST_FIELDS} addLabel="Add Post" />}
+          {tab === "testimonials" && <ResourceManager resource="testimonials" title="Testimonials" columns={[{ key: "name", label: "Name" }, { key: "text", label: "Review" }, { key: "source", label: "Source" }]} fields={TESTIMONIAL_FIELDS} addLabel="Add Testimonial" />}
           {tab === "enquiries" && <Enquiries />}
           {tab === "sitecontent" && <SiteContent />}
+          {tab === "settings" && <SettingsPanel />}
         </main>
       </div>
+    </div>
+  );
+}
+
+function SettingsPanel() {
+  const [currentPw, setCurrentPw] = useState("");
+  const [newPw, setNewPw] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function changePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const res = await fetch("/api/admin/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentPassword: currentPw, newPassword: newPw }),
+      });
+      if (res.ok) { toast.success("Password changed"); setCurrentPw(""); setNewPw(""); }
+      else { const d = await res.json(); toast.error(d.error || "Failed"); }
+    } catch { toast.error("Failed"); }
+    setSaving(false);
+  }
+
+  return (
+    <div className="max-w-xl">
+      <h2 className="text-2xl font-bold text-slate-800 mb-6">Settings</h2>
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-slate-800 mb-4">Change Admin Password</h3>
+        <form onSubmit={changePassword} className="space-y-4">
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Current Password</label>
+            <Input type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="Current password" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">New Password</label>
+            <Input type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="New password" />
+          </div>
+          <Button type="submit" disabled={saving || !currentPw || !newPw}>{saving ? "Saving…" : "Change Password"}</Button>
+        </form>
+      </Card>
     </div>
   );
 }
