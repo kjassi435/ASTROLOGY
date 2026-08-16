@@ -263,6 +263,16 @@ img { max-width: 100%; height: auto; }
   box-shadow: var(--shadow-lg);
 }
 
+/* Course card: subtle lift + soft blue brand glow on hover */
+.course-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 45px -18px rgba(0, 131, 254, 0.38);
+  border-color: rgba(0, 131, 254, 0.45);
+}
+
 .service-card {
   position: relative;
   padding: 40px 30px;
