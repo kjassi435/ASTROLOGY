@@ -145,9 +145,11 @@ export function CourseCard({ course }: { course: Course }) {
   const typeLabel = course.type === "live" ? "Live" : course.type === "recorded" ? "Recorded" : "Free";
   const typeColor = course.type === "live" ? "bg-primary text-white" : course.type === "recorded" ? "bg-card text-foreground" : "bg-foreground text-bg";
 
+  const imageAspect = course.type === "live" ? "aspect-video" : "aspect-[4/3]";
+
   return (
     <article className="course-card group bg-card rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-sm)] border border-muted flex flex-col h-full">
-      <Link href={ctaHref} className="relative block aspect-video overflow-hidden" style={{ background: COURSE_GRADIENTS[course.type] }} aria-label={course.title}>
+      <Link href={ctaHref} className={"relative block " + imageAspect + " overflow-hidden"} style={{ background: COURSE_GRADIENTS[course.type] }} aria-label={course.title}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={course.image} alt={course.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
         <span className="absolute top-4 left-4 px-3.5 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider bg-white/85 backdrop-blur text-foreground shadow-sm">
