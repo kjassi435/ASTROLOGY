@@ -199,19 +199,6 @@ export type BookInput = { title: string; note?: string; image?: string; buy_url?
 
 export async function getBooks(): Promise<Book[]> {
   noStore();
-  try {
-    const r = await rows("SELECT * FROM books ORDER BY id");
-    if (r.length)
-      return r.map((x) => ({
-        id: Number(x.id),
-        title: String(x.title),
-        note: x.note ? String(x.note) : undefined,
-        image: x.image ? String(x.image) : undefined,
-        buyUrl: x.buy_url ? String(x.buy_url) : undefined,
-      })) as unknown as Book[];
-  } catch {
-    /* fallback */
-  }
   return BOOKS;
 }
 
