@@ -360,7 +360,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
   const color = PRODUCT_COLORS[index % PRODUCT_COLORS.length];
 
   return (
-    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col group min-h-[300px] h-full">
+    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col h-full card-lift">
       {/* Light glass background */}
       <div className="absolute inset-0 bg-white/70" />
 
@@ -378,55 +378,61 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
       />
 
       {/* Content */}
-      <div className="relative z-10 p-5 flex flex-col flex-1">
-        {/* Header: Label + Menu */}
-        <div className="flex items-center justify-between mb-6">
-          <span className="text-foreground/50 text-xs font-medium">Vastu Product</span>
-          <button className="text-foreground/30 hover:text-foreground/60 transition">
+      <div className="relative z-10 p-5 flex flex-col h-full">
+        {/* Header: Badge + Menu */}
+        <div className="flex items-center justify-between mb-4">
+          <span className="px-3 py-1 rounded-full bg-white/70 text-foreground text-xs font-bold uppercase tracking-wider border border-white/50 shadow-sm">
+            Vastu Product
+          </span>
+          <button className="text-foreground/40 hover:text-foreground/70 transition" aria-label="More options">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
               <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
             </svg>
           </button>
         </div>
 
-        {/* Product image */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={product.image}
-          alt={product.title}
-          loading="lazy"
-          className="w-full h-40 object-contain rounded-lg shadow-lg mb-4 border border-foreground/10 bg-white/40 p-2"
-        />
-
-        {/* Title + Description */}
-        <div className="text-center mb-auto py-4">
-          <h3 className="text-foreground font-bold text-lg leading-snug mb-2 line-clamp-2">{product.title}</h3>
-          {product.note && (
-            <p className="text-foreground/50 text-xs line-clamp-2">{product.note}</p>
-          )}
+        {/* Product image - fixed aspect ratio for uniformity */}
+        <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl bg-white/40 border border-white/60 shadow-lg mb-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={product.image}
+            alt={product.title}
+            loading="lazy"
+            className="w-full h-full object-contain p-3"
+          />
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-foreground/10 my-4" />
+        {/* Title - prominent */}
+        <h3 className="text-foreground font-bold text-xl leading-snug line-clamp-2 mb-2">
+          {product.title}
+        </h3>
 
-        {/* Footer: Buy Button */}
-        <div className="flex items-center justify-between">
-          <div className="w-7 h-7 rounded-full bg-white/60 flex items-center justify-center border border-white/80">
-            <span className="text-foreground/40 text-xs">✦</span>
+        {/* Bottom section: description + buy button - pushed to bottom */}
+        <div className="mt-auto flex flex-col gap-3">
+          {product.note && (
+            <p className="text-foreground/60 text-sm line-clamp-2">{product.note}</p>
+          )}
+
+          <div className="h-px bg-foreground/10" />
+
+          <div className="flex items-center justify-between gap-3">
+            <div className="w-8 h-8 rounded-full bg-white/60 flex items-center justify-center border border-white/80 shrink-0">
+              <span className="text-foreground/50 text-sm">✦</span>
+            </div>
+            <a
+              href={product.buyUrl}
+              target="_blank"
+              rel="noreferrer noopener sponsored"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 shadow-sm"
+              style={{
+                background: `linear-gradient(135deg, ${color.accent}, ${color.glow})`,
+                color: "#fff",
+              }}
+            >
+              Buy on Amazon
+              <IconExternal size={12} />
+            </a>
           </div>
-          <a
-            href={product.buyUrl}
-            target="_blank"
-            rel="noreferrer noopener sponsored"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 shadow-sm"
-            style={{
-              background: `linear-gradient(135deg, ${color.accent}, ${color.glow})`,
-              color: "#fff",
-            }}
-          >
-            Buy on Amazon
-            <IconExternal size={12} />
-          </a>
         </div>
       </div>
     </article>
