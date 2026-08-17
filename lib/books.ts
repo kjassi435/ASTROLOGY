@@ -6,7 +6,7 @@ export interface Book {
 }
 
 export const BOOKS: Book[] = [
-  { title: "BRIHAT PARASARA HORA SASTRA", note: "by R. Santhanam", image: "/images/books/BPHS.jpg", buyUrl: "https://amzn.to/4aBX7jk" },
+  { title: "BRIHAT PARASARA HORA SASTRA", note: "by R. Santhanam", image: "/images/books/bphs.jpg", buyUrl: "https://amzn.to/4aBX7jk" },
   { title: "How to Judge a Horoscope Volume 1 & 2", note: "by B.V. Raman", image: "/images/books/Screenshot-2026-02-08-204503.png", buyUrl: "https://amzn.to/4knGonp" },
   { title: "Light on Life", note: "by Hart de Fouw & Robert Svoboda — bestseller for Beginners", image: "/images/books/Screenshot-2026-02-08-205011.png", buyUrl: "https://amzn.to/45ScQrX" },
   { title: "Phala Deepika", note: "by Mantreswara — bestseller for Predictive Astrology", image: "/images/books/ppp.jpg", buyUrl: "https://amzn.to/4rFCd8N" },
