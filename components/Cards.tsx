@@ -270,7 +270,7 @@ export function BookCard({ book, index = 0 }: { book: Book; index?: number }) {
   const color = BOOK_COLORS[index % BOOK_COLORS.length];
 
   return (
-    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col group min-h-[300px]">
+    <article className="relative rounded-[20px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white/40 flex flex-col group min-h-[300px] h-full card-lift">
       {/* Light glass background */}
       <div className="absolute inset-0 bg-white/70" />
 
@@ -305,7 +305,7 @@ export function BookCard({ book, index = 0 }: { book: Book; index?: number }) {
           src={book.image}
           alt={book.title}
           loading="lazy"
-          className="w-28 h-40 object-cover rounded-lg shadow-lg mx-auto mb-4 border border-foreground/10"
+          className="w-full h-44 object-contain rounded-lg shadow-lg mx-auto mb-4 border border-foreground/10 bg-white/30 p-2"
         />
 
         {/* Title + Author */}
