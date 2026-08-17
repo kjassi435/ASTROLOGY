@@ -221,19 +221,6 @@ export type ProductInput = { title: string; note?: string; image?: string; buy_u
 
 export async function getProducts(): Promise<Product[]> {
   noStore();
-  try {
-    const r = await rows("SELECT * FROM products ORDER BY id");
-    if (r.length)
-      return r.map((x) => ({
-        id: Number(x.id),
-        title: String(x.title),
-        note: x.note ? String(x.note) : undefined,
-        image: x.image ? String(x.image) : undefined,
-        buyUrl: x.buy_url ? String(x.buy_url) : undefined,
-      })) as unknown as Product[];
-  } catch {
-    /* fallback */
-  }
   return PRODUCTS;
 }
 
