@@ -147,9 +147,9 @@ export function CourseCard({ course }: { course: Course }) {
 
   return (
     <article className="course-card group bg-card rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-sm)] border border-muted flex flex-col h-full">
-      <Link href={ctaHref} className="relative block h-56 overflow-hidden" style={{ background: COURSE_GRADIENTS[course.type] }} aria-label={course.title}>
+      <Link href={ctaHref} className="relative block aspect-[4/3] overflow-hidden" style={{ background: COURSE_GRADIENTS[course.type] }} aria-label={course.title}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={course.image} alt={course.title} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+        <img src={course.image} alt={course.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
         <span className="absolute top-4 left-4 px-3.5 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider bg-white/85 backdrop-blur text-foreground shadow-sm">
           {course.badge ?? typeLabel}
         </span>
