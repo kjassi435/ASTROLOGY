@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { ZODIAC_SIGNS, type ZodiacSign, type HoroscopeData } from "@/lib/horoscope";
 import { Reveal } from "@/components/Preloader";
-import { IconClose } from "@/components/Icons";
+import { IconClose, IconArrowRight } from "@/components/Icons";
 
 function StarRating({ count }: { count: number }) {
   return (
@@ -528,21 +528,38 @@ export default function DailyHoroscope() {
     <div>
       <div>
         <Reveal>
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <span className="section-subtitle">Daily Horoscope</span>
-            <h2 className="text-[clamp(2rem,3.5vw,2.8rem)] font-medium">
-              Your <span className="text-accent">Daily Cosmic</span> Forecast
-            </h2>
-            <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
+            <h2 className="text-2xl font-medium">Your <span className="text-accent">Daily Cosmic</span> Forecast</h2>
+            <p className="text-sm opacity-70 mt-1">
               Click your zodiac sign to reveal today&apos;s horoscope, lucky color, and lucky number.
             </p>
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 gap-10 items-center">
-          <Reveal delay={120}>
-            <SignCards onSelect={setSelected} />
-          </Reveal>
+        <div className="space-y-2.5">
+          {ZODIAC_SIGNS.map((sign) => {
+            const color = SIGN_COLORS[sign.slug] ?? { bg: "#0EA5E9", text: "#FFFFFF" };
+            return (
+              <button
+                key={sign.slug}
+                onClick={() => onSelect(sign)}
+                className="w-full flex items-center gap-3 p-3 rounded-lg border border-muted bg-card hover:border-primary-hover hover:shadow-md transition-all duration-300 text-left cursor-pointer group"
+              >
+                <span
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
+                  style={{ backgroundColor: color.bg }}
+                >
+                  <span style={{ color: color.text, fontSize: "1.1rem", lineHeight: 1 }}>{sign.symbol}</span>
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-sm text-foreground">{sign.hindi} / {sign.english}</div>
+                  <div className="text-[0.6rem] opacity-50 uppercase tracking-wider mt-0.5">{sign.hindiTransliteration}</div>
+                </div>
+                <IconArrowRight size={14} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              </button>
+            );
+          })}
         </div>
       </div>
 

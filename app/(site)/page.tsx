@@ -192,7 +192,7 @@ async function TestimonialsSection() {
   return (
     <section className="bg-bg section" id="testimonials">
       <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHeader center subtitle="What Our Student and Client Says" title={<>What Our <span className="text-accent">Students</span> Say</>} desc="Real reviews from our students on Google" />
+        <SectionHeader center subtitle="What Our Student and Client Says" title={<>What Our <span className="text-accent">Students</span> and <span className="text-accent">Clients</span> Say</>} desc="Real reviews from our students and clients on Google" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
           {testimonials.map((t, i) => (
             <TestimonialCard key={t.name} t={t} index={i} />
@@ -409,7 +409,7 @@ export default async function HomePage() {
       <Marquee />
       <section className="bg-section-blue section" id="transits-horoscope">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
             <PlanetTransitChart />
             <DailyHoroscope />
           </div>
