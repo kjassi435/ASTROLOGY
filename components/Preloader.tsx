@@ -14,7 +14,7 @@ export function Preloader() {
     <div className={`preloader ${hidden ? "hidden" : ""}`} aria-hidden={hidden}>
       <div className="loader text-center text-white">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 128, height: 128, objectFit: "contain" }} className="mx-auto mb-4" />
+        <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 116, height: 116, objectFit: "contain" }} className="mx-auto mb-4" />
         <p className="text-lg tracking-[2px]">Loading cosmic wisdom...</p>
       </div>
     </div>

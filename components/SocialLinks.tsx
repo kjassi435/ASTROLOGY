@@ -66,11 +66,57 @@ const SOCIAL_LINKS: SocialLink[] = [
 ];
 
 export function SocialLinks() {
+  const [hoveredPlatform, setHoveredPlatform] = React.useState<Platform | null>(null);
   const [mobileDockOpen, setMobileDockOpen] = React.useState(false);
 
   return (
     <>
-      {/* Mobile - Floating dock only */}
+      {/* Desktop - Left side sliding panels */}
+      <div className="hidden lg:flex flex-col fixed top-[35%] left-0 z-40">
+        <ul className="space-y-3">
+          {SOCIAL_LINKS.map(({ platform, href }) => {
+            const style = PLATFORM_STYLES[platform];
+            if (!style) return null;
+            const Icon = style.icon;
+
+            return (
+              <li
+                key={platform}
+                onMouseEnter={() => setHoveredPlatform(platform)}
+                onMouseLeave={() => setHoveredPlatform(null)}
+                className="group"
+              >
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between w-44 h-14 px-4 ml-[-120px]
+                             group-hover:ml-[-10px] transition-all duration-500 ease-out
+                             rounded-r-xl relative overflow-hidden border border-border
+                             bg-[hsl(var(--card))] shadow-md hover:shadow-lg"
+                >
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-r ${
+                      hoveredPlatform === platform
+                        ? style.hoverGradient
+                        : style.gradient
+                    } opacity-90 transition-all duration-500`}
+                  />
+                  <span className="relative z-10 text-white font-semibold tracking-wide text-sm group-hover:tracking-widest transition-all duration-300">
+                    {style.label}
+                  </span>
+                  <Icon
+                    size={22}
+                    className="relative z-10 text-white drop-shadow-sm group-hover:scale-125 transition-transform duration-500"
+                  />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      {/* Mobile - Floating dock */}
       <div className="lg:hidden fixed bottom-6 right-6 z-50">
         {mobileDockOpen && (
           <div

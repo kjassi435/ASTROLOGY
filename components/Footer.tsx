@@ -12,7 +12,7 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-3 mb-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 96, height: 96, objectFit: "contain" }} />
+            <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 86, height: 86, objectFit: "contain" }} />
           </div>
           <p className="text-[1.1rem] opacity-80 mb-6">{BRAND.tagline}</p>
           <h4 className="text-bg text-lg mb-4">Download Our App</h4>

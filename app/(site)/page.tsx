@@ -191,7 +191,7 @@ async function TestimonialsSection() {
   return (
     <section className="bg-bg section" id="testimonials">
       <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHeader center subtitle="Testimonials" title={<>What Our <span className="text-accent">Students</span> Say</>} desc="Real reviews from our students on Google" />
+        <SectionHeader center subtitle="What Our Student and Client Says" title={<>What Our <span className="text-accent">Students</span> Say</>} desc="Real reviews from our students on Google" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
           {testimonials.map((t, i) => (
             <TestimonialCard key={t.name} t={t} index={i} />
@@ -287,8 +287,11 @@ function AppSection() {
               <h2 className="text-[clamp(1.8rem,3vw,2.6rem)] font-medium mb-4">
                 Take <span className="text-accent">Arvin Astro</span> with you — Download the App
               </h2>
-              <p className="opacity-85 mb-8 max-w-lg">
-                Access all our courses, live classes, recorded lectures, and consultation bookings right from your phone with the Arvin Astro app.
+              <p className="opacity-85 mb-2 max-w-lg">
+                Download Our Mobile App to explore Free &amp; Paid Contents
+              </p>
+              <p className="opacity-85 mb-6 max-w-lg">
+                To Download our app on iOS use above given link with ORG code <span className="font-bold text-primary-hover">"AGAFHE"</span>
               </p>
               <div className="flex flex-wrap gap-4">
                 <a

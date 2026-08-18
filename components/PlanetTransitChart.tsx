@@ -144,16 +144,6 @@ export function PlanetTransitChart() {
           </div>
         )}
 
-        <div className="text-center mt-8">
-          <a
-            href="https://nakshatrica.com/transits"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-primary inline-flex items-center gap-2"
-          >
-            View Full Transit Chart <span aria-hidden="true">→</span>
-          </a>
-        </div>
       </div>
     </section>
   );
