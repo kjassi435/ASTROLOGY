@@ -525,8 +525,8 @@ export default function DailyHoroscope() {
   const [selected, setSelected] = useState<ZodiacSign | null>(null);
 
   return (
-    <section className="bg-section-blue-alt section">
-      <div className="max-w-[1280px] mx-auto px-6">
+    <div>
+      <div>
         <Reveal>
           <div className="text-center mb-10">
             <span className="section-subtitle">Daily Horoscope</span>
@@ -539,7 +539,7 @@ export default function DailyHoroscope() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
+        <div className="grid grid-cols-1 gap-10 items-center">
           <Reveal>
             <ConstellationMap onSelect={setSelected} />
           </Reveal>
@@ -550,6 +550,6 @@ export default function DailyHoroscope() {
       </div>
 
       {selected && <HoroscopeModal sign={selected} onClose={() => setSelected(null)} />}
-    </section>
+    </div>
   );
 }

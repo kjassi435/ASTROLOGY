@@ -9,6 +9,7 @@ import { FaqList } from "@/components/FaqList";
 import { BookingForm } from "@/components/Forms";
 import { ServicesSection } from "@/components/ServicesSection";
 import { PlanetTransitChart } from "@/components/PlanetTransitChart";
+import DailyHoroscope from "@/components/DailyHoroscope";
 import { Hero } from "@/components/Hero";
 import { IconArrowRight, IconCalendar, IconClock, IconHeart, IconMail, IconPhone, IconPin, IconPlay, IconSparkle, IconUsers, IconVideo, IconAward, IconWhatsApp } from "@/components/Icons";
 
@@ -406,7 +407,14 @@ export default async function HomePage() {
       <JsonLd data={homeJsonLd} />
       <Hero />
       <Marquee />
-      <PlanetTransitChart />
+      <section className="bg-section-blue section" id="transits-horoscope">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <PlanetTransitChart />
+            <DailyHoroscope />
+          </div>
+        </div>
+      </section>
       <AboutStrip aboutText={home.aboutText} />
       <ServicesSection services={services} />
       <CoursesSection />

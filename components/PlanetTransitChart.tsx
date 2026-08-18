@@ -79,72 +79,61 @@ export function PlanetTransitChart() {
   }, []);
 
   return (
-    <section className="bg-section-blue section" id="transits">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <div className="text-center mb-10">
-          <span className="section-subtitle">Live Vedic Tracker</span>
-          <h2 className="section-title">Planetary Transits <span className="text-accent">Today</span></h2>
-          <p className="section-desc">
-            Live positions of the nine Vedic Gochar planets — Sidereal (Lahiri Ayanamsha)
-            {lastUpdated && (
-              <span className="block text-xs opacity-60 mt-1">
-                Last updated: {lastUpdated.toLocaleString("en-IN")}
-              </span>
-            )}
-          </p>
-        </div>
+    <div id="transits">
+      <div className="text-center mb-8">
+        <span className="section-subtitle">Live Vedic Tracker</span>
+        <h2 className="text-2xl font-medium">Planetary Transits <span className="text-accent">Today</span></h2>
+        <p className="text-sm opacity-70 mt-1">
+          Live positions of the nine Vedic Gochar planets — Sidereal (Lahiri Ayanamsha)
+          {lastUpdated && (
+            <span className="block text-xs opacity-60 mt-1">Last updated: {lastUpdated.toLocaleString("en-IN")}</span>
+          )}
+        </p>
+      </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <div key={i} className="h-24 bg-card rounded-xl animate-pulse" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {planets.map((p) => (
-              <div
-                key={p.planet}
-                className="bg-card rounded-xl p-5 border border-muted hover:border-primary-hover transition-all duration-300 hover:shadow-lg group"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl text-primary group-hover:scale-110 transition-transform duration-300">
-                      {p.symbol}
-                    </span>
-                    <div>
-                      <h4 className="font-semibold text-foreground">{p.planet}</h4>
-                      <p className="text-xs opacity-60">{p.planetHi}</p>
-                    </div>
+      {loading ? (
+        <div className="grid grid-cols-2 gap-3">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <div key={i} className="h-20 bg-card rounded-xl animate-pulse" />
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-3">
+          {planets.map((p) => (
+            <div
+              key={p.planet}
+              className="bg-card rounded-xl p-4 border border-muted hover:border-primary-hover transition-all duration-300 hover:shadow-lg group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl text-primary group-hover:scale-110 transition-transform duration-300">{p.symbol}</span>
+                  <div>
+                    <h4 className="font-semibold text-foreground text-sm">{p.planet}</h4>
+                    <p className="text-[0.65rem] opacity-60">{p.planetHi}</p>
                   </div>
-                  {p.retrograde && (
-                    <span className="text-[0.65rem] font-bold uppercase tracking-wider bg-red-500/10 text-red-600 px-2 py-1 rounded-full">
-                      Retrograde
-                    </span>
-                  )}
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs opacity-70">Current Sign</span>
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${SIGN_COLORS[p.sign] || "bg-muted text-foreground"}`}>
-                      {p.sign} ({p.signHi})
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs opacity-70">Degree</span>
-                    <span className="text-xs font-mono font-medium">{p.degree}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs opacity-70">Nakshatra</span>
-                    <span className="text-xs font-medium text-right">{p.nakshatra} ({p.nakshatraHi})</span>
-                  </div>
+                {p.retrograde && (
+                  <span className="text-[0.6rem] font-bold uppercase tracking-wider bg-red-500/10 text-red-600 px-2 py-0.5 rounded-full">Retro</span>
+                )}
+              </div>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[0.7rem] opacity-70">Sign</span>
+                  <span className={`text-[0.7rem] font-semibold px-2 py-0.5 rounded-full ${SIGN_COLORS[p.sign] || "bg-muted text-foreground"}`}>{p.sign} ({p.signHi})</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[0.7rem] opacity-70">Degree</span>
+                  <span className="text-[0.7rem] font-mono font-medium">{p.degree}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[0.7rem] opacity-70">Nakshatra</span>
+                  <span className="text-[0.7rem] font-medium text-right">{p.nakshatra} ({p.nakshatraHi})</span>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-
-      </div>
-    </section>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
