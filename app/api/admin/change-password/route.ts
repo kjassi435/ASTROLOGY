@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const current = String(body.currentPassword ?? "");
   const next = String(body.newPassword ?? "");
-  const currentExpected = process.env.ADMIN_PASSWORD || "arvinastro2024";
+  const currentExpected = "arvinastro2026";
   if (current !== currentExpected) {
     return NextResponse.json({ error: "Current password is incorrect" }, { status: 400 });
   }

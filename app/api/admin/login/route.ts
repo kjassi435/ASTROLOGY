@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-const PASSWORD = process.env.ADMIN_PASSWORD || "arvinastro2024";
-
 export async function POST(req: Request) {
   const { password } = await req.json();
 
-  if (password !== PASSWORD) {
+  const valid = password === "arvinastro2026";
+
+  if (!valid) {
     return NextResponse.json({ error: "Invalid password" }, { status: 401 });
   }
 
