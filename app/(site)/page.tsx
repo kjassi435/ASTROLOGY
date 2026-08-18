@@ -291,7 +291,7 @@ function AppSection() {
                 Download Our Mobile App to explore Free &amp; Paid Contents
               </p>
               <p className="opacity-85 mb-6 max-w-lg">
-                To Download our app on iOS use above given link with ORG code <span className="font-bold text-primary-hover">"AGAFHE"</span>
+                To Download our app on iOS use above given link with ORG code <span className="font-bold text-primary-hover">&ldquo;AGAFHE&rdquo;</span>
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
