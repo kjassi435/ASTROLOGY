@@ -35,16 +35,25 @@ function AboutStrip({ aboutText }: { aboutText?: string }) {
               </div>
             </div>
           </Reveal>
-          <Reveal delay={120}>
-            <p className="text-[1.3rem] text-foreground leading-relaxed mb-5">
-              {aboutText ?? "A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights."}
-            </p>
-            <p className="opacity-85 mb-8">
-              With over <strong>8 years of dedicated practice</strong>, I have guided <strong>2666+ students</strong> and provided{" "}
-              <strong>999+ consultations</strong> globally through the transformative wisdom of Astrology, Name Numerology, and Vastu Shastra. My
-              approach combines traditional Vedic knowledge with practical, modern application — I see myself not as a predictor, but as a bridge
-              connecting you to the ancient, profound wisdom held in the stars, the rhythm of numbers, and the silent language of your home.
-            </p>
+            <Reveal delay={120}>
+              <p className="text-[1.3rem] text-foreground leading-relaxed mb-5">
+                {aboutText ?? "A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights."}
+              </p>
+              <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-5 mb-6 flex gap-4 items-start shadow-[var(--shadow-sm)]">
+                <span className="text-2xl leading-none text-primary shrink-0 mt-0.5">{"\u2726"}</span>
+                <p className="text-[0.95rem] leading-relaxed text-foreground/85">
+                  <strong className="text-foreground">Did you know?</strong> Arvindrun Vnjay is the pioneer who first integrated{" "}
+                  <strong className="text-foreground">Ancient Astrology</strong> into{" "}
+                  <strong className="text-foreground">Advanced Modern Name Numerology</strong>. He created a revolution in the industry that many now
+                  follow — you are connecting with the original expert who changed the way we look at destiny!
+                </p>
+              </div>
+              <p className="opacity-85 mb-8">
+                With over <strong>8 years of dedicated practice</strong>, he has guided <strong>2666+ students</strong> and provided{" "}
+                <strong>999+ consultations</strong> globally through the transformative wisdom of Astrology, Name Numerology, and Vastu Shastra. His
+                approach combines traditional Vedic knowledge with practical, modern application — he sees himself not as a predictor, but as a bridge
+                connecting you to the ancient, profound wisdom held in the stars, the rhythm of numbers, and the silent language of your home.
+              </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
               {[
                 { icon: <IconSparkle size={22} />, title: "Vedic Astrology", desc: "Deep kundli analysis & life predictions" },
