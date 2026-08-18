@@ -42,15 +42,15 @@ const PLANET_SYMBOLS: Record<string, string> = {
 };
 
 const DEFAULT_PLANETS: PlanetPosition[] = [
-  { planet: "Sun", planetHi: "सूर्य", symbol: "☉", sign: "Leo", signHi: "सिंह", degree: "10° 15'", nakshatra: "Magha", nakshatraHi: "मघा", retrograde: false },
-  { planet: "Moon", planetHi: "चंद्र", symbol: "☽", sign: "Taurus", signHi: "वृषभ", degree: "23° 45'", nakshatra: "Rohini", nakshatraHi: "रोहिणी", retrograde: false },
-  { planet: "Mars", planetHi: "मंगल", symbol: "♂", sign: "Cancer", signHi: "कर्क", degree: "5° 30'", nakshatra: "Pushya", nakshatraHi: "पुष्य", retrograde: true },
-  { planet: "Mercury", planetHi: "बुध", symbol: "☿", sign: "Virgo", signHi: "कन्या", degree: "18° 20'", nakshatra: "Hasta", nakshatraHi: "हस्त", retrograde: false },
-  { planet: "Jupiter", planetHi: "गुरु", symbol: "♃", sign: "Taurus", signHi: "वृषभ", degree: "2° 10'", nakshatra: "Krittika", nakshatraHi: "कृत्तिका", retrograde: true },
-  { planet: "Venus", planetHi: "शुक्र", symbol: "♀", sign: "Gemini", signHi: "मिथुन", degree: "25° 40'", nakshatra: "Ardra", nakshatraHi: "आर्द्रा", retrograde: false },
-  { planet: "Saturn", planetHi: "शनि", symbol: "♄", sign: "Aquarius", signHi: "कुंभ", degree: "8° 55'", nakshatra: "P.Bhadra", nakshatraHi: "पू.भा", retrograde: true },
-  { planet: "Rahu", planetHi: "राहु", symbol: "☊", sign: "Pisces", signHi: "मीन", degree: "14° 00'", nakshatra: "U.Bhadra", nakshatraHi: "उ.भा", retrograde: true },
-  { planet: "Ketu", planetHi: "केतु", symbol: "☋", sign: "Virgo", signHi: "कन्या", degree: "14° 00'", nakshatra: "U.Phalguni", nakshatraHi: "उ.फा", retrograde: true },
+  { planet: "Sun", planetHi: "सूर्य", symbol: "☉", sign: "Leo", signHi: "सिंह", degree: "1° 19'", nakshatra: "Magha", nakshatraHi: "मघा", retrograde: false },
+  { planet: "Moon", planetHi: "चंद्र", symbol: "☽", sign: "Virgo", signHi: "कन्या", degree: "12° 25'", nakshatra: "Hasta", nakshatraHi: "हस्त", retrograde: false },
+  { planet: "Mars", planetHi: "मंगल", symbol: "♂", sign: "Gemini", signHi: "मिथुन", degree: "10° 26'", nakshatra: "Ardra", nakshatraHi: "आर्द्रा", retrograde: false },
+  { planet: "Mercury", planetHi: "बुध", symbol: "☿", sign: "Cancer", signHi: "कर्क", degree: "21° 37'", nakshatra: "Ashlesha", nakshatraHi: "अश्लेषा", retrograde: false },
+  { planet: "Jupiter", planetHi: "गुरु", symbol: "♃", sign: "Cancer", signHi: "कर्क", degree: "16° 41'", nakshatra: "Pushya", nakshatraHi: "पुष्य", retrograde: false },
+  { planet: "Venus", planetHi: "शुक्र", symbol: "♀", sign: "Virgo", signHi: "कन्या", degree: "17° 03'", nakshatra: "Hasta", nakshatraHi: "हस्त", retrograde: false },
+  { planet: "Saturn", planetHi: "शनि", symbol: "♄", sign: "Pisces", signHi: "मीन", degree: "20° 03'", nakshatra: "Revati", nakshatraHi: "रेवती", retrograde: true },
+  { planet: "Rahu", planetHi: "राहु", symbol: "☊", sign: "Aquarius", signHi: "कुंभ", degree: "4° 54'", nakshatra: "Dhanishtha", nakshatraHi: "धनिष्ठा", retrograde: true },
+  { planet: "Ketu", planetHi: "केतु", symbol: "☋", sign: "Leo", signHi: "सिंह", degree: "4° 54'", nakshatra: "Magha", nakshatraHi: "मघा", retrograde: true },
 ];
 
 export function PlanetTransitChart() {
@@ -61,13 +61,11 @@ export function PlanetTransitChart() {
   useEffect(() => {
     async function fetchTransits() {
       try {
-        const res = await fetch("https://api.vedicastro.org/v1/planets/current", {
-          next: { revalidate: 3600 },
-        });
+        const res = await fetch("/api/transit", { next: { revalidate: 43200 } });
         if (res.ok) {
           const data = await res.json();
           setPlanets(data.planets || DEFAULT_PLANETS);
-          setLastUpdated(new Date());
+          setLastUpdated(data.lastUpdated ? new Date(data.lastUpdated) : new Date());
         }
       } catch {
         // Use default data
