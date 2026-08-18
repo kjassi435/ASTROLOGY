@@ -23,7 +23,7 @@ export function Marquee() {
   const items = ["Astrologer", "Name Numerology Expert", "Vastu Consultant", "Teacher", "Consultant", "Mentor", "Spiritual Guide"];
   const track = [...items, ...items];
   return (
-    <div className="marquee-section" aria-hidden>
+    <div className="marquee-section -mt-20 relative z-20" aria-hidden>
       <div className="marquee-track">
         <div className="marquee-content">
           {track.map((item, i) => (
