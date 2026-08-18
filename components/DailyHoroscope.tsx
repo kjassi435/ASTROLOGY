@@ -375,24 +375,24 @@ const SIGN_COLORS: Record<string, { bg: string; text: string }> = {
 
 function SignCards({ onSelect }: { onSelect: (sign: ZodiacSign) => void }) {
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-2.5">
       {ZODIAC_SIGNS.map((sign) => {
         const color = SIGN_COLORS[sign.slug] ?? { bg: "#0EA5E9", text: "#FFFFFF" };
         return (
           <button
             key={sign.slug}
             onClick={() => onSelect(sign)}
-            className="flex items-center gap-3 p-4 rounded-2xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all duration-300 text-left cursor-pointer group"
+            className="flex items-center gap-2.5 p-3 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-primary-hover transition-all duration-300 text-left cursor-pointer group"
           >
             <span
-              className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
+              className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
               style={{ backgroundColor: color.bg }}
             >
-              <span style={{ color: color.text, fontSize: "1.25rem", lineHeight: 1 }}>{sign.symbol}</span>
+              <span style={{ color: color.text, fontSize: "1.1rem", lineHeight: 1 }}>{sign.symbol}</span>
             </span>
-            <div>
-              <div className="font-semibold text-sm text-gray-900">{sign.hindi} / {sign.english}</div>
-              <div className="text-[0.65rem] text-gray-400 uppercase tracking-wider mt-0.5">{sign.hindiTransliteration}</div>
+            <div className="min-w-0">
+              <div className="font-semibold text-[0.8rem] text-gray-900 truncate">{sign.hindi} / {sign.english}</div>
+              <div className="text-[0.6rem] text-gray-400 uppercase tracking-wider mt-0.5">{sign.hindiTransliteration}</div>
             </div>
           </button>
         );

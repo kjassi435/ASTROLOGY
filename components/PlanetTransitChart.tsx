@@ -14,7 +14,22 @@ interface PlanetPosition {
   retrograde: boolean;
 }
 
-const PLANET_ICONS: Record<string, string> = {
+const SIGN_COLORS: Record<string, string> = {
+  "Aries": "bg-red-100 text-red-700 border-red-200",
+  "Taurus": "bg-green-100 text-green-700 border-green-200",
+  "Gemini": "bg-yellow-100 text-yellow-700 border-yellow-200",
+  "Cancer": "bg-blue-100 text-blue-700 border-blue-200",
+  "Leo": "bg-orange-100 text-orange-700 border-orange-200",
+  "Virgo": "bg-emerald-100 text-emerald-700 border-emerald-200",
+  "Libra": "bg-pink-100 text-pink-700 border-pink-200",
+  "Scorpio": "bg-purple-100 text-purple-700 border-purple-200",
+  "Sagittarius": "bg-indigo-100 text-indigo-700 border-indigo-200",
+  "Capricorn": "bg-slate-100 text-slate-700 border-slate-200",
+  "Aquarius": "bg-cyan-100 text-cyan-700 border-cyan-200",
+  "Pisces": "bg-violet-100 text-violet-700 border-violet-200",
+};
+
+const PLANET_SYMBOLS: Record<string, string> = {
   "Sun": "☉",
   "Moon": "☽",
   "Mars": "♂",
@@ -26,31 +41,16 @@ const PLANET_ICONS: Record<string, string> = {
   "Ketu": "☋",
 };
 
-const SIGN_COLORS: Record<string, string> = {
-  "Aries": "bg-red-500/10 text-red-600",
-  "Taurus": "bg-green-500/10 text-green-600",
-  "Gemini": "bg-yellow-500/10 text-yellow-600",
-  "Cancer": "bg-white/10 text-white",
-  "Leo": "bg-orange-500/10 text-orange-600",
-  "Virgo": "bg-green-500/10 text-green-600",
-  "Libra": "bg-pink-500/10 text-pink-600",
-  "Scorpio": "bg-red-700/10 text-red-700",
-  "Sagittarius": "bg-purple-500/10 text-purple-600",
-  "Capricorn": "bg-gray-500/10 text-gray-600",
-  "Aquarius": "bg-blue-500/10 text-blue-600",
-  "Pisces": "bg-indigo-500/10 text-indigo-600",
-};
-
 const DEFAULT_PLANETS: PlanetPosition[] = [
-  { planet: "Sun", planetHi: "सूर्य", symbol: "☉", sign: "Leo", signHi: "सिंह", degree: "10° 15'", nakshatra: "Magha", nakshatraHi: "मगहा", retrograde: false },
+  { planet: "Sun", planetHi: "सूर्य", symbol: "☉", sign: "Leo", signHi: "सिंह", degree: "10° 15'", nakshatra: "Magha", nakshatraHi: "मघा", retrograde: false },
   { planet: "Moon", planetHi: "चंद्र", symbol: "☽", sign: "Taurus", signHi: "वृषभ", degree: "23° 45'", nakshatra: "Rohini", nakshatraHi: "रोहिणी", retrograde: false },
   { planet: "Mars", planetHi: "मंगल", symbol: "♂", sign: "Cancer", signHi: "कर्क", degree: "5° 30'", nakshatra: "Pushya", nakshatraHi: "पुष्य", retrograde: true },
   { planet: "Mercury", planetHi: "बुध", symbol: "☿", sign: "Virgo", signHi: "कन्या", degree: "18° 20'", nakshatra: "Hasta", nakshatraHi: "हस्त", retrograde: false },
   { planet: "Jupiter", planetHi: "गुरु", symbol: "♃", sign: "Taurus", signHi: "वृषभ", degree: "2° 10'", nakshatra: "Krittika", nakshatraHi: "कृत्तिका", retrograde: true },
   { planet: "Venus", planetHi: "शुक्र", symbol: "♀", sign: "Gemini", signHi: "मिथुन", degree: "25° 40'", nakshatra: "Ardra", nakshatraHi: "आर्द्रा", retrograde: false },
-  { planet: "Saturn", planetHi: "शनि", symbol: "♄", sign: "Aquarius", signHi: "कुंभ", degree: "8° 55'", nakshatra: "Purva Bhadrapada", nakshatraHi: "पूर्व भाद्रपद", retrograde: true },
-  { planet: "Rahu", planetHi: "राहु", symbol: "☊", sign: "Pisces", signHi: "मीन", degree: "14° 00'", nakshatra: "Uttara Bhadrapada", nakshatraHi: "उत्तर भाद्रपद", retrograde: true },
-  { planet: "Ketu", planetHi: "केतु", symbol: "☋", sign: "Virgo", signHi: "कन्या", degree: "14° 00'", nakshatra: "Uttara Phalguni", nakshatraHi: "उत्तर फाल्गुनी", retrograde: true },
+  { planet: "Saturn", planetHi: "शनि", symbol: "♄", sign: "Aquarius", signHi: "कुंभ", degree: "8° 55'", nakshatra: "P.Bhadra", nakshatraHi: "पू.भा", retrograde: true },
+  { planet: "Rahu", planetHi: "राहु", symbol: "☊", sign: "Pisces", signHi: "मीन", degree: "14° 00'", nakshatra: "U.Bhadra", nakshatraHi: "उ.भा", retrograde: true },
+  { planet: "Ketu", planetHi: "केतु", symbol: "☋", sign: "Virgo", signHi: "कन्या", degree: "14° 00'", nakshatra: "U.Phalguni", nakshatraHi: "उ.फा", retrograde: true },
 ];
 
 export function PlanetTransitChart() {
@@ -92,42 +92,41 @@ export function PlanetTransitChart() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-2">
           {Array.from({ length: 9 }).map((_, i) => (
-            <div key={i} className="h-20 bg-card rounded-xl animate-pulse" />
+            <div key={i} className="h-14 bg-card rounded-lg animate-pulse" />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-2">
           {planets.map((p) => (
             <div
               key={p.planet}
-              className="bg-card rounded-xl p-4 border border-muted hover:border-primary-hover transition-all duration-300 hover:shadow-lg group"
+              className="bg-card rounded-lg p-3 border border-muted hover:border-primary-hover transition-all duration-300 hover:shadow-md group"
             >
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-3">
+                <span className="text-xl text-primary group-hover:scale-110 transition-transform duration-300 w-6 text-center">
+                  {PLANET_SYMBOLS[p.planet]}
+                </span>
+                <div className="w-20">
+                  <span className="font-semibold text-foreground text-sm leading-tight">{p.planet}</span>
+                  <span className="block text-[0.6rem] opacity-50 leading-tight">{p.planetHi}</span>
+                </div>
+                <div className="flex-1 flex items-center gap-2">
+                  <span className={`text-[0.65rem] font-semibold px-2 py-0.5 rounded-full border ${SIGN_COLORS[p.sign] || "bg-muted text-foreground border-muted"}`}>
+                    {p.sign}
+                  </span>
+                  <span className="text-[0.7rem] font-mono opacity-80">{p.degree}</span>
+                </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl text-primary group-hover:scale-110 transition-transform duration-300">{p.symbol}</span>
-                  <div>
-                    <h4 className="font-semibold text-foreground text-sm">{p.planet}</h4>
-                    <p className="text-[0.65rem] opacity-60">{p.planetHi}</p>
-                  </div>
-                </div>
-                {p.retrograde && (
-                  <span className="text-[0.6rem] font-bold uppercase tracking-wider bg-red-500/10 text-red-600 px-2 py-0.5 rounded-full">Retro</span>
-                )}
-              </div>
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[0.7rem] opacity-70">Sign</span>
-                  <span className={`text-[0.7rem] font-semibold px-2 py-0.5 rounded-full ${SIGN_COLORS[p.sign] || "bg-muted text-foreground"}`}>{p.sign} ({p.signHi})</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[0.7rem] opacity-70">Degree</span>
-                  <span className="text-[0.7rem] font-mono font-medium">{p.degree}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[0.7rem] opacity-70">Nakshatra</span>
-                  <span className="text-[0.7rem] font-medium text-right">{p.nakshatra} ({p.nakshatraHi})</span>
+                  <span className="text-[0.65rem] opacity-60 truncate max-w-[100px]" title={`${p.nakshatra} (${p.nakshatraHi})`}>
+                    {p.nakshatra}
+                  </span>
+                  {p.retrograde && (
+                    <span className="text-[0.55rem] font-bold uppercase tracking-wider bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.5 rounded">
+                      R
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
