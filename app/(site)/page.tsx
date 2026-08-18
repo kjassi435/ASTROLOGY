@@ -1,67 +1,77 @@
 import Link from "next/link";
-import { BRAND, APPS, CONTACT, STATS } from "@/lib/site";
+import { useEffect, useState } from "react";
+import { BRAND, APPS, CONTACT } from "@/lib/site";
 import { getServices, getCourses, getPosts, getTestimonials, getSiteContent } from "@/lib/cms";
 import { FAQS } from "@/lib/faqs";
 import { JsonLd } from "@/components/JsonLd";
 import { Marquee, SectionHeader, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
-import { Reveal, StatCounter } from "@/components/Preloader";
+import { Reveal } from "@/components/Preloader";
 import { FaqList } from "@/components/FaqList";
 import { BookingForm } from "@/components/Forms";
 import { ServicesSection } from "@/components/ServicesSection";
-import HeroMoon from "@/components/HeroMoon";
 import DailyHoroscope from "@/components/DailyHoroscope";
-import { IconArrowRight, IconCalendar, IconClock, IconHeart, IconMail, IconPhone, IconPin, IconPlay, IconSparkle, IconUsers, IconVideo, IconAward, IconWhatsApp } from "@/components/Icons";
+import { IconArrowRight, IconCalendar, IconClock, IconHeart, IconMail, IconPhone, IconPin, IconPlay, IconSparkle, IconUsers, IconVideo, IconAward, IconWhatsApp, IconChevronLeft, IconChevronRight } from "@/components/Icons";
 
-function Hero({ heroTitle, heroSubtitle }: { heroTitle?: string; heroSubtitle?: string }) {
+function Hero() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slides = [
+    "/images/hero-1.png",
+    "/images/hero-2.png",
+    "/images/hero-3.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="relative min-h-screen bg-hero-glow flex items-center overflow-hidden pt-28 pb-16" id="home">
-      <div className="container relative z-[2] mx-auto max-w-[1280px] px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        <div className="text-center lg:text-left">
-          <h1 className="font-medium mt-6 mb-6 text-[clamp(2.6rem,5vw,4.2rem)] leading-[1.05] text-foreground">
-            {heroTitle ?? (
-              <>
-                Align Your Life with <br className="hidden sm:block" />
-                <span className="text-primary-hover">Cosmic Wisdom</span>
-              </>
-            )}
-          </h1>
-          <p className="text-[1.1rem] opacity-85 mb-9 max-w-[540px] mx-auto lg:mx-0">
-            {heroSubtitle ?? (
-              <>
-                Expert guidance in <strong className="text-primary-hover">Astrology</strong>, <strong className="text-primary-hover">Name Numerology</strong>, and{" "}
-                <strong className="text-primary-hover">Vastu Shastra</strong> to unlock health, wealth, and lasting happiness.
-              </>
-            )}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
-            <Link href="/services" className="btn btn-primary">
-              Explore Services <IconArrowRight size={16} />
-            </Link>
-            <Link href="/about" className="btn btn-secondary">
-              <IconPlay size={16} /> Meet the Expert
-            </Link>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" id="home">
+      <div className="absolute inset-0 z-0">
+        {slides.map((slide, index) => (
+          <div
+            key={slide}
+            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <img
+              src={slide}
+              alt={`Hero slide ${index + 1}`}
+              className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+            />
           </div>
-          <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-8 p-6 sm:p-8 bg-bg border border-primary-hover/30 rounded-[var(--radius-lg)] max-w-fit mx-auto lg:mx-0">
-            {STATS.map((s, i) => (
-              <div key={s.label} className="flex items-center gap-5 sm:gap-8">
-                {i > 0 ? <div className="hidden sm:block w-px h-10 bg-primary-hover/40" /> : null}
-                <div className="text-center">
-                  <StatCounter value={s.value} suffix={s.suffix} />
-                  <div className="text-sm opacity-70 mt-1.5 leading-snug">
-                    {s.label}
-                    <br />
-                    {s.sub}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative h-[400px] lg:h-[520px] flex items-center justify-center">
-          <HeroMoon className="w-full h-full" />
-        </div>
+        ))}
       </div>
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+              index === currentSlide ? "bg-white scale-125" : "bg-white/50 hover:bg-white"
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+      <button
+        onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors"
+        aria-label="Previous slide"
+      >
+        <IconChevronLeft size={20} />
+      </button>
+      <button
+        onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors"
+        aria-label="Next slide"
+      >
+        <IconChevronRight size={20} />
+      </button>
     </section>
   );
 }
@@ -455,7 +465,7 @@ export default async function HomePage() {
   return (
     <>
       <JsonLd data={homeJsonLd} />
-      <Hero heroTitle={home.heroTitle} heroSubtitle={home.heroSubtitle} />
+      <Hero />
       <Marquee />
       <DailyHoroscope />
       <AboutStrip aboutText={home.aboutText} />
