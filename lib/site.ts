@@ -66,6 +66,7 @@ export const NAV = [
   { label: "Books", href: "/books" },
   { label: "Vastu Products", href: "/vastu-products" },
   { label: "Blog", href: "/blog" },
+  { label: "Admin Login", href: "/admin" },
   { label: "Contact", href: "/contact" },
 ];
 
