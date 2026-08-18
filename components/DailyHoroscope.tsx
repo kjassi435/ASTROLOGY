@@ -534,15 +534,12 @@ export default function DailyHoroscope() {
               Your <span className="text-accent">Daily Cosmic</span> Forecast
             </h2>
             <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-              Click your zodiac constellation to reveal today&apos;s horoscope, lucky color, and lucky number.
+              Click your zodiac sign to reveal today&apos;s horoscope, lucky color, and lucky number.
             </p>
           </div>
         </Reveal>
 
         <div className="grid grid-cols-1 gap-10 items-center">
-          <Reveal>
-            <ConstellationMap onSelect={setSelected} />
-          </Reveal>
           <Reveal delay={120}>
             <SignCards onSelect={setSelected} />
           </Reveal>
