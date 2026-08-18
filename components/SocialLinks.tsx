@@ -62,7 +62,7 @@ const SOCIAL_LINKS: SocialLink[] = [
   { platform: "instagram", href: "https://www.instagram.com/arvin_astro/" },
   { platform: "youtube", href: "https://www.youtube.com/@arvinastro" },
   { platform: "googleplay", href: "https://play.google.com/store/apps/details?id=co.iron.ruvvu&pcampaignid=web_share" },
-  { platform: "mobileapp", href: "https://play.google.com/store/apps/details?id=co.iron.ruvvu&pcampaignid=web_share" },
+  { platform: "mobileapp", href: "https://apps.apple.com/us/app/classplus/id1324522260" },
 ];
 
 export function SocialLinks() {
