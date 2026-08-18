@@ -30,20 +30,74 @@ const NAKSHATRAS_HI: Record<string, string> = {
   "P.Bhadra": "पू.भा", "U.Bhadra": "उ.भा", "Revati": "रेवती",
 };
 
+const SIGN_MAP: Record<string, string> = {
+  Mesh: "Aries", Vrish: "Taurus", Mitu: "Gemini", Kark: "Cancer",
+  Simh: "Leo", Kany: "Virgo", Tula: "Libra", Vrishchik: "Scorpio",
+  Dhan: "Sagittarius", Makar: "Capricorn", Kumb: "Aquarius", Meen: "Pisces",
+};
+
+const PLANET_MAP: Record<string, { name: string; hi: string; symbol: string }> = {
+  Surya: { name: "Sun", hi: "सूर्य", symbol: "☉" },
+  Chandra: { name: "Moon", hi: "चंद्र", symbol: "☽" },
+  Mangal: { name: "Mars", hi: "मंगल", symbol: "♂" },
+  Budha: { name: "Mercury", hi: "बुध", symbol: "☿" },
+  Guru: { name: "Jupiter", hi: "गुरु", symbol: "♃" },
+  Shukra: { name: "Venus", hi: "शुक्र", symbol: "♀" },
+  Shani: { name: "Saturn", hi: "शनि", symbol: "♄" },
+  Rahu: { name: "Rahu", hi: "राहु", symbol: "☊" },
+  Ketu: { name: "Ketu", hi: "केतु", symbol: "☋" },
+};
+
 const FALLBACK_PLANETS: PlanetPosition[] = [
-  { planet: "Sun", planetHi: "सूर्य", symbol: "☉", sign: "Leo", signHi: SIGNS_HI["Leo"], degree: "1° 19'", nakshatra: "Magha", nakshatraHi: NAKSHATRAS_HI["Magha"], retrograde: false },
-  { planet: "Moon", planetHi: "चंद्र", symbol: "☽", sign: "Virgo", signHi: SIGNS_HI["Virgo"], degree: "12° 25'", nakshatra: "Hasta", nakshatraHi: NAKSHATRAS_HI["Hasta"], retrograde: false },
-  { planet: "Mars", planetHi: "मंगल", symbol: "♂", sign: "Gemini", signHi: SIGNS_HI["Gemini"], degree: "10° 26'", nakshatra: "Ardra", nakshatraHi: NAKSHATRAS_HI["Ardra"], retrograde: false },
-  { planet: "Mercury", planetHi: "बुध", symbol: "☿", sign: "Cancer", signHi: SIGNS_HI["Cancer"], degree: "21° 37'", nakshatra: "Ashlesha", nakshatraHi: NAKSHATRAS_HI["Ashlesha"], retrograde: false },
-  { planet: "Jupiter", planetHi: "गुरु", symbol: "♃", sign: "Cancer", signHi: SIGNS_HI["Cancer"], degree: "16° 41'", nakshatra: "Pushya", nakshatraHi: NAKSHATRAS_HI["Pushya"], retrograde: false },
-  { planet: "Venus", planetHi: "शुक्र", symbol: "♀", sign: "Virgo", signHi: SIGNS_HI["Virgo"], degree: "17° 03'", nakshatra: "Hasta", nakshatraHi: NAKSHATRAS_HI["Hasta"], retrograde: false },
-  { planet: "Saturn", planetHi: "शनि", symbol: "♄", sign: "Pisces", signHi: SIGNS_HI["Pisces"], degree: "20° 03'", nakshatra: "Revati", nakshatraHi: NAKSHATRAS_HI["Revati"], retrograde: true },
-  { planet: "Rahu", planetHi: "राहु", symbol: "☊", sign: "Aquarius", signHi: SIGNS_HI["Aquarius"], degree: "4° 54'", nakshatra: "Dhanishtha", nakshatraHi: NAKSHATRAS_HI["Dhanishtha"], retrograde: true },
-  { planet: "Ketu", planetHi: "केतु", symbol: "☋", sign: "Leo", signHi: SIGNS_HI["Leo"], degree: "4° 54'", nakshatra: "Magha", nakshatraHi: NAKSHATRAS_HI["Magha"], retrograde: true },
+  { planet: "Sun", planetHi: "सूर्य", symbol: "☉", sign: "Leo", signHi: SIGNS_HI["Leo"], degree: "1° 24'", nakshatra: "Magha", nakshatraHi: NAKSHATRAS_HI["Magha"], retrograde: false },
+  { planet: "Moon", planetHi: "चंद्र", symbol: "☽", sign: "Libra", signHi: SIGNS_HI["Libra"], degree: "13° 55'", nakshatra: "Swati", nakshatraHi: NAKSHATRAS_HI["Swati"], retrograde: false },
+  { planet: "Mars", planetHi: "मंगल", symbol: "♂", sign: "Gemini", signHi: SIGNS_HI["Gemini"], degree: "10° 30'", nakshatra: "Ardra", nakshatraHi: NAKSHATRAS_HI["Ardra"], retrograde: false },
+  { planet: "Mercury", planetHi: "बुध", symbol: "☿", sign: "Cancer", signHi: SIGNS_HI["Cancer"], degree: "21° 55'", nakshatra: "Ashlesha", nakshatraHi: NAKSHATRAS_HI["Ashlesha"], retrograde: false },
+  { planet: "Jupiter", planetHi: "गुरु", symbol: "♃", sign: "Cancer", signHi: SIGNS_HI["Cancer"], degree: "16° 35'", nakshatra: "Pushya", nakshatraHi: NAKSHATRAS_HI["Pushya"], retrograde: false },
+  { planet: "Venus", planetHi: "शुक्र", symbol: "♀", sign: "Virgo", signHi: SIGNS_HI["Virgo"], degree: "17° 13'", nakshatra: "Hasta", nakshatraHi: NAKSHATRAS_HI["Hasta"], retrograde: false },
+  { planet: "Saturn", planetHi: "शनि", symbol: "♄", sign: "Pisces", signHi: SIGNS_HI["Pisces"], degree: "20° 05'", nakshatra: "Revati", nakshatraHi: NAKSHATRAS_HI["Revati"], retrograde: true },
+  { planet: "Rahu", planetHi: "राहु", symbol: "☊", sign: "Aquarius", signHi: SIGNS_HI["Aquarius"], degree: "5° 47'", nakshatra: "Dhanishtha", nakshatraHi: NAKSHATRAS_HI["Dhanishtha"], retrograde: true },
+  { planet: "Ketu", planetHi: "केतु", symbol: "☋", sign: "Leo", signHi: SIGNS_HI["Leo"], degree: "5° 47'", nakshatra: "Magha", nakshatraHi: NAKSHATRAS_HI["Magha"], retrograde: true },
 ];
 
 let cache: { data: PlanetPosition[]; timestamp: number } | null = null;
 const CACHE_TTL = 12 * 60 * 60 * 1000;
+
+function parseDrik(html: string): PlanetPosition[] | null {
+  try {
+    const clean = html.replace(/<\s*\/\s*/g, "</");
+    const blocks = clean.split(/dpPlanetCell/);
+    const result: PlanetPosition[] = [];
+    for (const block of blocks) {
+      const nameMatch = block.match(/>\s*([A-Za-z]+)\s*</);
+      if (!nameMatch) continue;
+      const planet = PLANET_MAP[nameMatch[1]];
+      if (!planet) continue;
+      const longMatch = block.match(/dpLongitudeCell">(\d+)&#176;\s*<strong>([^<]+)<\/strong>\s*(\d+)&#8242;\s*(\d+)&#8243;/);
+      const nakMatch = block.match(/dpNakshatraCell">\s*(?:<img[^>]*>\s*)*([A-Za-z]+)/);
+      if (!longMatch || !nakMatch) continue;
+      const deg = parseInt(longMatch[1], 10);
+      const sign = SIGN_MAP[longMatch[2]] || longMatch[2];
+      const min = parseInt(longMatch[3], 10);
+      const nakshatra = nakMatch[1];
+      const retrograde = block.includes("↺") || block.includes("&#x21ba;") || block.toLowerCase().includes("retrograde");
+      result.push({
+        planet: planet.name,
+        planetHi: planet.hi,
+        symbol: planet.symbol,
+        sign,
+        signHi: SIGNS_HI[sign] || sign,
+        degree: `${deg}° ${min}'`,
+        nakshatra,
+        nakshatraHi: NAKSHATRAS_HI[nakshatra] || nakshatra,
+        retrograde,
+      });
+    }
+    return result.length >= 9 ? result : null;
+  } catch {
+    return null;
+  }
+}
 
 export async function GET() {
   if (cache && Date.now() - cache.timestamp < CACHE_TTL) {
@@ -51,16 +105,19 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch("https://in.vedicmarga.com/transit", {
-      headers: { "User-Agent": "Mozilla/5.0" },
-      signal: AbortSignal.timeout(8000),
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, "0");
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const url = `https://www.drikpanchang.com/planet/position/planetary-positions-sidereal.html?date=${dd}/${mm}/${now.getFullYear()}`;
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36" },
+      signal: AbortSignal.timeout(10000),
     });
     if (res.ok) {
-      const html = await res.text();
-      const planetMatch = html.match(/Planetary Positions[\s\S]*?<\/table>/i);
-      if (planetMatch) {
-        cache = { data: FALLBACK_PLANETS, timestamp: Date.now() };
-        return NextResponse.json({ planets: FALLBACK_PLANETS, source: "vedicmarga-parse", lastUpdated: new Date().toISOString() });
+      const parsed = parseDrik(await res.text());
+      if (parsed && parsed.length >= 9) {
+        cache = { data: parsed, timestamp: Date.now() };
+        return NextResponse.json({ planets: parsed, source: "drikpanchang", lastUpdated: new Date().toISOString() });
       }
     }
   } catch {}

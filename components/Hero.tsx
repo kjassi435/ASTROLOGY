@@ -19,8 +19,9 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative h-[100dvh] min-h-[500px] bg-black flex items-center justify-center overflow-hidden" id="home">
-      <div className="absolute inset-0 z-0">
+    <section className="relative h-[100dvh] min-h-[500px] bg-black overflow-hidden" id="home">
+      {/* Desktop: 3-image slider */}
+      <div className="hidden md:block absolute inset-0 z-0">
         {slides.map((slide, index) => (
           <div
             key={slide}
@@ -37,7 +38,7 @@ export function Hero() {
           </div>
         ))}
       </div>
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 sm:bottom-10">
+      <div className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-20 items-center gap-2.5 sm:bottom-10">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -51,18 +52,28 @@ export function Hero() {
       </div>
       <button
         onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:left-6 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors"
+        className="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:left-6 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-sm items-center justify-center hover:bg-white/30 transition-colors"
         aria-label="Previous slide"
       >
         <IconChevronLeft size={18} />
       </button>
       <button
         onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:right-6 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors"
+        className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:right-6 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-sm items-center justify-center hover:bg-white/30 transition-colors"
         aria-label="Next slide"
       >
         <IconArrowRight size={18} />
       </button>
+
+      {/* Mobile: single portrait image (no slider) */}
+      <div className="block md:hidden absolute inset-0 z-0">
+        <img
+          src="/images/hero-mobile.png"
+          alt="Arvin Astro"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          loading="eager"
+        />
+      </div>
     </section>
   );
 }
