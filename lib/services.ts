@@ -4,6 +4,7 @@ export interface ServiceTier {
   priceNote?: string;
   duration?: string;
   mode?: string;
+  note?: string;
   payLink?: string;
   image?: string;
   features: string[];
@@ -18,7 +19,9 @@ export interface Service {
   featured?: boolean;
   popular?: boolean;
   description: string;
+  introHeading?: string;
   longDescription: string[];
+  descriptionBox?: string;
   includes: string[];
   tiers: ServiceTier[];
   bookingNotes: string[];
@@ -32,20 +35,16 @@ export const SERVICES: Service[] = [
     tagline: "Understand the cosmic blueprint influencing your personality, success and life events.",
     icon: "kundli",
     popular: true,
+    introHeading: "Get Clarity. Take Better Decisions.",
     description:
       "Your personalized horoscope analysis reveals what to do and what to avoid in life, along with the essential precautions you should follow for overall well-being and success.",
     longDescription: [
       "Your personalized horoscope analysis reveals what to do and what to avoid in life, along with the essential precautions you should follow for overall well-being and success. Consulting an experienced astrologer before making important life decisions has been a trusted practice since ancient times.",
-      "Just as our ancestors relied on the wisdom of the stars, modern astrology consultation provides the insight, clarity, and timing that logic alone cannot offer — helping you align with opportunities, avoid obstacles, and live a more balanced life.",
-      "Complete Horoscope Analysis will tell you what to do and what not to do in life, and what precautions anyone needs to take for betterment. It is always advisable to consult an astrologer before taking any important decisions in life. I can't change your destiny, but I will guide how to reach there with minimum hurdles. Be Blessed.",
+      "Just as our ancestors relied on the wisdom of the stars, modern astrology consultation provides the insight, clarity, and timing that logic alone cannot offer—helping you align with opportunities, avoid obstacles, and live a more balanced life.",
     ],
-    includes: [
-      "Complete birth chart (Kundli) analysis with Vedic & KP techniques",
-      "Identification of strengths and obstacles in your chart",
-      "Life areas covered: career, finance, health, marriage, education",
-      "Practical remedies — mantra, gemstone, and lifestyle guidance",
-      "Personalized dosha and period (Dasha) analysis",
-    ],
+    descriptionBox:
+      "Complete Horoscope Analysis will tell what to do & what not to do in you life & what precautions any one needs to take for the betterment .. It is always advisable to consult an Astrologer before Taking any important decisions in life as our Ancestors used to do .. I Can't change your destiny but i will guide how to reach there will minimum hurdles . Be Blessed",
+    includes: [],
     tiers: [
       {
         name: "Kundli Analysis Pro",
@@ -53,23 +52,25 @@ export const SERVICES: Service[] = [
         price: 4999,
         duration: "40 minutes",
         mode: "Video Call Consultation",
+        note: "Essential: Review the above description before booking any service or class.",
         payLink: "https://u.payu.in/or8pZCozbP60",
-        features: ["40-minute live video call", "Deep dive into all life areas", "Dasha timeline analysis", "Remedies & follow-up notes"],
+        features: ["After making payment, please share screenshot on WhatsApp +91 9319305731"],
       },
       {
         name: "Kundli Analysis",
         price: 2999,
         duration: "20 minutes",
         mode: "Video Call Consultation",
+        note: "Essential: Review the above description before booking any service or class.",
         payLink: "https://u.payu.in/6rS2L7lQT2rK",
-        features: ["20-minute live video call", "Core life areas covered", "Key remedies & guidance"],
+        features: ["After making payment, please share screenshot on WhatsApp +91 9319305731"],
       },
     ],
     bookingNotes: [
-      "After booking, you'll be assigned the next available slot. A minimum waiting of 4–5 working days.",
+      "After booking, you'll be assigned the next available slot. A minimum waiting of 4-5 working days.",
       "Your consultation call will be scheduled only after payment.",
       "If rescheduling occurs due to Arvindrun Sir's prior commitments, your consultation will still be given priority, and the nearest available slot will be provided.",
-      "This is a one-time consultation only. There is no refund policy once the call is booked and the consultation with Arvindrun Sir has taken place.",
+      "Note : This is a one-time consultation only. There is no refund policy once the call is booked and the consultation with Arvindrun Sir has taken place.",
     ],
   },
   {

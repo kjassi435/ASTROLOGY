@@ -48,35 +48,55 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <section className="bg-bg section pt-14">
         <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10">
           <div>
+            {service.introHeading && (
+              <div className="mb-7">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-primary text-sm">{"\u2726"}</span>
+                  <span className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-primary">Introduction</span>
+                </div>
+                <h2 className="text-[2rem] font-medium text-foreground">{service.introHeading}</h2>
+              </div>
+            )}
             <Reveal>
               {service.longDescription.map((para, i) => (
-                <p key={i} className={i === 0 ? "text-lg opacity-90 mb-5 leading-relaxed" : "opacity-80 mb-5 leading-relaxed"}>
+                <p key={i} className={i === 0 ? "text-lg opacity-90 mb-5 leading-relaxed first-letter:float-left first-letter:text-[3.4rem] first-letter:leading-[0.78] first-letter:font-bold first-letter:text-primary first-letter:pr-3 first-letter:pt-1 first-letter:font-serif" : "opacity-80 mb-5 leading-relaxed"}>
                   {para}
                 </p>
               ))}
             </Reveal>
+            {service.descriptionBox && (
+              <Reveal>
+                <div className="my-8 pl-6 border-l-4 border-primary bg-card rounded-r-[var(--radius-md)] p-6 shadow-[var(--shadow-sm)]">
+                  <p className="text-[1.08rem] leading-[1.9] text-foreground/85 font-serif italic">{service.descriptionBox}</p>
+                </div>
+              </Reveal>
+            )}
 
-            <Reveal>
-              <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-10">
-                <h2 className="text-2xl mb-4">What&apos;s Included</h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {service.includes.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm">
-                      <span className="mt-0.5 w-5 h-5 rounded-full bg-primary text-foreground flex items-center justify-center shrink-0">
-                        <IconCheck size={12} />
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
+            {service.includes.length > 0 && (
+              <Reveal>
+                <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-10">
+                  <h2 className="text-2xl mb-4">What&apos;s Included</h2>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {service.includes.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-sm">
+                        <span className="mt-0.5 w-5 h-5 rounded-full bg-primary text-foreground flex items-center justify-center shrink-0">
+                          <IconCheck size={12} />
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            )}
 
             {service.tiers.length > 0 ? (
               <Reveal>
                 <div className="mb-10">
                   <h2 className="text-2xl mb-2">Choose Your Plan</h2>
-                  <p className="opacity-70 text-sm mb-6">Review the description above before booking any service or class. After making payment, please share the screenshot on WhatsApp +91 9319305731.</p>
+                  {!service.tiers.some((t) => t.note) && (
+                    <p className="opacity-70 text-sm mb-6">Review the description above before booking any service or class. After making payment, please share the screenshot on WhatsApp +91 9319305731.</p>
+                  )}
                   <div className={`grid gap-6 ${service.tiers.length > 1 ? "md:grid-cols-2" : "max-w-xl"}`}>
                     {service.tiers.map((tier, i) => (
                       <div key={tier.name} className="bg-card rounded-[var(--radius-lg)] border-2 border-primary-hover/25 p-7 flex flex-col">
@@ -90,6 +110,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                           <span className="text-3xl font-bold">{tier.price ? formatINR(tier.price) : "Price on request"}</span>
                           {tier.duration ? <span className="text-sm opacity-60">{tier.duration}</span> : null}
                         </div>
+                        {tier.note && (
+                          <p className="text-sm opacity-75 mb-5 leading-relaxed">
+                            {tier.mode} for {tier.duration}. {tier.note}
+                          </p>
+                        )}
                         <ul className="space-y-2.5 text-sm opacity-80 mb-6 flex-1">
                           {tier.features.map((f) => (
                             <li key={f} className="flex items-start gap-2.5">
@@ -101,7 +126,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                         <div className="space-y-3">
                           {tier.payLink ? (
                             <a href={tier.payLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary w-full justify-center">
-                              Pay Now {tier.price ? `— ${formatINR(tier.price)}` : ""}
+                              Consult at {tier.price ? formatINR(tier.price) : ""}
                             </a>
                           ) : null}
                           <a
