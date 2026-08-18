@@ -15,7 +15,7 @@ export const CONTACT = {
   emailAlt: "arvindrunvnjay112@gmail.com",
   address: "Sector 16B, Greater Noida West, UP, India",
   addressShort: "Sector 16B Greater Noida West UP",
-  whatsappCommunity: "https://chat.whatsapp.com/CvAEMhvIHZh7ebTDUw5L19",
+  whatsappCommunity: "https://wa.me/919718646655",
   kutumb: "https://kutumb.app/0083ef8a3e08?screen=star_share",
 };
 
