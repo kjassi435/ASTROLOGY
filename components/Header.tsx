@@ -80,7 +80,7 @@ export function Header() {
         <div className="max-w-[1280px] mx-auto px-6 flex items-center justify-between gap-6 h-[72px]">
           <Link href="/" className="flex items-center gap-2.5 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 40, height: 40, objectFit: "contain" }} className="transition-transform group-hover:scale-105" />
+            <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 80, height: 80, objectFit: "contain" }} className="transition-transform group-hover:scale-105" />
           </Link>
 
           <nav className="hidden lg:block">
@@ -136,7 +136,7 @@ export function Header() {
         >
           <div className="flex items-center gap-2.5 px-6 h-[72px] border-b border-muted">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 36, height: 36, objectFit: "contain" }} />
+            <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 72, height: 72, objectFit: "contain" }} />
             <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 ml-auto">
               <IconClose size={24} className="text-foreground" />
             </button>

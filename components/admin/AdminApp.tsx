@@ -138,7 +138,7 @@ export default function AdminApp() {
         <Card className="w-full max-w-sm p-8 bg-white/95 backdrop-blur shadow-2xl">
           <div className="mb-8 text-center">
             <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center">
-              <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 80, height: 80, objectFit: "contain" }} />
+              <img src="/images/logo.png" alt="Arvin Astro" style={{ width: 160, height: 160, objectFit: "contain" }} />
             </div>
             <h1 className="text-2xl font-bold text-slate-900">Arvin Astro</h1>
             <p className="mt-1 text-sm text-slate-500">Content Management System</p>
