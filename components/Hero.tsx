@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { IconChevronLeft, IconArrowRight } from "@/components/Icons";
 import { MARQUEE_ITEMS } from "@/lib/site";
+import { FloatingNotice } from "@/components/FloatingNotice";
 
 export function Hero({
   desktopSlides,
@@ -11,12 +12,14 @@ export function Hero({
   title,
   subtitle,
   marqueeItems,
+  notice,
 }: {
   desktopSlides?: string[];
   mobileSlide?: string;
   title?: string;
   subtitle?: string;
   marqueeItems?: string[];
+  notice?: Record<string, string>;
 } = {}) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const rawSlides =
@@ -115,6 +118,13 @@ export function Hero({
           </div>
         </div>
       )}
+
+      {/* Offers slider — lives INSIDE the hero only (scrolls away with it) */}
+      {notice ? (
+        <div className="absolute z-30 right-3 top-24 w-[250px] sm:w-[270px] md:top-28 md:right-8 md:w-[300px]">
+          <FloatingNotice data={notice} embedded />
+        </div>
+      ) : null}
 
       {/* Marquee strip - positioned at bottom of hero */}
       <div className="absolute bottom-0 left-0 right-0 z-20 marquee-section" aria-hidden>

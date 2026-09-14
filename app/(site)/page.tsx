@@ -403,6 +403,7 @@ export default async function HomePage() {
   const services = await getServices();
   const home = await getPageContent("home");
   const marqueeCms = await getPageContent("marquee");
+  const notice = await getPageContent("notice");
   const homeMarquee = pageList(marqueeCms.homeMarquee);
   const heroImages = [home.heroImage1, home.heroImage2, home.heroImage3, home.heroImage4, home.heroImage5].filter(Boolean) as string[];
   const featuredSlugs = pageJson<string[]>(home.featuredCourseSlugs, []);
@@ -414,7 +415,7 @@ export default async function HomePage() {
   return (
     <>
       <JsonLd data={homeJsonLd} />
-      <Hero desktopSlides={heroImages} mobileSlide={home.heroImageMobile} title={home.heroTitle} subtitle={home.heroSubtitle} marqueeItems={homeMarquee} />
+      <Hero desktopSlides={heroImages} mobileSlide={home.heroImageMobile} title={home.heroTitle} subtitle={home.heroSubtitle} marqueeItems={homeMarquee} notice={notice} />
       <section className="bg-section-blue section" id="transits">
         <div className="max-w-[1280px] mx-auto px-6">
           <PlanetTransitChart kicker={home.transitKicker} title={home.transitTitle} desc={home.transitDesc} />
