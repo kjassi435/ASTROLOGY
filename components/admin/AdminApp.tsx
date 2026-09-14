@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import {
   LayoutDashboard, Sparkles, GraduationCap, BookOpen, Package,
   Newspaper, MessageSquare, Star, FileText, LogOut, ExternalLink,
-  Database, Settings, ChevronLeft, ChevronRight,
+  Database, Settings, ChevronLeft, ChevronRight, Megaphone,
 } from "lucide-react";
 import { Button, Input, Card } from "./ui";
 import { ResourceManager, type FieldDef } from "./ResourceManager";
@@ -83,12 +83,13 @@ const TESTIMONIAL_FIELDS: FieldDef[] = [
   { name: "badge", label: "Verified Badge", type: "select", options: [{ value: "Verified Student", label: "Verified Student" }, { value: "Verified Client", label: "Verified Client" }] },
 ];
 
-type TabId = "overview" | "services" | "home" | "courses" | "products" | "books" | "posts" | "testimonials" | "contact" | "sitecontent" | "settings";
+type TabId = "overview" | "services" | "home" | "offers" | "courses" | "products" | "books" | "posts" | "testimonials" | "contact" | "sitecontent" | "settings";
 
 const NAV: { id: TabId; label: string; icon: React.ComponentType<{ size?: number }>; color?: string }[] = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard, color: "from-blue-500 to-indigo-600" },
   { id: "services", label: "Services", icon: Sparkles, color: "from-amber-500 to-orange-600" },
   { id: "home", label: "Home Page", icon: LayoutDashboard, color: "from-emerald-500 to-green-600" },
+  { id: "offers", label: "Offers Popup", icon: Megaphone, color: "from-orange-500 to-red-600" },
   { id: "courses", label: "Courses", icon: GraduationCap, color: "from-green-500 to-emerald-600" },
   { id: "products", label: "Vastu Products", icon: Package, color: "from-pink-500 to-rose-600" },
   { id: "books", label: "Books", icon: BookOpen, color: "from-purple-500 to-violet-600" },
@@ -270,6 +271,7 @@ export default function AdminApp() {
           {tab === "overview" && <Overview onNavigate={(t) => setTab(t as TabId)} />}
           {tab === "services" && <ResourceManager resource="services" title="Services" columns={[{ key: "name", label: "Name" }, { key: "tagline", label: "Tagline" }, { key: "slug", label: "Slug" }]} fields={SERVICE_FIELDS} addLabel="Add Service" />}
           {tab === "home" && <SiteContent defaultSlug="home" />}
+          {tab === "offers" && <SiteContent defaultSlug="notice" />}
           {tab === "courses" && <CoursesAdmin />}
           {tab === "products" && <ResourceManager resource="products" title="Vastu Products" columns={[{ key: "title", label: "Title" }, { key: "note", label: "Note" }]} fields={PRODUCT_FIELDS} addLabel="Add Product" />}
           {tab === "books" && <ResourceManager resource="books" title="Books" columns={[{ key: "title", label: "Title" }, { key: "note", label: "Note" }]} fields={BOOK_FIELDS} addLabel="Add Book" />}

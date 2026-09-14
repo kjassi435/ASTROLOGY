@@ -94,7 +94,7 @@ export function FloatingNotice({ data }: { data: Record<string, string> }) {
         {cur.title ? (
           <div className="text-[15px] font-bold leading-tight text-slate-900 flex items-start gap-1.5">
             <span className="flex-1">{cur.title}</span>
-            {cur.link ? <IconExternal size={12} className="mt-1 shrink-0 text-orange-500" /> : null}
+            {cur.link ? <IconExternal size={12} className="mt-1 shrink-0 text-primary" /> : null}
           </div>
         ) : null}
         {cur.desc ? <p className="mt-1.5 text-[12.5px] leading-snug text-slate-500 line-clamp-2">{cur.desc}</p> : null}
@@ -107,7 +107,7 @@ export function FloatingNotice({ data }: { data: Record<string, string> }) {
                 aria-selected={i === idx}
                 aria-label={`Go to slide ${i + 1}`}
                 onClick={() => setIdx(i)}
-                className={i === idx ? "h-2 w-5 rounded-full bg-orange-500 transition-all" : "h-2 w-2 rounded-full bg-slate-200 transition-all hover:bg-slate-300"}
+                className={i === idx ? "h-2 w-5 rounded-full bg-primary transition-all" : "h-2 w-2 rounded-full bg-slate-200 transition-all hover:bg-slate-300"}
               />
             ))}
           </div>

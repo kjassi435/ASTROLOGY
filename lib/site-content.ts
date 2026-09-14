@@ -233,11 +233,11 @@ export const SITE_PAGES: SitePage[] = [
   },
   {
     slug: "notice",
-    title: "Floating Notice (Popup)",
+    title: "Offers Popup (Hero Slider)",
     icon: "📢",
     fields: [
-      { key: "noticeEnabled", label: "Enabled (true/false)", hint: "Set to true to show the popup site-wide" },
-      { key: "noticeInterval", label: "Auto-scroll interval (ms)", hint: "e.g. 4000 for 4s per slide" },
+      { key: "noticeEnabled", label: "Show offers popup (true/false)", hint: "Set to true to show the popup site-wide" },
+      { key: "noticeInterval", label: "Auto-slide interval (ms)", hint: "e.g. 4000 for 4s per slide" },
       { key: "noticeImage1", label: "Slide 1 — Image", type: "image", hint: "Recommended 800×500" },
       { key: "noticeTitle1", label: "Slide 1 — Heading" },
       { key: "noticeDesc1", label: "Slide 1 — Description", type: "textarea" },
