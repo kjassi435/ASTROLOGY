@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Button, Input, Textarea, Label, Card, Modal } from "./ui";
 import { IconSearch, IconTrash, IconPencil, IconPlus, IconX } from "@/components/Icons";
 import { RichTextEditor } from "./RichTextEditor";
+import { ImageInput } from "./ImageInput";
 
 type Post = {
   id?: number;
@@ -262,14 +263,8 @@ export function PostsAdmin() {
                 <RichTextEditor value={editing.body ?? ""} onChange={(html) => setEditing({ ...editing, body: html })} />
               </div>
               <div>
-                <Label>Featured Image URL</Label>
-                <Input type="url" value={editing.image ?? ""} onChange={(e) => setEditing({ ...editing, image: e.target.value })} placeholder="https://..." />
-                {editing.image ? (
-                  <div className="mt-2">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={editing.image} alt="Preview" className="h-20 w-32 rounded-lg object-cover border border-slate-200" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-                  </div>
-                ) : null}
+                <Label>Featured Image</Label>
+                <ImageInput value={editing.image ?? ""} onChange={(v) => setEditing({ ...editing, image: v })} label="image URL" />
               </div>
               <div>
                 <Label>Tags (comma separated)</Label>

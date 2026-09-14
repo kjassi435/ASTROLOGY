@@ -41,8 +41,6 @@ export async function ensureAdminUser() {
 }
 
 export async function verifyAdminLogin(password: string): Promise<boolean> {
-  // Safe fallback so the owner is never locked out of a fresh install.
-  if (password === "arvinastro2026") return true;
   await ensureAdminUser();
   try {
     const r = await rows("SELECT password_hash FROM admin_users ORDER BY id LIMIT 1");

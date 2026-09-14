@@ -490,6 +490,7 @@ export async function getPosts(): Promise<BlogPost[]> {
     if (d) {
       merged.push({
         ...p,
+        id: (d as { id?: number }).id,
         title: d.title ?? p.title,
         category: d.category ?? p.category,
         excerpt: d.excerpt ?? p.excerpt,
@@ -515,11 +516,13 @@ export async function getPosts(): Promise<BlogPost[]> {
 
 export async function savePost(input: PostInput, id?: number): Promise<number> {
   const slug = await resolveSlug("posts", input, id);
+  // Admin sends camelCase readTime; accept both so edits never wipe it.
+  const readTime = input.read_time ?? (input as unknown as Record<string, unknown>).readTime ?? null;
   if (id) {
-    await run("UPDATE posts SET slug=?, title=?, category=?, excerpt=?, date=?, read_time=?, image=?, content=?, body=?, status=?, author=?, tags=? WHERE id=?", [slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, input.read_time ?? null, normalizeImageUrl(input.image) ?? null, input.content ?? null, input.body && input.body.trim() ? input.body : null, input.status ?? "published", input.author ?? "Arvindrun Vnjay", input.tags ?? null, id]);
+    await run("UPDATE posts SET slug=?, title=?, category=?, excerpt=?, date=?, read_time=?, image=?, content=?, body=?, status=?, author=?, tags=? WHERE id=?", [slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, readTime as string | null, normalizeImageUrl(input.image) ?? null, input.content ?? null, input.body && input.body.trim() ? input.body : null, input.status ?? "published", input.author ?? "Arvindrun Vnjay", input.tags ?? null, id]);
     return id;
   } else {
-    const res = await run("INSERT INTO posts (slug, title, category, excerpt, date, read_time, image, content, body, status, author, tags) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, input.read_time ?? null, normalizeImageUrl(input.image) ?? null, input.content ?? null, input.body && input.body.trim() ? input.body : null, input.status ?? "published", input.author ?? "Arvindrun Vnjay", input.tags ?? null]);
+    const res = await run("INSERT INTO posts (slug, title, category, excerpt, date, read_time, image, content, body, status, author, tags) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [slug, input.title, input.category ?? null, input.excerpt ?? null, input.date ?? null, readTime as string | null, normalizeImageUrl(input.image) ?? null, input.content ?? null, input.body && input.body.trim() ? input.body : null, input.status ?? "published", input.author ?? "Arvindrun Vnjay", input.tags ?? null]);
     return Number(res.lastInsertRowid);
   }
 }
