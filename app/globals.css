@@ -478,10 +478,11 @@ select.form-control { cursor: pointer; }
 /* ============ EDITORIAL DROP-CAP ============ */
 /* Permanent first-letter styling for rich-text content. Pure CSS, so it
    survives ANY admin edit — the client never has to re-apply it.
-   Usage: add class "dc" to a <p> or to a container whose first <p> opens
-   the article (services detail, blog body, course intro). */
-.dc::first-letter,
-.dc > p:first-of-type::first-letter {
+   Usage: add class "dc" to a <p> or to a content container.
+   ONLY the container's very first letter is styled (::first-letter), so
+   there is exactly ONE drop-cap per article — never doubles — no matter
+   whether the HTML starts with a heading, bold line or paragraph. */
+.dc::first-letter {
   float: left;
   font-size: 3.4rem;
   line-height: 0.78;
