@@ -54,6 +54,7 @@ export const metadata: Metadata = {
     "cosmic energy alignment",
   ],
   alternates: { canonical: "/" },
+  verification: { google: "oPjdvWmK9gi5pEONGPBjjqbKXg-fI_0Hwzs0NVxwqiA" },
   openGraph: {
     type: "website",
     locale: "en_IN",

@@ -1,6 +1,7 @@
 export function Analytics() {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  // Client-provided GA4 measurement ID; env override still wins if set.
+  const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-9M2JCJJS7W";
 
   if (!gtmId && !gaId) return null;
 

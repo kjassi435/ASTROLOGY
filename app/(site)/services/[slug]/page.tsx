@@ -59,7 +59,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <Reveal>
               {service.longDescriptionHtml ? (
                 <div
-                  className="prose prose-lg max-w-none
+                  className="prose prose-lg max-w-none dc
                     prose-headings:font-bold prose-headings:text-foreground
                     prose-p:text-foreground/85 prose-p:leading-relaxed prose-p:mb-5
                     prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-5

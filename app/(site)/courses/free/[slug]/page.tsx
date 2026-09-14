@@ -61,7 +61,7 @@ export default async function FreeCoursePage({ params }: { params: Promise<{ slu
         <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
           <div>
             <Reveal>
-              <p className="text-lg opacity-90 leading-relaxed mb-8"><InlineText text={course.description} keyPrefix="fd" /></p>
+              <p className="text-lg opacity-90 leading-relaxed mb-8 dc"><InlineText text={course.description} keyPrefix="fd" /></p>
             </Reveal>
 
             {embed ? (

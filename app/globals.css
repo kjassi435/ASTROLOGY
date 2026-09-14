@@ -474,3 +474,20 @@ select.form-control { cursor: pointer; }
   .float-whatsapp { bottom: 20px; right: 20px; }
   .scroll-top { bottom: 20px; left: 20px; }
 }
+
+/* ============ EDITORIAL DROP-CAP ============ */
+/* Permanent first-letter styling for rich-text content. Pure CSS, so it
+   survives ANY admin edit — the client never has to re-apply it.
+   Usage: add class "dc" to a <p> or to a container whose first <p> opens
+   the article (services detail, blog body, course intro). */
+.dc::first-letter,
+.dc > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.4rem;
+  line-height: 0.78;
+  font-weight: 700;
+  color: var(--color-primary);
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  font-family: Georgia, "Times New Roman", serif;
+}

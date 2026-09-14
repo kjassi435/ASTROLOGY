@@ -87,7 +87,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <Reveal>
             {post.body && post.body.trim() ? (
               <div
-                className="prose-foreground space-y-6 text-[1.02rem] leading-relaxed"
+                className="prose-foreground space-y-6 text-[1.02rem] leading-relaxed dc"
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.body) }}
               />
             ) : (
@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   <div key={i}>
                     {block.heading ? <h2 className="text-2xl mt-10 mb-2">{block.heading}</h2> : null}
                     {block.paragraphs.map((p, j) => (
-                      <p key={j} className="mb-4">
+                      <p key={j} className={i === 0 && j === 0 ? "mb-4 dc" : "mb-4"}>
                         {p}
                       </p>
                     ))}
