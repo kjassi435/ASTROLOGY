@@ -24,10 +24,19 @@ export function BookingForm({ serviceSlug }: { serviceSlug?: string }) {
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSending(true);
     const selected = SERVICES.find((s) => s.slug === service);
+    try {
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, service: selected?.name ?? service, message }),
+      });
+    } catch {
+      /* WhatsApp flow continues regardless */
+    }
     const text = `Namaste Arvindrun ji! 🙏%0A%0A*New Booking Request*%0AName: ${name}%0APhone: ${phone}%0AService: ${selected?.name ?? "General consultation"}%0A${message ? `Details: ${message}` : ""}%0A%0APlease share the next available slot.`;
     const url = `https://wa.me/${CONTACT.phoneMainRaw}?text=${text}`;
     window.open(url, "_blank");
@@ -100,9 +109,18 @@ export function ContactForm() {
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSending(true);
+    try {
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone: contact, email, service: "General contact", message }),
+      });
+    } catch {
+      /* WhatsApp flow continues regardless */
+    }
     const text = `Namaste Arvindrun ji! 🙏%0A%0A*New Message from Website*%0AName: ${name}%0APhone: ${contact}%0AEmail: ${email}%0A%0A${message}`;
     const url = `https://wa.me/${CONTACT.phoneMainRaw}?text=${text}`;
     window.open(url, "_blank");

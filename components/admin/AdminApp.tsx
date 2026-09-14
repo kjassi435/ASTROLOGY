@@ -13,87 +13,124 @@ import { ResourceManager, type FieldDef } from "./ResourceManager";
 import { Overview } from "./Overview";
 import { Enquiries } from "./Enquiries";
 import SiteContent from "./SiteContent";
+import { PostsAdmin } from "./PostsAdmin";
 
 const SERVICE_FIELDS: FieldDef[] = [
-  { name: "slug", label: "Slug", required: true, placeholder: "kundli-analysis" },
   { name: "name", label: "Name", required: true },
   { name: "tagline", label: "Tagline" },
   { name: "icon", label: "Icon" },
+  { name: "heroImage", label: "Featured Image", type: "image" },
+  { name: "introHeading", label: "Intro Heading" },
   { name: "featured", label: "Featured", type: "checkbox" },
   { name: "popular", label: "Popular", type: "checkbox" },
   { name: "description", label: "Short Description", type: "textarea" },
-  { name: "long_description", label: "Long Description", type: "textarea" },
+  { name: "long_description", label: "Full Content (Rich Text)", type: "richtext" },
   { name: "includes", label: "Includes (comma separated)", type: "list" },
-  { name: "tiers", label: "Pricing Tiers (JSON array)", type: "json", placeholder: '[{"name":"Basic","price":1100}]' },
-  { name: "booking_notes", label: "Booking Notes", type: "textarea" },
+  { name: "tiers", label: "Plans (JSON)", type: "json", placeholder: '[{"name":"Basic","price":1100,"mode":"Online","duration":"45 min","note":"","payLink":"","features":[],"image":""}]' },
+  { name: "booking_notes", label: "Booking Notes (one per line)", type: "textarea" },
 ];
 
 const COURSE_FIELDS: FieldDef[] = [
-  { name: "slug", label: "Slug", required: true },
   { name: "title", label: "Title", required: true },
   { name: "type", label: "Type", type: "select", options: [{ value: "live", label: "Live" }, { value: "recorded", label: "Recorded" }, { value: "free", label: "Free" }] },
-  { name: "category", label: "Category" },
+  { name: "category", label: "Category (Recorded)", type: "select", options: [{ value: "vastu", label: "Vastu" }, { value: "numerology", label: "Numerology" }, { value: "astrology", label: "Astrology" }] },
   { name: "teacher", label: "Teacher" },
   { name: "tagline", label: "Tagline" },
   { name: "description", label: "Description", type: "textarea" },
   { name: "price", label: "Price (₹)", type: "number" },
   { name: "original_price", label: "Original Price (₹)", type: "number" },
   { name: "buy_url", label: "Buy URL", type: "url" },
-  { name: "youtube_url", label: "YouTube URL", type: "url" },
+  { name: "youtube_url", label: "YouTube Playlist Link (Free)", type: "url" },
+  { name: "language", label: "Language (Free)", type: "select", options: [{ value: "Hindi", label: "Hindi" }, { value: "English", label: "English" }, { value: "Hindi + English", label: "Hindi + English" }] },
   { name: "badge", label: "Badge" },
-  { name: "image", label: "Image URL", type: "url" },
+  { name: "image", label: "Featured Image", type: "image" },
   { name: "features", label: "Features (comma separated)", type: "list" },
   { name: "syllabus", label: "Syllabus (comma separated)", type: "list" },
   { name: "duration", label: "Duration" },
+  { name: "about", label: "About / Overview", type: "textarea" },
+  { name: "why_join", label: "Why Join (comma separated)", type: "list" },
+  { name: "perks", label: "Perks / Benefits (comma separated)", type: "list" },
+  { name: "starts_from", label: "Starts From" },
+  { name: "price_note", label: "Price Note", type: "textarea" },
+  { name: "pay_url", label: "Payment / Enroll URL", type: "url" },
+  { name: "price_suffix", label: "Price Suffix (e.g. /class)", type: "text" },
+  { name: "bullets", label: "Bullet Points (comma separated)", type: "list" },
+  { name: "learn_link", label: "Learn Now Link (Free)", type: "url" },
+  { name: "beginner_note", label: "Beginner Note (Free)", type: "text" },
+  { name: "live_session_title", label: "Bottom Dark Box — Title (Live, optional override)", type: "text" },
+  { name: "live_session_body", label: "Bottom Dark Box — Body (Live, optional override)", type: "textarea" },
 ];
 
 const BOOK_FIELDS: FieldDef[] = [
   { name: "title", label: "Title", required: true },
-  { name: "note", label: "Note", type: "textarea" },
-  { name: "image", label: "Image URL", type: "url" },
-  { name: "buy_url", label: "Buy URL", type: "url" },
+  { name: "note", label: "Description", type: "textarea" },
+  { name: "image", label: "Book Cover Image", type: "image" },
+  { name: "buy_url", label: "Purchase / Download Link", type: "url" },
 ];
 
 const PRODUCT_FIELDS: FieldDef[] = [
   { name: "title", label: "Title", required: true },
-  { name: "note", label: "Note", type: "textarea" },
-  { name: "image", label: "Image URL", type: "url" },
-  { name: "buy_url", label: "Buy URL", type: "url" },
-];
-
-const POST_FIELDS: FieldDef[] = [
-  { name: "slug", label: "Slug", required: true },
-  { name: "title", label: "Title", required: true },
-  { name: "category", label: "Category" },
-  { name: "excerpt", label: "Excerpt", type: "textarea" },
-  { name: "date", label: "Date" },
-  { name: "read_time", label: "Read Time", placeholder: "5 min read" },
-  { name: "image", label: "Image URL", type: "url" },
-  { name: "content", label: "Content (HTML/Markdown)", type: "textarea" },
+  { name: "note", label: "Description", type: "textarea" },
+  { name: "image", label: "Featured Image", type: "image" },
+  { name: "buy_url", label: "Buy on Amazon Link", type: "url" },
 ];
 
 const TESTIMONIAL_FIELDS: FieldDef[] = [
-  { name: "name", label: "Name", required: true },
+  { name: "name", label: "Client Name", required: true },
   { name: "initials", label: "Initials" },
-  { name: "text", label: "Text", type: "textarea" },
+  { name: "text", label: "Review Text", type: "textarea" },
   { name: "source", label: "Source" },
-  { name: "badge", label: "Badge" },
+  { name: "badge", label: "Verified Badge", type: "select", options: [{ value: "Verified Student", label: "Verified Student" }, { value: "Verified Client", label: "Verified Client" }] },
 ];
 
-type TabId = "overview" | "services" | "courses" | "books" | "products" | "posts" | "testimonials" | "enquiries" | "sitecontent" | "settings";
+type TabId = "overview" | "services" | "home" | "courses" | "products" | "books" | "posts" | "testimonials" | "contact" | "sitecontent" | "settings";
 
 const NAV: { id: TabId; label: string; icon: React.ComponentType<{ size?: number }>; color?: string }[] = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard, color: "from-blue-500 to-indigo-600" },
   { id: "services", label: "Services", icon: Sparkles, color: "from-amber-500 to-orange-600" },
+  { id: "home", label: "Home Page", icon: LayoutDashboard, color: "from-emerald-500 to-green-600" },
   { id: "courses", label: "Courses", icon: GraduationCap, color: "from-green-500 to-emerald-600" },
-  { id: "books", label: "Books", icon: BookOpen, color: "from-purple-500 to-violet-600" },
   { id: "products", label: "Vastu Products", icon: Package, color: "from-pink-500 to-rose-600" },
-  { id: "posts", label: "Blog", icon: Newspaper, color: "from-cyan-500 to-blue-600" },
+  { id: "books", label: "Books", icon: BookOpen, color: "from-purple-500 to-violet-600" },
+  { id: "posts", label: "Blogs", icon: Newspaper, color: "from-cyan-500 to-blue-600" },
   { id: "testimonials", label: "Testimonials", icon: Star, color: "from-yellow-500 to-amber-600" },
-  { id: "enquiries", label: "Enquiries", icon: MessageSquare, color: "from-teal-500 to-cyan-600" },
-  { id: "sitecontent", label: "Site Content", icon: FileText, color: "from-indigo-500 to-purple-600" },
+  { id: "contact", label: "Contact", icon: MessageSquare, color: "from-teal-500 to-cyan-600" },
+  { id: "sitecontent", label: "Site Content Settings", icon: FileText, color: "from-indigo-500 to-purple-600" },
   { id: "settings", label: "Settings", icon: Settings, color: "from-slate-500 to-gray-600" },
 ];
+
+function CoursesAdmin() {
+  const [ct, setCt] = useState<"recorded" | "free" | "live">("recorded");
+  const filter = (i: Record<string, unknown>) => i.type === ct;
+  const label = ct === "recorded" ? "Recorded Courses" : ct === "free" ? "Free Courses" : "Live Courses";
+  return (
+    <div>
+      <div className="mb-5 flex flex-wrap gap-2">
+        {(["recorded", "free", "live"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setCt(t)}
+            className={`rounded-xl px-4 py-2 text-sm font-medium transition-all ${
+              ct === t
+                ? "bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25"
+                : "bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:bg-green-50"
+            }`}
+          >
+            {t === "recorded" ? "Recorded Courses" : t === "free" ? "Free Courses" : "Live Courses"}
+          </button>
+        ))}
+      </div>
+      <ResourceManager
+        resource="courses"
+        title={label}
+        columns={[{ key: "title", label: "Title" }, { key: "price", label: "Price" }, { key: "category", label: "Category" }]}
+        fields={COURSE_FIELDS}
+        addLabel={`Add ${label}`}
+        filter={filter}
+      />
+    </div>
+  );
+}
 
 export default function AdminApp() {
   const qc = useQueryClient();
@@ -102,9 +139,11 @@ export default function AdminApp() {
   const [password, setPassword] = useState("");
   const [logging, setLogging] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [googleEnabled, setGoogleEnabled] = useState(false);
 
   useEffect(() => {
     fetch("/api/admin/check").then((r) => setAuthed(r.ok)).catch(() => setAuthed(false));
+    fetch("/api/admin/config").then((r) => r.json()).then((d) => setGoogleEnabled(Boolean(d.googleEnabled))).catch(() => setGoogleEnabled(false));
   }, []);
 
   async function seed() {
@@ -151,6 +190,20 @@ export default function AdminApp() {
             <Button type="submit" className="w-full shadow-lg shadow-blue-500/25" disabled={logging}>
               {logging ? "Signing in…" : "Sign In"}
             </Button>
+            {googleEnabled && (
+              <a
+                href="/api/admin/google"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                </svg>
+                Sign in with Google
+              </a>
+            )}
           </form>
         </Card>
       </div>
@@ -216,13 +269,14 @@ export default function AdminApp() {
         <main className="p-6">
           {tab === "overview" && <Overview onNavigate={(t) => setTab(t as TabId)} />}
           {tab === "services" && <ResourceManager resource="services" title="Services" columns={[{ key: "name", label: "Name" }, { key: "tagline", label: "Tagline" }, { key: "slug", label: "Slug" }]} fields={SERVICE_FIELDS} addLabel="Add Service" />}
-          {tab === "courses" && <ResourceManager resource="courses" title="Courses" columns={[{ key: "title", label: "Title" }, { key: "type", label: "Type" }, { key: "price", label: "Price" }, { key: "category", label: "Category" }]} fields={COURSE_FIELDS} addLabel="Add Course" />}
-          {tab === "books" && <ResourceManager resource="books" title="Books" columns={[{ key: "title", label: "Title" }, { key: "note", label: "Note" }]} fields={BOOK_FIELDS} addLabel="Add Book" />}
+          {tab === "home" && <SiteContent defaultSlug="home" />}
+          {tab === "courses" && <CoursesAdmin />}
           {tab === "products" && <ResourceManager resource="products" title="Vastu Products" columns={[{ key: "title", label: "Title" }, { key: "note", label: "Note" }]} fields={PRODUCT_FIELDS} addLabel="Add Product" />}
-          {tab === "posts" && <ResourceManager resource="posts" title="Blog Posts" columns={[{ key: "title", label: "Title" }, { key: "category", label: "Category" }, { key: "date", label: "Date" }]} fields={POST_FIELDS} addLabel="Add Post" />}
-          {tab === "testimonials" && <ResourceManager resource="testimonials" title="Testimonials" columns={[{ key: "name", label: "Name" }, { key: "text", label: "Review" }, { key: "source", label: "Source" }]} fields={TESTIMONIAL_FIELDS} addLabel="Add Testimonial" />}
-          {tab === "enquiries" && <Enquiries />}
-          {tab === "sitecontent" && <SiteContent />}
+          {tab === "books" && <ResourceManager resource="books" title="Books" columns={[{ key: "title", label: "Title" }, { key: "note", label: "Note" }]} fields={BOOK_FIELDS} addLabel="Add Book" />}
+          {tab === "posts" && <PostsAdmin />}
+          {tab === "testimonials" && <ResourceManager resource="testimonials" title="Testimonials" columns={TESTIMONIAL_FIELDS.map((f) => ({ key: f.name, label: f.label }))} fields={TESTIMONIAL_FIELDS} />}
+          {tab === "contact" && <SiteContent defaultSlug="contact" />}
+          {tab === "sitecontent" && <SiteContent defaultSlug="global" />}
           {tab === "settings" && <SettingsPanel />}
         </main>
       </div>

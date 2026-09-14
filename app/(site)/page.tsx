@@ -1,79 +1,79 @@
+import type { Metadata } from "next";
+import React from "react";
 import Link from "next/link";
-import { BRAND, APPS, CONTACT } from "@/lib/site";
-import { getServices, getCourses, getPosts, getTestimonials, getSiteContent } from "@/lib/cms";
+import { APPS, CONTACT } from "@/lib/site";
+import { getServices, getCourses, getPosts, getTestimonials, getPageContent, pageJson, pageList, youtubeId } from "@/lib/cms";
 import { FAQS } from "@/lib/faqs";
 import { JsonLd } from "@/components/JsonLd";
-import { Marquee, SectionHeader, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
+
+export const metadata: Metadata = {
+  title: "Arvindrun Vnjay | Astrologer, Name Numerology Expert & Vastu Consultant",
+  description:
+    "Consult with Arvindrun Vnjay — Astrologer, Name Numerology Expert & Vastu Consultant. Get personalized guidance and join our courses on Astrology, Name Numerology, and Vastu.",
+  keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology", "best astrologer in Greater Noida", "vastu for home", "name correction numerology"],
+  };
+import { SectionHeader, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 import { FaqList } from "@/components/FaqList";
 import { BookingForm } from "@/components/Forms";
 import { ServicesSection } from "@/components/ServicesSection";
 import { PlanetTransitChart } from "@/components/PlanetTransitChart";
+import { WhatsAppCommunity } from "@/components/WhatsAppCommunity";
 import DailyHoroscope from "@/components/DailyHoroscope";
 import { Hero } from "@/components/Hero";
 import { IconArrowRight, IconCalendar, IconClock, IconHeart, IconMail, IconPhone, IconPin, IconPlay, IconSparkle, IconUsers, IconVideo, IconAward, IconWhatsApp } from "@/components/Icons";
+import { InlineText } from "@/components/Inline";
 
-function AboutStrip({ aboutText }: { aboutText?: string }) {
+function AboutStrip({ aboutText, expertImage, expertName, expertText, kicker, didYouKnow, longText, boxes, badgeValue, badgeLabel }: {
+  aboutText?: string; expertImage?: string; expertName?: string; expertText?: string; kicker?: string;
+  didYouKnow?: string; longText?: string; boxes?: string; badgeValue?: string; badgeLabel?: string;
+}) {
+  const aboutBoxes = pageJson<{ icon: string; title: string; desc: string }[]>(boxes ?? "", []);
   return (
     <section className="bg-bg section" id="about">
       <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHeader center subtitle="About the Expert" title={<>Meet <span className="text-accent">Arvindrun Vnjay</span></>} />
+        <SectionHeader center subtitle={kicker} title={<>Meet <span className="text-accent">{expertName ?? "Arvindrun Vnjay"}</span></>} />
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-14 items-center">
           <Reveal>
             <div className="relative">
               <div className="relative w-full aspect-[3/4] gradient-band rounded-[var(--radius-xl)] overflow-hidden shadow-[var(--shadow-lg)] border-8 border-card">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/about.png" alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
+                <img src={expertImage || "/images/about.png"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
               </div>
-              <div className="absolute -bottom-7 -right-4 sm:right-8 bg-foreground text-bg p-5 sm:p-6 rounded-[var(--radius-md)] shadow-[var(--shadow-lg)] text-center border-[3px] border-primary">
-                <div className="text-4xl font-bold text-primary leading-none">8+</div>
-                <div className="text-sm mt-1 opacity-90">
-                  Years of
-                  <br />
-                  Practice
+              {badgeValue ? (
+                <div className="absolute -bottom-7 -right-4 sm:right-8 bg-foreground text-bg p-5 sm:p-6 rounded-[var(--radius-md)] shadow-[var(--shadow-lg)] text-center border-[3px] border-primary">
+                  <div className="text-4xl font-bold text-primary leading-none">{badgeValue}</div>
+                  <div className="text-sm mt-1 opacity-90 whitespace-pre-line">{badgeLabel}</div>
                 </div>
-              </div>
+              ) : null}
             </div>
           </Reveal>
             <Reveal delay={120}>
               <p className="text-[1.3rem] text-foreground leading-relaxed mb-5">
-                {aboutText ?? "A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights."}
+                {expertText ?? aboutText ?? "A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights."}
               </p>
-              <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-5 mb-6 flex gap-4 items-start shadow-[var(--shadow-sm)]">
-                <span className="text-2xl leading-none text-primary shrink-0 mt-0.5">{"\u2726"}</span>
-                <p className="text-[0.95rem] leading-relaxed text-foreground/85">
-                  <strong className="text-foreground">Did you know?</strong> Arvindrun Vnjay is the pioneer who first integrated{" "}
-                  <strong className="text-foreground">Ancient Astrology</strong> into{" "}
-                  <strong className="text-foreground">Advanced Modern Name Numerology</strong>. He created a revolution in the industry that many now
-                  follow — you are connecting with the original expert who changed the way we look at destiny!
-                </p>
-              </div>
-              <p className="opacity-85 mb-8">
-                With over <strong>8 years of dedicated practice</strong>, he has guided <strong>2666+ students</strong> and provided{" "}
-                <strong>999+ consultations</strong> globally through the transformative wisdom of Astrology, Name Numerology, and Vastu Shastra. His
-                approach combines traditional Vedic knowledge with practical, modern application — he sees himself not as a predictor, but as a bridge
-                connecting you to the ancient, profound wisdom held in the stars, the rhythm of numbers, and the silent language of your home.
-              </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
-              {[
-                { icon: <IconSparkle size={22} />, title: "Vedic Astrology", desc: "Deep kundli analysis & life predictions" },
-                { icon: <IconUsers size={22} />, title: "Name Numerology", desc: "Cosmic alignment through names" },
-                { icon: <IconHeart size={22} />, title: "Vastu Shastra", desc: "Spatial harmony for prosperity" },
-              ].map((s) => (
-                <div key={s.title} className="text-center p-5 bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] card-lift border border-transparent hover:border-primary-hover">
-                  <div className="w-[50px] h-[50px] mx-auto mb-3 bg-primary text-foreground rounded-full flex items-center justify-center">{s.icon}</div>
-                  <h4 className="text-lg mb-1">{s.title}</h4>
-                  <p className="text-sm opacity-75">{s.desc}</p>
+              {didYouKnow ? (
+                <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-5 mb-6 flex gap-4 items-start shadow-[var(--shadow-sm)]">
+                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                  <p className="text-[0.95rem] leading-relaxed text-foreground/85"><InlineText text={didYouKnow ?? ""} keyPrefix="d" /></p>
                 </div>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/contact" className="btn btn-primary">
-                Book a Consultation <IconArrowRight size={16} />
-              </Link>
-              <a href={CONTACT.whatsappCommunity} className="btn btn-whatsapp">
-                <IconWhatsApp size={16} /> WhatsApp &amp; Book Your Slot
-              </a>
+              ) : null}
+              {longText ? <p className="opacity-85 mb-8"><InlineText text={longText} keyPrefix="l" /></p> : null}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+              {(aboutBoxes.length ? aboutBoxes : [
+                { icon: "sparkle", title: "Vedic Astrology", desc: "Deep kundli analysis & life predictions" },
+                { icon: "users", title: "Name Numerology", desc: "Cosmic alignment through names" },
+                { icon: "heart", title: "Vastu Shastra", desc: "Spatial harmony for prosperity" },
+              ]).map((s) => {
+                const ic = s.icon === "users" ? <IconUsers size={22} /> : s.icon === "heart" ? <IconHeart size={22} /> : <IconSparkle size={22} />;
+                return (
+                  <div key={s.title} className="text-center p-5 bg-card rounded-[var(--radius-md)] shadow-[var(--shadow-sm)] card-lift border border-transparent hover:border-primary-hover">
+                    <div className="w-[50px] h-[50px] mx-auto mb-3 bg-primary text-foreground rounded-full flex items-center justify-center">{ic}</div>
+                    <h4 className="text-lg mb-1">{s.title}</h4>
+                    <p className="text-sm opacity-75">{s.desc}</p>
+                  </div>
+                );
+              })}
             </div>
           </Reveal>
         </div>
@@ -82,20 +82,28 @@ function AboutStrip({ aboutText }: { aboutText?: string }) {
   );
 }
 
-async function CoursesSection() {
+async function CoursesSection({ featuredSlugs = [], kicker, title, desc }: { featuredSlugs?: string[]; kicker?: string; title?: string; desc?: string }) {
   const courses = await getCourses();
-  const live = courses.find((c) => c.type === "live");
-  const recorded = courses.find((c) => c.type === "recorded");
-  const free = courses.find((c) => c.type === "free");
-  const featured = [live, recorded, free].filter(Boolean) as typeof courses;
+  let featured: typeof courses = [];
+  if (featuredSlugs.length === 3) {
+    featured = featuredSlugs
+      .map((s) => courses.find((c) => c.slug === s))
+      .filter(Boolean) as typeof courses;
+  }
+  if (featured.length < 3) {
+    const live = courses.find((c) => c.type === "live");
+    const recorded = courses.find((c) => c.type === "recorded");
+    const free = courses.find((c) => c.type === "free");
+    featured = [live, recorded, free].filter(Boolean) as typeof courses;
+  }
   return (
     <section className="bg-bg section" id="courses">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHeader
           center
-          subtitle="Learn & Grow"
-          title={<>Master the <span className="text-accent">Cosmic Sciences</span></>}
-          desc="A complete platform for Astrology, Numerology, Name Numerology & Vastu"
+          subtitle={kicker}
+          title={title}
+          desc={desc}
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
           {featured.map((course, i) => (
@@ -120,7 +128,7 @@ async function CoursesSection() {
   );
 }
 
-function JourneySection() {
+function JourneySection({ kicker, title }: { kicker?: string; title?: string }) {
   const steps = [
     { n: "01", title: "Choose Service", desc: "Select the consultation that resonates with your needs." },
     { n: "02", title: "Book Slot", desc: "Pick a convenient time slot from our schedule." },
@@ -130,7 +138,7 @@ function JourneySection() {
   return (
     <section className="bg-section-blue-alt section">
       <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHeader center subtitle="How It Works" title={<>Your <span className="text-accent">Journey</span> With Us</>} />
+        <SectionHeader center subtitle={kicker} title={title} />
         <div className="flex flex-wrap items-stretch justify-between gap-5">
           {steps.map((step, i) => (
             <div key={step.n} className="flex items-center gap-5 flex-1 min-w-[200px]">
@@ -152,21 +160,23 @@ function JourneySection() {
   );
 }
 
-function YouTubeSection() {
-  const videos = [
-    { id: "XOT9V3g1DrA", title: "Astrology Insights" },
-    { id: "fjsBFTP-lH4", title: "Numerology Basics" },
-    { id: "IlGagLhP1yI", title: "Vastu Tips" },
-    { id: "u7mIDoYU7UA", title: "Cosmic Wisdom" },
-  ];
+function YouTubeSection({ videos = [], kicker, title, desc }: { videos?: string[]; kicker?: string; title?: string; desc?: string }) {
+  const ids = videos.map((v) => youtubeId(v)).filter(Boolean) as string[];
+  const resolved = ids.length
+    ? ids
+    : ["XOT9V3g1DrA", "fjsBFTP-lH4", "IlGagLhP1yI", "u7mIDoYU7UA"];
+  const videosData = resolved.map((id, i) => ({
+    id,
+    title: ["Astrology Insights", "Numerology Basics", "Vastu Tips", "Cosmic Wisdom"][i] ?? "Video",
+  }));
 
   return (
     <section className="bg-section-blue section pt-0">
       <div className="max-w-[1280px] mx-auto px-6">
         <Reveal>
-          <SectionHeader center subtitle="YouTube" title={<>Watch & <span className="text-accent">Learn</span></>} desc="Short clips from our live sessions and courses — subscribe for full-length content." />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            {videos.map((v) => (
+          <SectionHeader center subtitle={kicker} title={title} desc={desc} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+              {videosData.map((v) => (
               <div key={v.id} className="rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-sm)] border border-primary-hover/15 bg-card">
                 <div className="relative w-full" style={{ paddingBottom: "177.78%" }}>
                   <iframe
@@ -196,12 +206,12 @@ function YouTubeSection() {
   );
 }
 
-async function TestimonialsSection() {
+async function TestimonialsSection({ kicker, title, desc }: { kicker?: string; title?: string; desc?: string }) {
   const testimonials = await getTestimonials();
   return (
     <section className="bg-bg section" id="testimonials">
       <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHeader center subtitle="What Our Student and Client Says" title={<>What Our <span className="text-accent">Students</span> and <span className="text-accent">Clients</span> Say</>} desc="Real reviews from our students and clients on Google" />
+        <SectionHeader center subtitle={kicker} title={title} desc={desc} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
           {testimonials.map((t, i) => (
             <TestimonialCard key={t.name} t={t} index={i} />
@@ -222,15 +232,14 @@ async function TestimonialsSection() {
   );
 }
 
-function CtaSection({ ctaText }: { ctaText?: string }) {
+function CtaSection({ ctaText, kicker, desc }: { ctaText?: string; kicker?: string; desc?: string }) {
   return (
     <section className="bg-bg section pt-0" id="contact-home">
       <div className="max-w-[1280px] mx-auto px-6">
         <Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-card p-8 sm:p-12 lg:p-16 rounded-[var(--radius-xl)] shadow-[var(--shadow-lg)] border-2 border-primary-hover/20 relative overflow-hidden">
-            <span className="absolute top-6 right-10 text-[8rem] text-primary opacity-20 select-none pointer-events-none">✦</span>
             <div className="relative">
-              <span className="section-subtitle">Begin Your Cosmic Journey Today</span>
+              {kicker ? <span className="section-subtitle">{kicker}</span> : null}
               <h2 className="text-[clamp(2rem,3.5vw,2.8rem)] font-medium mb-5">
                 {ctaText ?? (
                   <>
@@ -239,14 +248,19 @@ function CtaSection({ ctaText }: { ctaText?: string }) {
                 )}
               </h2>
               <p className="opacity-85 mb-8">
-                Get personalized guidance on astrology, name numerology, and vastu for health, wealth, and happiness.
+                {desc}
               </p>
               <div className="grid gap-5 mb-8">
                 {[
-                  { icon: <IconPhone size={18} />, label: "Call Us", value: CONTACT.phoneMain, href: CONTACT.whatsappCommunity },
+                  { icon: <IconPhone size={18} />, label: "Call Us", value: CONTACT.phoneMain, href: `tel:${CONTACT.phoneMainRaw}` },
                   { icon: <IconMail size={18} />, label: "Email", value: CONTACT.email, href: `mailto:${CONTACT.email}` },
                   { icon: <IconPin size={18} />, label: "Visit", value: CONTACT.address, href: undefined },
-                  { icon: <IconClock size={18} />, label: "Hours", value: "Mon–Sun · 9:00 AM – 5:00 PM", href: undefined },
+                  { icon: <IconClock size={18} />, label: "Hours", value: (
+                    <span className="block">
+                      Mon – Sat · 10:00 AM – 6:00 PM IST
+                      <span className="block text-[0.8rem] font-normal opacity-70">Consultations by appointment</span>
+                    </span>
+                  ), href: undefined },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center gap-4">
                     <span className="w-11 h-11 bg-card text-primary-hover rounded-full flex items-center justify-center shrink-0">{item.icon}</span>
@@ -264,17 +278,11 @@ function CtaSection({ ctaText }: { ctaText?: string }) {
                 ))}
               </div>
               <div className="flex flex-wrap gap-3">
-                <a href={CONTACT.whatsappCommunity} className="btn btn-whatsapp">
-                  <IconWhatsApp size={16} /> WhatsApp Us
-                </a>
-                <a href={`tel:${CONTACT.phoneMainRaw}`} className="btn btn-primary">
-                  <IconPhone size={16} /> Call Now
-                </a>
               </div>
             </div>
             <div className="bg-card p-7 sm:p-10 rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]">
               <h3 className="text-2xl mb-6 text-center">
-                Book Your <span className="text-accent">Consultation</span>
+                Ask a <span className="text-accent">Question</span>
               </h3>
               <BookingForm />
             </div>
@@ -285,23 +293,22 @@ function CtaSection({ ctaText }: { ctaText?: string }) {
   );
 }
 
-function AppSection() {
+function AppSection({ kicker, title, desc1, desc2 }: { kicker?: string; title?: string; desc1?: string; desc2?: string }) {
   return (
     <section className="bg-bg section pt-0">
       <div className="max-w-[1280px] mx-auto px-6">
         <Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-card p-8 sm:p-12 rounded-[var(--radius-xl)] shadow-[var(--shadow-lg)] border-2 border-primary-hover/20 relative overflow-hidden">
-            <span className="absolute -top-10 -right-10 text-[12rem] text-primary opacity-10 select-none pointer-events-none">✦</span>
             <div>
-              <span className="section-subtitle">Learn Anywhere, Anytime</span>
+              <span className="section-subtitle">{kicker}</span>
               <h2 className="text-[clamp(1.8rem,3vw,2.6rem)] font-medium mb-4">
-                Take <span className="text-accent">Arvin Astro</span> with you — Download the App
+                {title}
               </h2>
               <p className="opacity-85 mb-2 max-w-lg">
-                Download Our Mobile App to explore Free &amp; Paid Contents
+                {desc1}
               </p>
               <p className="opacity-85 mb-6 max-w-lg">
-                To Download our app on iOS use above given link with ORG code <span className="font-bold text-primary-hover">&ldquo;AGAFHE&rdquo;</span>
+                {desc2}
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
@@ -343,12 +350,14 @@ function AppSection() {
   );
 }
 
-async function BlogTeaser() {
-  const posts = await getPosts();
+async function BlogTeaser({ kicker, title, desc }: { kicker?: string; title?: string; desc?: string }) {
+  const posts = (await getPosts())
+    .filter((p) => (p.status ?? "published") !== "draft")
+    .sort((a, b) => (Date.parse(b.date ?? "") || 0) - (Date.parse(a.date ?? "") || 0));
   return (
     <section className="bg-bg section pt-0" id="blog">
       <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHeader center subtitle="From the Blog" title={<>Latest <span className="text-accent">Research</span> &amp; Insights</>} desc="Deep dives into astrology, numerology and vastu — by Arvindrun Vnjay" />
+        <SectionHeader center subtitle={kicker} title={title} desc={desc} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
           {posts.slice(0, 3).map((post, i) => (
             <Reveal key={post.slug} delay={i * 100}>
@@ -380,24 +389,6 @@ const homeJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": ["ProfessionalService", "Organization"],
-      "@id": "https://arvinastro.in/#organization",
-      name: "Arvin Astro",
-      url: "https://arvinastro.in",
-      logo: { "@type": "ImageObject", url: "https://arvinastro.in/images/logo.png" },
-      address: { "@type": "PostalAddress", streetAddress: "Sector 16B", addressLocality: "Greater Noida West", addressRegion: "UP", addressCountry: "IN" },
-      email: CONTACT.email,
-      telephone: CONTACT.phoneMain,
-      openingHours: "Mo-Su 09:00-17:00",
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://arvinastro.in/#website",
-      url: "https://arvinastro.in",
-      name: BRAND.brand,
-      publisher: { "@id": "https://arvinastro.in/#organization" },
-    },
-    {
       "@type": "FAQPage",
       mainEntity: FAQS.map((f) => ({
         "@type": "Question",
@@ -410,29 +401,51 @@ const homeJsonLd = {
 
 export default async function HomePage() {
   const services = await getServices();
-  const home = await getSiteContent("home");
+  const home = await getPageContent("home");
+  const marqueeCms = await getPageContent("marquee");
+  const homeMarquee = pageList(marqueeCms.homeMarquee);
+  const heroImages = [home.heroImage1, home.heroImage2, home.heroImage3, home.heroImage4, home.heroImage5].filter(Boolean) as string[];
+  const featuredSlugs = pageJson<string[]>(home.featuredCourseSlugs, []);
+  let youtubeUrls = pageJson<string[]>(home.youtubeVideos, []);
+  if (youtubeUrls.length === 1 && typeof youtubeUrls[0] === "string") {
+    const inner = pageJson<string[]>(youtubeUrls[0], []);
+    if (inner.length) youtubeUrls = inner;
+  }
   return (
     <>
       <JsonLd data={homeJsonLd} />
-      <Hero />
-      <Marquee />
-      <section className="bg-section-blue section" id="transits-horoscope">
+      <Hero desktopSlides={heroImages} mobileSlide={home.heroImageMobile} title={home.heroTitle} subtitle={home.heroSubtitle} marqueeItems={homeMarquee} />
+      <section className="bg-section-blue section" id="transits">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
-            <PlanetTransitChart />
-            <DailyHoroscope />
-          </div>
+          <PlanetTransitChart kicker={home.transitKicker} title={home.transitTitle} desc={home.transitDesc} />
         </div>
       </section>
-      <AboutStrip aboutText={home.aboutText} />
-      <ServicesSection services={services} />
-      <CoursesSection />
-      <JourneySection />
-      <YouTubeSection />
-      <TestimonialsSection />
-      <AppSection />
-      <BlogTeaser />
-      <CtaSection ctaText={home.ctaText} />
+      <section className="bg-section-blue-alt section" id="horoscope">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <DailyHoroscope kicker={home.horoscopeKicker} title={home.horoscopeTitle} desc={home.horoscopeDesc} />
+        </div>
+      </section>
+      <AboutStrip
+        aboutText={home.aboutText}
+        expertImage={home.expertImage}
+        expertName={home.expertName}
+        expertText={home.expertText}
+        kicker={home.aboutKicker}
+        didYouKnow={home.aboutDidYouKnow}
+        longText={home.aboutLongText}
+        boxes={home.aboutBoxes}
+        badgeValue={home.aboutBadgeValue}
+        badgeLabel={home.aboutBadgeLabel}
+      />
+      <ServicesSection services={services} kicker={home.servicesKicker} title={home.servicesTitle} desc={home.servicesDesc} />
+      <CoursesSection featuredSlugs={featuredSlugs} kicker={home.coursesKicker} title={home.coursesTitle} desc={home.coursesDesc} />
+      <JourneySection kicker={home.journeyKicker} title={home.journeyTitle} />
+      <YouTubeSection videos={youtubeUrls} kicker={home.youtubeKicker} title={home.youtubeTitle} desc={home.youtubeDesc} />
+      <TestimonialsSection kicker={home.testimonialsKicker} title={home.testimonialsTitle} desc={home.testimonialsDesc} />
+      <AppSection kicker={home.appKicker} title={home.appTitle} desc1={home.appDesc1} desc2={home.appDesc2} />
+      <BlogTeaser kicker={home.blogKicker} title={home.blogTitle} desc={home.blogDesc} />
+      <WhatsAppCommunity kicker={home.waKicker} title={home.waTitle} desc={home.waDesc} />
+      <CtaSection ctaText={home.ctaText} kicker={home.ctaKicker} desc={home.ctaDesc} />
     </>
   );
 }

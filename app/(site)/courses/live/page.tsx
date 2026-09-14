@@ -5,10 +5,11 @@ import { CourseCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 
 export const metadata: Metadata = {
-  title: "Live Courses — Numerology, Vastu & Astrology | Arvin Astro",
+  title: "Live Courses - Numerology, Vastu & Astrology | Arvin Astro",
   description:
     "Professional live Numerology, Vastu & Astrology occult courses. Learn from India's expert Numerologist and Vastu Consultant Arvindrun Vnjay with interactive live classes.",
-};
+  keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+  };
 
 export default async function LiveCoursesPage() {
   const liveCourses = (await getCourses()).filter((c) => c.type === "live");

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/admin-auth";
-import { ensureDb, getBooks, saveBook, deleteBook, type BookInput } from "@/lib/cms";
+import { ensureDb, getAdminBooks, saveBook, deleteBook, type BookInput } from "@/lib/cms";
 
 export async function GET() {
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
-  return NextResponse.json({ items: await getBooks() });
+  return NextResponse.json({ items: await getAdminBooks() });
 }
 
 export async function POST(req: Request) {

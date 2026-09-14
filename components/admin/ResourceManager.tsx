@@ -5,11 +5,13 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Button, Input, Textarea, Label, Card, Modal } from "./ui";
 import { IconSearch, IconTrash, IconPencil, IconPlus, IconImage, IconX } from "@/components/Icons";
+import { RichTextEditor } from "./RichTextEditor";
+import { ImageInput } from "./ImageInput";
 
 export type FieldDef = {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "number" | "url" | "checkbox" | "select" | "list" | "json";
+  type?: "text" | "textarea" | "number" | "url" | "checkbox" | "select" | "list" | "json" | "richtext" | "image";
   options?: { value: string; label: string }[];
   required?: boolean;
   placeholder?: string;
@@ -29,12 +31,14 @@ export function ResourceManager({
   columns,
   fields,
   addLabel = "Add",
+  filter,
 }: {
   resource: string;
   title: string;
   columns: Column[];
   fields: FieldDef[];
   addLabel?: string;
+  filter?: (item: Record<string, unknown>) => boolean;
 }) {
   const qc = useQueryClient();
   const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
@@ -86,7 +90,7 @@ export function ResourceManager({
     onError: (e) => toast.error(String(e)),
   });
 
-  const items = data ?? [];
+  const items = filter ? (data ?? []).filter(filter) : (data ?? []);
   const filtered = items.filter((item) => {
     if (!search) return true;
     const q = search.toLowerCase();
@@ -112,6 +116,10 @@ export function ResourceManager({
       else if (f.type === "list" && Array.isArray(item[f.name])) copy[f.name] = (item[f.name] as unknown[]).join(", ");
       else if (f.type === "json" && typeof item[f.name] === "string") {
         try { copy[f.name] = JSON.stringify(JSON.parse(item[f.name] as string), null, 2); } catch { copy[f.name] = item[f.name]; }
+      } else if (f.type === "json" && Array.isArray(item[f.name])) {
+        copy[f.name] = JSON.stringify(item[f.name], null, 2);
+      } else if (f.type === "json" && item[f.name] != null && typeof item[f.name] === "object") {
+        copy[f.name] = JSON.stringify(item[f.name], null, 2);
       }
     }
     setEditing(copy);
@@ -130,7 +138,11 @@ export function ResourceManager({
         payload[f.name] = String(val ?? "").split(",").map((s) => s.trim()).filter(Boolean);
       } else if (f.type === "json") {
         if (val) {
-          try { payload[f.name] = JSON.parse(String(val)); } catch { toast.error(`${f.label} is not valid JSON`); return; }
+          if (typeof val === "string") {
+            try { payload[f.name] = JSON.parse(String(val)); } catch { toast.error(`${f.label} is not valid JSON`); return; }
+          } else {
+            payload[f.name] = val;
+          }
         } else payload[f.name] = null;
       }
     }
@@ -186,7 +198,7 @@ export function ResourceManager({
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filtered.map((item) => (
-                  <tr key={String(item.id)} className="group transition hover:bg-blue-50/40">
+                  <tr key={String(item.id ?? item.slug ?? item.title ?? Math.random())} className="group transition hover:bg-blue-50/40">
                     {imageField && (
                       <td className="px-4 py-3">
                         <ImagePreview src={String(item.image ?? "")} className="h-12 w-12 rounded-lg" />
@@ -208,7 +220,14 @@ export function ResourceManager({
                         <button onClick={() => openEdit(item)} className="rounded-lg p-2 text-slate-400 hover:bg-blue-100 hover:text-blue-600 transition" title="Edit">
                           <IconPencil size={15} />
                         </button>
-                        <button onClick={() => setDeleteConfirm(Number(item.id))} className="rounded-lg p-2 text-slate-400 hover:bg-red-100 hover:text-red-600 transition" title="Delete">
+                        <button onClick={() => {
+                          const n = Number(item.id);
+                          if (!Number.isFinite(n)) {
+                            toast.error("Cannot delete: missing id — please refresh or re-seed the database");
+                            return;
+                          }
+                          setDeleteConfirm(n);
+                        }} className="rounded-lg p-2 text-slate-400 hover:bg-red-100 hover:text-red-600 transition" title="Delete">
                           <IconTrash size={15} />
                         </button>
                       </div>
@@ -224,7 +243,7 @@ export function ResourceManager({
         )}
       </Card>
 
-      {deleteConfirm && (
+      {deleteConfirm != null && (
         <Modal open onClose={() => setDeleteConfirm(null)} title="Confirm Delete">
           <p className="text-sm text-slate-600 mb-6">Are you sure you want to delete this item? This cannot be undone.</p>
           <div className="flex justify-end gap-2">
@@ -241,10 +260,14 @@ export function ResourceManager({
           <form onSubmit={submit} className="space-y-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {fields.map((f) => (
-                <div key={f.name} className={f.type === "textarea" || f.type === "json" ? "sm:col-span-2" : ""}>
+                <div key={f.name} className={f.type === "textarea" || f.type === "json" || f.type === "richtext" || f.type === "image" ? "sm:col-span-2" : ""}>
                   <Label>{f.label}</Label>
                   {f.type === "textarea" ? (
                     <Textarea rows={4} value={String(editing[f.name] ?? "")} onChange={(e) => setEditing({ ...editing, [f.name]: e.target.value })} placeholder={f.placeholder} />
+                  ) : f.type === "richtext" ? (
+                    <RichTextEditor value={String(editing[f.name] ?? "")} onChange={(html) => setEditing({ ...editing, [f.name]: html })} />
+                  ) : f.type === "image" ? (
+                    <ImageInput value={String(editing[f.name] ?? "")} onChange={(v) => setEditing({ ...editing, [f.name]: v })} label={f.label} />
                   ) : f.type === "json" ? (
                     <Textarea rows={8} className="font-mono text-xs" value={String(editing[f.name] ?? "")} onChange={(e) => setEditing({ ...editing, [f.name]: e.target.value })} placeholder={f.placeholder} />
                   ) : f.type === "select" ? (

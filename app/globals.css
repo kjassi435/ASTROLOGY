@@ -143,6 +143,19 @@ img { max-width: 100%; height: auto; }
 }
 .section-desc { font-size: 1.1rem; color: var(--color-muted-foreground); margin-top: 16px; }
 
+/* Page hero title accent gradient */
+.page-hero-title {
+  font-weight: 700;
+  color: #ffffff;
+}
+.page-hero-title .text-accent {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #00c6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
 /* Course card title dual-color */
 .course-title {
   font-weight: 700;

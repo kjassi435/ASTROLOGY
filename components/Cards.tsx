@@ -1,19 +1,35 @@
 import Link from "next/link";
+import Image from "next/image";
+import { Fragment } from "react";
 import type { Course, CourseType } from "@/lib/courses";
 import type { Book } from "@/lib/books";
 import type { Product } from "@/lib/products";
 import type { Service } from "@/lib/services";
 import type { Testimonial } from "@/lib/testimonials";
-import { cn, formatINR, waLink } from "@/lib/utils";
+import { cn, formatINR, waLink, stripPerClass } from "@/lib/utils";
 import { CONTACT } from "@/lib/site";
 import { Reveal } from "./Preloader";
 import { IconArrowRight, IconCheck, IconExternal, IconPlay, IconVideo, IconAward, IconUsers } from "./Icons";
 
-export function SectionHeader({ subtitle, title, desc, center = false }: { subtitle: string; title: React.ReactNode; desc?: string; center?: boolean }) {
+function renderTitle(title: React.ReactNode) {
+  if (typeof title !== "string") return title;
+  const parts = title.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((p, i) =>
+    p.startsWith("**") && p.endsWith("**") ? (
+      <span key={i} className="text-accent">
+        {p.slice(2, -2)}
+      </span>
+    ) : (
+      <Fragment key={i}>{p}</Fragment>
+    )
+  );
+}
+
+export function SectionHeader({ subtitle, title, desc, center = false }: { subtitle?: string; title: React.ReactNode; desc?: string; center?: boolean }) {
   return (
     <div className={cn("section-header", center && "center")}>
-      <span className="section-subtitle">{subtitle}</span>
-      <h2 className="section-title">{title}</h2>
+      {subtitle ? <span className="section-subtitle">{subtitle}</span> : null}
+      {title ? <h2 className="section-title">{renderTitle(title)}</h2> : null}
       {desc ? <p className="section-desc">{desc}</p> : null}
     </div>
   );
@@ -29,7 +45,7 @@ export function Marquee() {
           {track.map((item, i) => (
             <span key={i} className="flex items-center gap-10">
               {item}
-              <span className="dot">{"\u2726"}</span>
+              <span className="w-2 h-2 rounded-full bg-primary/50 shrink-0"></span>
             </span>
           ))}
         </div>
@@ -122,6 +138,14 @@ const SERVICE_ICONS: Record<string, React.ReactNode> = {
       <path d="M14 54c2-12 8-18 18-18s16 6 18 18" stroke="currentColor" strokeWidth="2" />
     </svg>
   ),
+  card: (
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="18" width="48" height="30" rx="5" stroke="currentColor" strokeWidth="2" />
+      <path d="M8 26h48" stroke="currentColor" strokeWidth="2" />
+      <path d="M14 36h12M14 41h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="46" cy="38" r="4" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  ),
 };
 
 export function ServiceIcon({ name, size = 56 }: { name: string; size?: number }) {
@@ -138,10 +162,30 @@ const COURSE_GRADIENTS: Record<CourseType, string> = {
   free: "linear-gradient(135deg, #00fff0, #0083fe)",
 };
 
+// Internal links use next/link; recorded-course external buy links open in a new tab.
+function CardLink({ href, external, className, ariaLabel, children }: { href: string; external?: boolean; className?: string; ariaLabel?: string; children: React.ReactNode }) {
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className={className} aria-label={ariaLabel}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={className} aria-label={ariaLabel}>
+      {children}
+    </Link>
+  );
+}
+
 export function CourseCard({ course }: { course: Course }) {
+  if (course.type === "live" && course.originalPrice) {
+    course = { ...course, price: course.originalPrice, originalPrice: undefined };
+  }
   const isFree = course.type === "free";
+  const externalBuy = course.type === "recorded" && !!course.buyUrl;
   const ctaLabel = course.type === "live" ? "Know More" : course.type === "free" ? "Learn Now" : course.price ? "Buy Now" : "Buy Now";
-  const ctaHref = isFree ? course.youtubeUrl! : `/courses/${course.type}/${course.slug}`;
+  const ctaHref = isFree ? (course.learnLink || course.youtubeUrl!) : externalBuy ? course.buyUrl! : `/courses/${course.type}/${course.slug}`;
   const typeLabel = course.type === "live" ? "Live" : course.type === "recorded" ? "Recorded" : "Free";
   const typeColor = course.type === "live" ? "bg-primary text-white" : course.type === "recorded" ? "bg-card text-foreground" : "bg-foreground text-bg";
 
@@ -149,21 +193,28 @@ export function CourseCard({ course }: { course: Course }) {
 
   return (
     <article className="course-card group bg-card rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-sm)] border border-muted flex flex-col h-full">
-      <Link href={ctaHref} className={"relative block " + imageAspect + " overflow-hidden"} style={{ background: COURSE_GRADIENTS[course.type] }} aria-label={course.title}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={course.image} alt={course.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+      <CardLink href={ctaHref} external={externalBuy} className={"relative block " + imageAspect + " overflow-hidden"} ariaLabel={course.title}>
+        <span aria-hidden className="absolute inset-0" style={{ background: COURSE_GRADIENTS[course.type] }} />
+        <Image
+          src={course.image}
+          alt={course.title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          unoptimized={course.image?.startsWith("http")}
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
         <span className="absolute top-4 left-4 px-3.5 py-1 rounded-full text-[0.7rem] font-bold uppercase tracking-wider bg-white/85 backdrop-blur text-foreground shadow-sm">
           {course.badge ?? typeLabel}
         </span>
-      </Link>
+      </CardLink>
       <div className="p-7 pt-7 flex flex-col flex-1 border-t border-muted/60">
         <div className="text-xs text-muted-foreground mb-2 flex items-center gap-2">
           <IconAward size={13} /> By {course.teacher}
         </div>
         <h3 className="text-[1.5rem] leading-tight mb-3 mt-1">
-          <Link href={ctaHref} className="course-title hover:opacity-80 transition">
+          <CardLink href={ctaHref} external={externalBuy} className="course-title hover:opacity-80 transition">
             {course.title}
-          </Link>
+          </CardLink>
         </h3>
         <p className="text-sm opacity-75 mb-5 line-clamp-2">{course.tagline}</p>
         {course.features && (
@@ -173,6 +224,11 @@ export function CourseCard({ course }: { course: Course }) {
                 {f}
               </span>
             ))}
+            {isFree && course.language ? (
+              <span className="text-[0.7rem] px-2.5 py-1 rounded-full bg-primary/10 text-primary font-semibold border border-primary/30">
+                🗣 {course.language}
+              </span>
+            ) : null}
           </div>
         )}
         <div className="flex items-center justify-between gap-3 border-t border-muted pt-5 mt-auto">
@@ -185,16 +241,16 @@ export function CourseCard({ course }: { course: Course }) {
             <div>
               <span className="text-2xl font-bold text-foreground">
                 {formatINR(course.price)}
-                {course.type === "live" ? <span className="text-xs font-medium opacity-60 ml-1">/class</span> : null}
+                {course.type === "live" && course.priceSuffix ? <span className="text-xs font-medium opacity-60 ml-1">{stripPerClass(course.priceSuffix)}</span> : null}
               </span>
               {course.originalPrice ? <span className="ml-2 text-sm text-muted-foreground line-through">{formatINR(course.originalPrice)}</span> : null}
             </div>
           ) : (
             <span className="text-sm font-semibold text-muted-foreground">{isFree ? "Free" : "Price on request"}</span>
           )}
-          <Link href={ctaHref} className={isFree ? "btn btn-whatsapp btn-sm" : "btn btn-primary btn-sm"}>
+          <CardLink href={ctaHref} external={externalBuy} className={isFree ? "btn btn-whatsapp btn-sm" : "btn btn-primary btn-sm"}>
             {isFree ? <IconPlay size={14} /> : null} {ctaLabel}
-          </Link>
+          </CardLink>
         </div>
       </div>
     </article>
@@ -303,12 +359,13 @@ export function BookCard({ book, index = 0 }: { book: Book; index?: number }) {
 
         {/* Cover image - fixed aspect ratio for uniformity */}
         <div className="relative w-full aspect-[3/4] overflow-hidden rounded-xl bg-white/40 border border-white/60 shadow-lg mb-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={book.image}
             alt={book.title}
-            loading="lazy"
-            className="w-full h-full object-contain p-3"
+            fill
+            sizes="(max-width: 768px) 50vw, 33vw"
+            unoptimized={book.image?.startsWith("http")}
+            className="object-contain p-3"
           />
         </div>
 
@@ -327,7 +384,7 @@ export function BookCard({ book, index = 0 }: { book: Book; index?: number }) {
 
           <div className="flex items-center justify-between gap-3">
             <div className="w-8 h-8 rounded-full bg-white/60 flex items-center justify-center border border-white/80 shrink-0">
-              <span className="text-foreground/50 text-sm">✦</span>
+              <span className="w-2 h-2 rounded-full bg-foreground/40"></span>
             </div>
             <a
               href={book.buyUrl}
@@ -393,12 +450,13 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
 
         {/* Product image - fixed aspect ratio for uniformity */}
         <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl bg-white/40 border border-white/60 shadow-lg mb-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={product.image}
             alt={product.title}
-            loading="lazy"
-            className="w-full h-full object-contain p-3"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            unoptimized={product.image?.startsWith("http")}
+            className="object-contain p-3"
           />
         </div>
 
@@ -417,7 +475,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
 
           <div className="flex items-center justify-between gap-3">
             <div className="w-8 h-8 rounded-full bg-white/60 flex items-center justify-center border border-white/80 shrink-0">
-              <span className="text-foreground/50 text-sm">✦</span>
+              <span className="w-2 h-2 rounded-full bg-foreground/40"></span>
             </div>
             <a
               href={product.buyUrl}
@@ -441,8 +499,8 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
 
 export function CourseEnrollBar({ course }: { course: Course }) {
   const enrollHref =
-    course.type === "free" && course.youtubeUrl
-      ? course.youtubeUrl
+    course.type === "free"
+      ? (course.learnLink || course.youtubeUrl || waLink(CONTACT.phoneMainRaw, `Namaste Arvindrun ji, I want to enroll in the "${course.title}" free course. Please share the details.`))
       : course.buyUrl
         ? course.buyUrl
         : waLink(CONTACT.phoneMainRaw, `Namaste Arvindrun ji, I want to enroll in the "${course.title}" course. Please share the details.`);
@@ -451,14 +509,14 @@ export function CourseEnrollBar({ course }: { course: Course }) {
       href={enrollHref}
       target={enrollHref.startsWith("http") ? "_blank" : undefined}
       rel="noreferrer"
-      className={course.type === "free" ? "btn btn-whatsapp" : "btn btn-primary"}
+      className={course.type === "free" ? "btn btn-whatsapp w-full justify-center" : "btn btn-primary w-full justify-center"}
     >
       {course.type === "free" ? (
         <>
           <IconPlay size={16} /> Learn Now {"\u2014"} Free on YouTube
         </>
       ) : course.type === "live" ? (
-        course.price ? `Enroll Now — ₹${course.price}/class` : "Enroll in This Course"
+        course.price ? `Enroll Now — ₹${course.price}` : "Enroll in This Course"
       ) : course.buyUrl ? (
         <>
           Buy Now {"\u2014"} {course.price ? formatINR(course.price) : "Check Price"} <IconExternal size={14} />

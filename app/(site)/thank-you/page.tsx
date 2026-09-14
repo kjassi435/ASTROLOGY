@@ -6,14 +6,15 @@ import { IconMail, IconWhatsApp } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "Thank You | Arvin Astro",
+  description: "Your message has been received. We will get back to you very soon.",
   robots: { index: false },
-};
+  };
 
 export default function ThankYouPage() {
   return (
     <>
       <PageHero
-        title={<>Thank You! <span className="text-accent">✦</span></>}
+        title={<>Thank <span className="text-accent">You!</span></>}
         subtitle="Your message has been received. We will get back to you very soon — usually within a few hours on WhatsApp or call."
         items={[{ label: "Thank You" }]}
       />
@@ -21,7 +22,6 @@ export default function ThankYouPage() {
       <section className="bg-bg section pt-10 pb-24">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <div className="bg-card rounded-[var(--radius-xl)] border-2 border-primary-hover/20 p-10">
-            <span className="text-[4rem] text-primary-hover block mb-4">✦</span>
             <p className="opacity-80 mb-8">
               Meanwhile, feel free to explore our courses or join our free WhatsApp community for daily remedies and updates.
             </p>

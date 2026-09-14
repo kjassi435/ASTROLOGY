@@ -11,11 +11,14 @@ export const BRAND = {
 export const CONTACT = {
   phoneMain: "+91 97186 46655",
   phoneMainRaw: "+919718646655",
+  phonePayments: "+91 9319305731",
+  phonePaymentsRaw: "+919319305731",
   email: "info@arvinastro.in",
   emailAlt: "arvindrunvnjay112@gmail.com",
   address: "Sector 16B, Greater Noida West, UP, India",
   addressShort: "Sector 16B Greater Noida West UP",
-  whatsappCommunity: "https://wa.me/919718646655",
+  whatsappCommunity: "https://chat.whatsapp.com/CvAEMhvIHZh7ebTDUw5L19",
+  whatsappDirect: "https://wa.me/919718646655",
   kutumb: "https://kutumb.app/0083ef8a3e08?screen=star_share",
 };
 
@@ -53,7 +56,6 @@ export const MARQUEE_ITEMS = [
 export const NAV = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Services", href: "/services" },
   {
     label: "Courses",
     href: "/courses",
@@ -63,11 +65,12 @@ export const NAV = [
       { label: "Live Courses", href: "/courses/live" },
     ],
   },
+  { label: "Services", href: "/services" },
   { label: "Books", href: "/books" },
   { label: "Vastu Products", href: "/vastu-products" },
   { label: "Blog", href: "/blog" },
-  { label: "Admin Login", href: "/admin" },
   { label: "Contact", href: "/contact" },
+  { label: "Admin Login", href: "/admin" },
 ];
 
 export const FOOTER_LINKS = [

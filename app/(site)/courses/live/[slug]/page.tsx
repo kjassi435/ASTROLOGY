@@ -1,37 +1,60 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { COURSES, type Course } from "@/lib/courses";
-import { getCourses } from "@/lib/cms";
+import { getCourses, matchSlug } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Preloader";
 import { JsonLd } from "@/components/JsonLd";
-import { CourseEnrollBar } from "@/components/Cards";
-import { IconCheck, IconClock, IconUsers, IconVideo, IconWhatsApp } from "@/components/Icons";
+import { IconCheck, IconClock, IconUsers, IconVideo } from "@/components/Icons";
+import { waLink, stripPerClass, stripRecordingRefs, formatINR } from "@/lib/utils";
+import { InlineText } from "@/components/Inline";
 import { CONTACT } from "@/lib/site";
 
 export const dynamicParams = true;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 async function resolveCourse(slug: string): Promise<Course | undefined> {
-  const base = COURSES.find((c) => c.slug === slug);
-  const db = (await getCourses()).find((c) => c.slug === slug);
+  const base = matchSlug(COURSES, slug);
+  const db = matchSlug(await getCourses(), slug);
   if (!base && !db) return undefined;
   return (db ? { ...(base ?? {}), ...(db as Course) } : base) as Course;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const course = await resolveCourse(slug);
+  const course = (await getCourses()).find((c) => c.type === "live" && c.slug === slug);
   if (!course) return { title: "Course Not Found" };
+  const title = `${course.title} - Live Course | Arvin Astro`;
   return {
-    title: `${course.title} — Live Course | Arvin Astro`,
-    description: course.tagline,
-  };
+    title,
+    description: course.tagline ?? course.description,
+    keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+    };
 }
+
+const DEFAULT_LIVE_BOX_TITLE = "Every session is **live** — join in real time, ask questions on the spot, and stay connected with the community between classes.";
 
 export default async function LiveCoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const course = await resolveCourse(slug);
   if (!course) notFound();
+
+  // Derived price string for the top dark box right side. Always reflects
+  // the canonical `price` and `originalPrice` fields, so editing them in
+  // the admin updates this string in real time. If the admin has set a
+  // custom `priceNote`, that text is used instead (free-form override).
+  const derivedPriceNote = (() => {
+    const parts: string[] = [];
+    if (course.price) parts.push(`Booking Amount — ${formatINR(course.price)}/– Only`);
+    if (course.originalPrice) parts.push(`TOTAL FEES ${formatINR(course.originalPrice)}/– Only`);
+    return parts.join(" | ");
+  })();
+  const rightText = (course.priceNote && course.priceNote.trim()) || derivedPriceNote;
+
+  // Bottom dark box text: admin override > default.
+  const bottomBoxTitle = (course.liveSessionTitle && course.liveSessionTitle.trim()) || DEFAULT_LIVE_BOX_TITLE;
+  const bottomBoxBody = (course.liveSessionBody && course.liveSessionBody.trim()) || "";
 
   return (
     <>
@@ -45,7 +68,7 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
         <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
           <div>
             <Reveal>
-              <p className="text-lg opacity-90 leading-relaxed mb-8">{course.description}</p>
+              <p className="text-lg opacity-90 leading-relaxed mb-8"><InlineText text={stripRecordingRefs(stripPerClass(course.description))} keyPrefix="d" /></p>
             </Reveal>
 
             {course.startsFrom ? (
@@ -56,7 +79,7 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
                     <div className="text-xs uppercase tracking-wider text-primary font-semibold mb-1">New Batch</div>
                     <div className="text-xl font-bold">{course.startsFrom}</div>
                   </div>
-                  {course.priceNote ? <span className="ml-auto text-sm opacity-80">{course.priceNote}</span> : null}
+                  {rightText ? <span className="ml-auto text-sm opacity-80"><InlineText text={stripRecordingRefs(stripPerClass(rightText))} keyPrefix="r" /></span> : null}
                 </div>
               </Reveal>
             ) : null}
@@ -65,7 +88,7 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
               <Reveal>
                 <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
                   <h2 className="text-2xl mb-4">About This Course</h2>
-                  <p className="opacity-80 leading-relaxed">{course.about}</p>
+                  <p className="opacity-80 leading-relaxed"><InlineText text={stripRecordingRefs(stripPerClass(course.about))} keyPrefix="a" /></p>
                 </div>
               </Reveal>
             ) : null}
@@ -75,12 +98,12 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
                 <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
                   <h2 className="text-2xl mb-5">Why Join?</h2>
                   <ul className="space-y-3">
-                    {course.whyJoin.map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-sm">
+                    {course.whyJoin.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm">
                         <span className="mt-0.5 w-5 h-5 rounded-full bg-primary text-foreground flex items-center justify-center shrink-0">
                           <IconCheck size={12} />
                         </span>
-                        {item}
+                        <InlineText text={item} keyPrefix={`wj-${i}`} />
                       </li>
                     ))}
                   </ul>
@@ -88,32 +111,35 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
               </Reveal>
             ) : null}
 
-            {course.perks?.length ? (
-              <Reveal>
-                <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
-                  <h2 className="text-2xl mb-5">Perks of Enrollment</h2>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {course.perks.map((p) => (
-                      <li key={p} className="flex items-start gap-2.5 text-sm">
-                        <span className="mt-0.5 w-5 h-5 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0 text-[0.6rem]">✦</span>
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ) : null}
+            {(() => {
+              const livePerks = (course.perks ?? []).filter((p) => !/record/i.test(p));
+              return livePerks.length ? (
+                <Reveal>
+                  <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
+                    <h2 className="text-2xl mb-5">Perks of Enrollment</h2>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {livePerks.map((p, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-sm">
+                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                          <InlineText text={p} keyPrefix={`pk-${i}`} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
+              ) : null;
+            })()}
 
             <Reveal>
               <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 mb-8">
                 <h2 className="text-2xl mb-5">What You Get</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {course.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
+                  {course.features.filter((f) => !/record/i.test(f)).map((f, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-sm">
                       <span className="mt-0.5 w-5 h-5 rounded-full bg-primary text-foreground flex items-center justify-center shrink-0">
                         <IconCheck size={12} />
                       </span>
-                      {f}
+                      <InlineText text={f} keyPrefix={`ft-${i}`} />
                     </li>
                   ))}
                 </ul>
@@ -127,7 +153,7 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
                   {course.syllabus?.map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm">
                       <span className="font-bold text-primary-hover w-6 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                      {item}
+                      <InlineText text={item} keyPrefix={`sy-${i}`} />
                     </li>
                   ))}
                 </ol>
@@ -138,12 +164,9 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
               <div className="mt-8 flex flex-wrap items-center gap-4 bg-foreground text-bg rounded-[var(--radius-lg)] p-7">
                 <IconVideo size={28} className="text-primary shrink-0" />
                 <p className="text-sm flex-1">
-                  Every live class is <strong className="text-primary">recorded</strong> and shared, so you never miss a session. Doubts are cleared in
-                  real time, and you stay connected with the community between classes.
+                  <InlineText text={bottomBoxTitle} keyPrefix="bs-title" />
+                  {bottomBoxBody ? <> <InlineText text={bottomBoxBody} keyPrefix="bs-body" /></> : null}
                 </p>
-                <a href={CONTACT.whatsappCommunity} className="btn btn-whatsapp btn-sm">
-                  <IconWhatsApp size={14} /> Ask a Question
-                </a>
               </div>
             </Reveal>
           </div>
@@ -161,24 +184,32 @@ export default async function LiveCoursePage({ params }: { params: Promise<{ slu
                     </div>
                     {course.duration ? (
                       <div className="flex items-center gap-2.5">
-                        <IconClock size={16} className="text-primary-hover" /> {course.duration}
+                        <IconClock size={16} className="text-primary-hover" /> {stripRecordingRefs(stripPerClass(course.duration))}
                       </div>
                     ) : null}
                     <div className="flex items-center gap-2.5">
-                      <IconVideo size={16} className="text-primary-hover" /> Live + Recorded
+                      <IconVideo size={16} className="text-primary-hover" /> Live
                     </div>
                   </div>
-                  <CourseEnrollBar course={course} />
                   {course.payUrl ? (
                     <a
                       href={course.payUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-primary w-full justify-center mt-3"
+                      className="btn btn-primary w-full justify-center"
                     >
-                      Pay Now {course.price ? `— ₹${course.price}/class` : ""}
+                      Pay Now {course.price ? `— ${formatINR(course.price)}` : ""}
                     </a>
-                  ) : null}
+                  ) : (
+                    <a
+                      href={waLink(CONTACT.phoneMainRaw, `Namaste Arvindrun ji, I want to enroll in the "${course.title}" live course. Please share the details.`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-whatsapp w-full justify-center"
+                    >
+                      Enroll Now
+                    </a>
+                  )}
                 </div>
               </div>
             </Reveal>

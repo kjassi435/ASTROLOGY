@@ -112,7 +112,7 @@ export function ServiceEnquiryForm({ serviceSlug, serviceName }: { serviceSlug: 
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSending(true);
 
@@ -132,6 +132,26 @@ export function ServiceEnquiryForm({ serviceSlug, serviceName }: { serviceSlug: 
     }
 
     lines.push("", "Please share the next steps.");
+
+    try {
+      const detail = fields
+        .filter((f) => !["name", "phone", "email"].includes(f.name) && formData[f.name])
+        .map((f) => `${f.label}: ${formData[f.name]}`)
+        .join("\n");
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name ?? "",
+          phone: formData.phone ?? "",
+          email: formData.email ?? "",
+          service: serviceName,
+          message: detail,
+        }),
+      });
+    } catch {
+      /* WhatsApp flow continues regardless */
+    }
 
     const text = encodeURIComponent(lines.join("\n"));
     const url = `https://wa.me/${CONTACT.phoneMainRaw}?text=${text}`;

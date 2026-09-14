@@ -6,13 +6,18 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
   const { id } = await params;
-  const resultId = await saveBook((await req.json()), Number(id));
+  const idNum = Number(id);
+  if (!Number.isFinite(idNum)) return NextResponse.json({ error: "invalid id" }, { status: 400 });
+  const resultId = await saveBook((await req.json()), idNum);
   return NextResponse.json({ id: resultId });
 }
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
-  await deleteBook(Number((await params).id));
+  const raw = (await params).id;
+  const idNum = Number(raw);
+  if (!Number.isFinite(idNum)) return NextResponse.json({ error: "invalid id" }, { status: 400 });
+  await deleteBook(idNum);
   return NextResponse.json({ success: true });
 }

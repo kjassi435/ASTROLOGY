@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
   const body = (await req.json()) as PostInput;
-  if (!body.slug || !body.title) return NextResponse.json({ error: "slug and title required" }, { status: 400 });
+  if (!body.title) return NextResponse.json({ error: "title required" }, { status: 400 });
   const id = await savePost(body);
   return NextResponse.json({ id });
 }

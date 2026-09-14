@@ -5,10 +5,11 @@ import { BookCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 
 export const metadata: Metadata = {
-  title: "Recommended Books — Best Astrology, Numerology & Vastu Books | Arvin Astro",
+  title: "Recommended Books - Best Astrology, Numerology & Vastu Books | Arvin Astro",
   description:
-    "Get the best recommended Astrology, Numerology, Name Numerology & Vastu books handpicked by Arvindrun Vnjay — curated occult library for serious learners.",
-};
+    "Get the best recommended Astrology, Numerology, Name Numerology & Vastu books handpicked by Arvindrun Vnjay - curated occult library for serious learners.",
+  keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+  };
 
 export default async function BooksPage() {
   const books = await getBooks();
@@ -28,20 +29,6 @@ export default async function BooksPage() {
                 <BookCard book={book} index={i} />
               </Reveal>
             ))}
-          </div>
-
-          <div className="mt-14 bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7 text-center max-w-2xl mx-auto">
-            <p className="text-sm text-muted-foreground">
-              Want a personalised reading list based on your level and goal? Message us on WhatsApp and we will recommend the right books for you.
-            </p>
-            <a
-              href="https://wa.me/919718646655?text=Hi%2C%20please%20recommend%20books%20for%20me."
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-whatsapp btn-sm mt-5"
-            >
-              Ask on WhatsApp
-            </a>
           </div>
         </div>
       </section>

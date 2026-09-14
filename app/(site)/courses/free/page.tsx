@@ -3,14 +3,14 @@ import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { CourseCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
-import { CONTACT } from "@/lib/site";
-import { IconWhatsApp } from "@/components/Icons";
+import { WhatsAppCommunity } from "@/components/WhatsAppCommunity";
 
 export const metadata: Metadata = {
-  title: "Free Courses — Astrology, Numerology & Vastu | Arvin Astro",
+  title: "Free Courses - Astrology, Numerology & Vastu | Arvin Astro",
   description:
     "Start your occult journey for free! Learn Astrology, Numerology & Vastu with expert teacher Arvindrun Vnjay. Free recorded lessons and tutorials on YouTube.",
-};
+  keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+  };
 
 export default async function FreeCoursesPage() {
   const freeCourses = (await getCourses()).filter((c) => c.type === "free");
@@ -32,19 +32,7 @@ export default async function FreeCoursesPage() {
             ))}
           </div>
 
-          <div className="mt-16 bg-card rounded-[var(--radius-xl)] border-2 border-primary-hover/20 p-8 sm:p-12 text-center">
-            <span className="text-[4rem] block text-primary-hover mb-4">✦</span>
-            <h2 className="text-3xl mb-4">
-              Join our <span className="text-accent">WhatsApp Community</span> for updates
-            </h2>
-            <p className="opacity-80 max-w-2xl mx-auto mb-8">
-              We often arrange free Astrology, Name Numerology, Numerology & Vastu sessions for our learners. Join the community to stay updated
-              about free &amp; paid sessions.
-            </p>
-            <a href={CONTACT.whatsappCommunity} target="_blank" rel="noreferrer" className="btn btn-whatsapp">
-              <IconWhatsApp size={16} /> Join WhatsApp Community
-            </a>
-          </div>
+          <WhatsAppCommunity />
         </div>
       </section>
     </>

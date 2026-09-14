@@ -7,10 +7,11 @@ import { Reveal } from "@/components/Reveal";
 import { IconArrowRight } from "@/components/Icons";
 
 export const metadata: Metadata = {
-  title: "Blog — Astrology, Numerology & Vastu Articles | Arvin Astro",
+  title: "Blog - Astrology, Numerology & Vastu Articles | Arvin Astro",
   description:
     "Read practical articles on Astrology, Name Numerology, Numerology & Vastu from expert Arvindrun Vnjay. Learn remedies, tips and deep occult science insights.",
-};
+  keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+  };
 
 export default async function BlogPage() {
   const posts = await getPosts();

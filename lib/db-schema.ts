@@ -97,11 +97,41 @@ export async function initDB() {
       created_at TEXT DEFAULT (datetime('now'))
     );
 
-    CREATE TABLE IF NOT EXISTS site_content (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      slug TEXT UNIQUE NOT NULL,
-      fields TEXT,
-      created_at TEXT DEFAULT (datetime('now'))
-    );
+      CREATE TABLE IF NOT EXISTS site_content (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        slug TEXT UNIQUE NOT NULL,
+        fields TEXT,
+        created_at TEXT DEFAULT (datetime('now'))
+      );
   `);
+
+  // Safe additive migrations (ignore if column already exists).
+  const alters = [
+    "ALTER TABLE services ADD COLUMN hero_image TEXT",
+    "ALTER TABLE services ADD COLUMN intro_heading TEXT",
+    "ALTER TABLE courses ADD COLUMN about TEXT",
+    "ALTER TABLE courses ADD COLUMN why_join TEXT",
+    "ALTER TABLE courses ADD COLUMN perks TEXT",
+    "ALTER TABLE courses ADD COLUMN starts_from TEXT",
+    "ALTER TABLE courses ADD COLUMN price_note TEXT",
+    "ALTER TABLE courses ADD COLUMN pay_url TEXT",
+    "ALTER TABLE courses ADD COLUMN bullets TEXT",
+    "ALTER TABLE courses ADD COLUMN learn_link TEXT",
+    "ALTER TABLE courses ADD COLUMN beginner_note TEXT",
+    "ALTER TABLE courses ADD COLUMN language TEXT",
+    "ALTER TABLE courses ADD COLUMN price_suffix TEXT",
+    "ALTER TABLE courses ADD COLUMN live_session_title TEXT",
+    "ALTER TABLE courses ADD COLUMN live_session_body TEXT",
+    "ALTER TABLE posts ADD COLUMN status TEXT DEFAULT 'published'",
+    "ALTER TABLE posts ADD COLUMN body TEXT",
+    "ALTER TABLE posts ADD COLUMN author TEXT DEFAULT 'Arvindrun Vnjay'",
+    "ALTER TABLE posts ADD COLUMN tags TEXT",
+  ];
+  for (const sql of alters) {
+    try {
+      await client.execute(sql);
+    } catch {
+      /* column likely already exists */
+    }
+  }
 }

@@ -7,10 +7,11 @@ import { IconClock, IconMail, IconPhone, IconPin, IconWhatsApp } from "@/compone
 import { JsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Contact Us — Astrology, Numerology & Vastu Expert | Arvin Astro",
+  title: "Contact Us - Astrology, Numerology & Vastu Expert | Arvin Astro",
   description:
-    "Contact Arvindrun Vnjay for Astrology, Name Numerology, Numerology & Vastu consultation, courses and vastu products. Call, WhatsApp or email — we reply quickly.",
-};
+    "Contact Arvindrun Vnjay for Astrology, Name Numerology, Numerology & Vastu consultation, courses and vastu products. Call, WhatsApp or email - we reply quickly.",
+  keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+  };
 
 export default function ContactPage() {
   return (
@@ -28,7 +29,7 @@ export default function ContactPage() {
               { icon: <IconPhone size={20} />, title: "Phone / WhatsApp", lines: [CONTACT.phoneMain], href: waLink(CONTACT.phoneMainRaw, "Hello Arvin Astro, I have a question.") },
               { icon: <IconMail size={20} />, title: "Email", lines: [CONTACT.email], href: `mailto:${CONTACT.email}` },
               { icon: <IconPin size={20} />, title: "Location", lines: [CONTACT.address], href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address)}` },
-              { icon: <IconClock size={20} />, title: "Availability", lines: ["Mon – Sat · 10:00 AM – 8:00 PM IST", "Consultations by appointment"] },
+              { icon: <IconClock size={20} />, title: "Availability", lines: ["Mon – Sat · 10:00 AM – 6:00 PM IST", "Consultations by appointment"] },
             ].map((card) => (
               <div key={card.title} className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-6 flex gap-4">
                 <span className="w-12 h-12 rounded-full bg-primary text-foreground flex items-center justify-center shrink-0">{card.icon}</span>

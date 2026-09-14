@@ -1,33 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SERVICES, type Service } from "@/lib/services";
-import { getServices } from "@/lib/cms";
+import { type Service } from "@/lib/services";
+import { getServices, matchSlug } from "@/lib/cms";
 import { CONTACT } from "@/lib/site";
+import { sanitizeHtml } from "@/lib/utils";
 import { PageHero } from "@/components/PageHero";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Preloader";
-import { IconCheck, IconPhone, IconWhatsApp } from "@/components/Icons";
-import { ServiceEnquiryForm } from "@/components/ServiceEnquiryForm";
-import { formatINR, waLink } from "@/lib/utils";
+import { IconCheck } from "@/components/Icons";
+import { formatINR } from "@/lib/utils";
 
 export const dynamicParams = true;
 
 async function resolveService(slug: string): Promise<Service | undefined> {
-  const base = SERVICES.find((s) => s.slug === slug);
-  const db = (await getServices()).find((s) => s.slug === slug);
-  if (!base && !db) return undefined;
-  return (db ? { ...(base ?? {}), ...(db as Service) } : base) as Service;
+  return matchSlug(await getServices(), slug);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const service = await resolveService(slug);
   if (!service) return { title: "Service Not Found" };
+  const title = `${service.name} - Book Consultation | Arvin Astro`;
   return {
-    title: `${service.name} — Book Consultation | Arvin Astro`,
+    title,
     description: service.tagline,
-  };
+    alternates: { canonical: `/services/${service.slug}` },
+    keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+    };
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -50,19 +50,36 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           <div>
             {service.introHeading && (
               <div className="mb-7">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-primary text-sm">{"\u2726"}</span>
+                <div className="mb-2">
                   <span className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-primary">Introduction</span>
                 </div>
                 <h2 className="text-[2rem] font-medium text-foreground">{service.introHeading}</h2>
               </div>
             )}
             <Reveal>
-              {service.longDescription.map((para, i) => (
-                <p key={i} className={i === 0 ? "text-lg opacity-90 mb-5 leading-relaxed first-letter:float-left first-letter:text-[3.4rem] first-letter:leading-[0.78] first-letter:font-bold first-letter:text-primary first-letter:pr-3 first-letter:pt-1 first-letter:font-serif" : "opacity-80 mb-5 leading-relaxed"}>
-                  {para}
-                </p>
-              ))}
+              {service.longDescriptionHtml ? (
+                <div
+                  className="prose prose-lg max-w-none
+                    prose-headings:font-bold prose-headings:text-foreground
+                    prose-p:text-foreground/85 prose-p:leading-relaxed prose-p:mb-5
+                    prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-5
+                    prose-ol:list-decimal prose-ol:pl-6 prose-ol:mb-5
+                    prose-li:mb-1.5
+                    prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-5 prose-blockquote:italic prose-blockquote:text-foreground/75
+                    prose-a:text-primary prose-a:underline
+                    prose-img:rounded-xl prose-img:my-6
+                    [&_table]:border-collapse [&_table]:w-full [&_table]:my-5
+                    [&_td]:border [&_td]:border-slate-300 [&_td]:px-3 [&_td]:py-2
+                    [&_th]:border [&_th]:border-slate-300 [&_th]:px-3 [&_th]:py-2 [&_th]:bg-slate-50 [&_th]:font-semibold"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(service.longDescriptionHtml) }}
+                />
+              ) : (
+                service.longDescription.map((para, i) => (
+                  <p key={i} className={i === 0 ? "text-lg opacity-90 mb-5 leading-relaxed first-letter:float-left first-letter:text-[3.4rem] first-letter:leading-[0.78] first-letter:font-bold first-letter:text-primary first-letter:pr-3 first-letter:pt-1 first-letter:font-serif" : "opacity-80 mb-5 leading-relaxed"}>
+                    {para}
+                  </p>
+                ))
+              )}
             </Reveal>
             {service.descriptionBox && (
               <Reveal>
@@ -118,7 +135,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                         <ul className="space-y-2.5 text-sm opacity-80 mb-6 flex-1">
                           {tier.features.map((f) => (
                             <li key={f} className="flex items-start gap-2.5">
-                              <span className="mt-0.5 w-5 h-5 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0 text-[0.6rem]">✦</span>
+                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
                               {f}
                             </li>
                           ))}
@@ -129,14 +146,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                               Consult at {tier.price ? formatINR(tier.price) : ""}
                             </a>
                           ) : null}
-                          <a
-                            href={waLink(CONTACT.phoneMainRaw, `Namaste Arvindrun ji, I want to book "${tier.name}" (${service.name}). Please share the details.`)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn btn-whatsapp w-full justify-center"
-                          >
-                            <IconWhatsApp size={16} /> Book on WhatsApp
-                          </a>
                         </div>
                       </div>
                     ))}
@@ -151,15 +160,15 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <ul className="space-y-2.5 text-sm opacity-90">
                   {service.bookingNotes.map((note, i) => (
                     <li key={i} className="flex items-start gap-2.5">
-                      <span className="text-primary mt-0.5">✦</span>
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
                       {note}
                     </li>
                   ))}
                 </ul>
                 <div className="mt-6 pt-5 border-t border-primary/20 text-sm">
                   After payment, please share the payment screenshot on WhatsApp{" "}
-                  <a href={`tel:${CONTACT.phoneMainRaw}`} className="text-primary font-semibold hover:underline">
-                    {CONTACT.phoneMain}
+                  <a href={`tel:${CONTACT.phonePaymentsRaw}`} className="text-primary font-semibold hover:underline">
+                    {CONTACT.phonePayments}
                   </a>{" "}
                   to confirm your booking.
                 </div>
@@ -184,20 +193,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     </li>
                   ))}
                 </ul>
-              </div>
-            </Reveal>
-            <Reveal delay={100}>
-              <div className="bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 p-7">
-                <h3 className="text-xl mb-5">Enquire Now</h3>
-                <ServiceEnquiryForm serviceSlug={service.slug} serviceName={service.name} />
-              </div>
-            </Reveal>
-            <Reveal delay={150}>
-              <div className="bg-foreground rounded-[var(--radius-lg)] p-7 text-bg text-center">
-                <h3 className="text-xl mb-3">If You Need Any Help Contact With Us</h3>
-                <a href={`tel:${CONTACT.phoneMainRaw}`} className="text-3xl font-bold text-primary hover:opacity-90 transition">
-                  {CONTACT.phoneMain}
-                </a>
               </div>
             </Reveal>
           </aside>

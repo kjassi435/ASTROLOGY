@@ -1,22 +1,41 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { IconChevronLeft, IconArrowRight } from "@/components/Icons";
+import { MARQUEE_ITEMS } from "@/lib/site";
 
-export function Hero() {
+export function Hero({
+  desktopSlides,
+  mobileSlide,
+  title,
+  subtitle,
+  marqueeItems,
+}: {
+  desktopSlides?: string[];
+  mobileSlide?: string;
+  title?: string;
+  subtitle?: string;
+  marqueeItems?: string[];
+} = {}) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [
-    "/images/hero-1.png",
-    "/images/hero-2.png",
-    "/images/hero-3.png",
-  ];
+  const rawSlides =
+    desktopSlides && desktopSlides.length
+      ? desktopSlides
+      : ["/images/hero-1.png", "/images/hero-2.png", "/images/hero-3.png"];
+  const slides = [...new Set(rawSlides)];
+  const multi = slides.length > 1;
+  const mobile = mobileSlide || "/images/hero-mobile.png";
+  const marquee = marqueeItems && marqueeItems.length ? marqueeItems : MARQUEE_ITEMS;
+  const marqueeTrack = [...marquee, ...marquee];
 
   useEffect(() => {
+    if (!multi) return;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [multi, slides.length]);
 
   return (
     <section className="relative h-[100dvh] min-h-[500px] bg-black overflow-hidden" id="home">
@@ -29,16 +48,23 @@ export function Hero() {
               index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
-            <img
+            <Image
               src={slide}
               alt={`Hero slide ${index + 1}`}
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              loading="eager"
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              unoptimized={slide.startsWith("http")}
+              className="object-cover object-center"
             />
           </div>
         ))}
       </div>
-      <div className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-20 items-center gap-2.5 sm:bottom-10">
+
+      {/* Desktop: slide controls */}
+      {multi && (
+        <>
+      <div className="hidden md:flex absolute bottom-20 left-1/2 -translate-x-1/2 z-20 items-center gap-2.5">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -64,15 +90,44 @@ export function Hero() {
       >
         <IconArrowRight size={18} />
       </button>
+        </>
+      )}
 
-      {/* Mobile: single portrait image (no slider) */}
+      {/* Mobile: single portrait image */}
       <div className="block md:hidden absolute inset-0 z-0">
-        <img
-          src="/images/hero-mobile.png"
+        <Image
+          src={mobile}
           alt="Arvin Astro"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          loading="eager"
+          fill
+          priority
+          sizes="100vw"
+          unoptimized={mobile.startsWith("http")}
+          className="object-cover object-center"
         />
+      </div>
+
+      {/* Title overlay */}
+      {(title || subtitle) && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40 px-6">
+          <div className="max-w-3xl text-center text-white">
+            {title ? <h1 className="text-[clamp(1.8rem,4.5vw,3.6rem)] font-bold leading-tight drop-shadow-lg">{title}</h1> : null}
+            {subtitle ? <p className="mt-4 text-[clamp(0.95rem,1.8vw,1.25rem)] font-light text-white/90 drop-shadow-md max-w-2xl mx-auto">{subtitle}</p> : null}
+          </div>
+        </div>
+      )}
+
+      {/* Marquee strip - positioned at bottom of hero */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 marquee-section" aria-hidden>
+        <div className="marquee-track">
+          <div className="marquee-content">
+            {marqueeTrack.map((item, i) => (
+              <span key={i} className="flex items-center gap-10">
+                {item}
+                <span className="w-2 h-2 rounded-full bg-primary/50 shrink-0"></span>
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

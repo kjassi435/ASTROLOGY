@@ -1,12 +1,15 @@
 import type { MetadataRoute } from "next";
-import { SERVICES } from "@/lib/services";
-import { RECORDED_COURSES, LIVE_COURSES } from "@/lib/courses";
-import { POSTS } from "@/lib/blog";
+import { getServices, getCourses, getPosts } from "@/lib/cms";
 import { BRAND } from "@/lib/site";
 
-export const dynamic = "force-static";
+// Always fresh from the database (with static fallbacks), so anything the
+// client adds in the admin panel — services, courses, blogs — automatically
+// appears here. Recorded-course detail pages are intentionally excluded:
+// those cards link out to the ClassPlus store and have no on-site page.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const base = `https://${BRAND.domain}`;
 
@@ -24,34 +27,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
   ];
 
-  const serviceRoutes: MetadataRoute.Sitemap = SERVICES.map((s) => ({
+  const [services, courses, posts] = await Promise.all([getServices(), getCourses(), getPosts()]);
+
+  const serviceRoutes: MetadataRoute.Sitemap = services.map((s) => ({
     url: `${base}/services/${s.slug}`,
     lastModified: now,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
 
-  const courseRoutes: MetadataRoute.Sitemap = [
-    ...RECORDED_COURSES.map((c) => ({
-      url: `${base}/courses/recorded/${c.slug}`,
+  const courseRoutes: MetadataRoute.Sitemap = courses
+    .filter((c) => c.type === "live" || c.type === "free")
+    .map((c) => ({
+      url: `${base}/courses/${c.type}/${c.slug}`,
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.7,
-    })),
-    ...LIVE_COURSES.map((c) => ({
-      url: `${base}/courses/live/${c.slug}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    })),
-  ];
+    }));
 
-  const blogRoutes: MetadataRoute.Sitemap = POSTS.map((p) => ({
-    url: `${base}/blog/${p.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
+  const blogRoutes: MetadataRoute.Sitemap = posts
+    .filter((p) => (p.status ?? "published") !== "draft")
+    .map((p) => ({
+      url: `${base}/blog/${p.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
 
   return [...staticRoutes, ...serviceRoutes, ...courseRoutes, ...blogRoutes];
 }

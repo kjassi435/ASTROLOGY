@@ -7,6 +7,10 @@ export interface BlogPost {
   readTime: string;
   image: string;
   content: Array<{ heading?: string; paragraphs: string[]; list?: string[] }>;
+  body?: string;
+  status?: string;
+  author?: string;
+  tags?: string;
 }
 
 export const BLOG_CATEGORIES = [

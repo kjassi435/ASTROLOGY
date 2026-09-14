@@ -50,7 +50,7 @@ const PLATFORM_STYLES: Record<Platform, PlatformStyle> = {
     hoverGradient: "from-emerald-600 to-emerald-400",
   },
   mobileapp: {
-    label: "Mobile App",
+    label: "iOS App",
     icon: FaMobileScreen,
     gradient: "from-blue-600 to-cyan-500",
     hoverGradient: "from-blue-500 to-cyan-400",

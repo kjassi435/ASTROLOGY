@@ -7,10 +7,11 @@ import { Reveal } from "@/components/Preloader";
 import { IconArrowRight, IconCheck } from "@/components/Icons";
 
 export const metadata: Metadata = {
-  title: "Our Services — Astrology, Vastu & Name Designing | Arvin Astro",
+  title: "Our Services - Astrology, Vastu & Name Designing | Arvin Astro",
   description:
     "Expert Astrology, Vastu & Name Designing services. Kundli Analysis, Vastu Consultation, Name Analysis, Company & Newborn Name Designing, Logo Designing and more.",
-};
+  keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
+  };
 
 export default async function ServicesPage() {
   const services = await getServices();

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/admin-auth";
-import { ensureDb, getSiteContent, saveSiteContent } from "@/lib/cms";
+import { ensureDb, getSiteContent, saveSiteContent, normalizeImageUrl } from "@/lib/cms";
 import { SITE_PAGES } from "@/lib/site-content";
 
 export async function GET() {
@@ -26,6 +26,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unknown page" }, { status: 400 });
   }
   const fields = body.fields && typeof body.fields === "object" ? body.fields : {};
+  const page = SITE_PAGES.find((p) => p.slug === slug);
+  if (page) {
+    for (const f of page.fields) {
+      if (f.type === "image" && typeof fields[f.key] === "string") {
+        fields[f.key] = normalizeImageUrl(fields[f.key]) ?? "";
+      }
+    }
+  }
   await saveSiteContent(slug, fields);
   return NextResponse.json({ ok: true });
 }

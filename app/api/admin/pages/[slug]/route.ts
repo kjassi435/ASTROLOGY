@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/admin-auth";
-import { ensureDb, saveSiteContent } from "@/lib/cms";
+import { ensureDb, saveSiteContent, normalizeImageUrl } from "@/lib/cms";
+import { SITE_PAGES } from "@/lib/site-content";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   if (!(await requireAdmin())) return unauthorized();
@@ -15,6 +16,15 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
   await ensureDb();
   const { slug } = await params;
   const body = (await req.json()) as { fields: Record<string, string> };
-  await saveSiteContent(slug, body.fields ?? {});
+  const fields = body.fields ?? {};
+  const page = SITE_PAGES.find((p) => p.slug === slug);
+  if (page) {
+    for (const f of page.fields) {
+      if (f.type === "image" && typeof fields[f.key] === "string") {
+        fields[f.key] = normalizeImageUrl(fields[f.key]) ?? "";
+      }
+    }
+  }
+  await saveSiteContent(slug, fields);
   return NextResponse.json({ success: true });
 }
