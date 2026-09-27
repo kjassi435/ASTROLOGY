@@ -84,6 +84,8 @@ export async function exchangeGoogleCode(code: string, redirectUri: string): Pro
   if (!infoRes.ok) return null;
   const info = await infoRes.json();
   const allowed = process.env.GOOGLE_ALLOWED_EMAIL;
-  if (allowed && info.email !== allowed) return null;
+  // Deny by default: without an explicit allowlist, no Google account may
+  // gain admin access (previously ANY Google account was accepted).
+  if (!allowed || info.email !== allowed) return null;
   return info.email ?? null;
 }

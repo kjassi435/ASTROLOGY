@@ -7,7 +7,7 @@ import { IconMail, IconPhone, IconPin, IconWhatsApp, IconArrowUp } from "./Icons
 
 export function Footer({ global }: { global?: Record<string, string> }) {
   const g = global ?? {};
-  const logo = g.logoUrl || "/images/logo.png";
+  const logo = g.logoUrl || "/images/logo.webp";
   const tagline = g.siteTagline ?? BRAND.tagline;
   const appsIos = g.appsIos ?? APPS.ios;
   const appsAndroid = g.appsAndroid ?? APPS.android;

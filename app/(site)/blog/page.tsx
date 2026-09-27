@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { BLOG_CATEGORIES } from "@/lib/blog";
 import { getPosts } from "@/lib/cms";
@@ -6,12 +7,13 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { IconArrowRight } from "@/components/Icons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Blog - Astrology, Numerology & Vastu Articles | Arvin Astro",
   description:
     "Read practical articles on Astrology, Name Numerology, Numerology & Vastu from expert Arvindrun Vnjay. Learn remedies, tips and deep occult science insights.",
+  path: "/blog",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default async function BlogPage() {
   const posts = await getPosts();

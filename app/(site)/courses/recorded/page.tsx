@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import { type CourseCategory, type Course } from "@/lib/courses";
 import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
@@ -6,12 +7,13 @@ import { CourseCard, SectionHeader } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 import { IconCheck } from "@/components/Icons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Recorded Courses - Astrology, Numerology & Vastu | Arvin Astro",
   description:
     "Professional online recorded Numerology, Vastu & Astrology courses. Learn occult science at your own pace with expert-led sessions. Ideal for India and global learners.",
+  path: "/courses/recorded",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 const CATEGORIES: { key: CourseCategory; label: string }[] = [
   { key: "vastu", label: "🔮 Vastu Courses" },
@@ -64,7 +66,7 @@ export default async function RecordedCoursesPage() {
 
           <div className="mt-12 bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 overflow-hidden flex flex-col sm:flex-row items-center gap-6 p-6 sm:p-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/courses/recorded-cta.png" alt="All Recorded Courses" className="w-full sm:w-64 h-40 object-cover rounded-xl" />
+            <img src="/images/courses/recorded-cta.webp" alt="All Recorded Courses" className="w-full sm:w-64 h-40 object-cover rounded-xl" />
             <div className="flex-1">
               <h3 className="text-2xl font-bold mb-2">See all Recorded Courses available with us</h3>
               <p className="text-muted-foreground mb-4">Explore Our All Available Pre Recorded Courses</p>

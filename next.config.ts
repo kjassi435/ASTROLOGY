@@ -21,10 +21,8 @@ const nextConfig: NextConfig = {
       { source: "/free-courses/", destination: "/courses/free", permanent: true },
       { source: "/live-courses/", destination: "/courses/live", permanent: true },
       { source: "/recommended-books/", destination: "/books", permanent: true },
-      { source: "/vastu-products/", destination: "/vastu-products", permanent: true },
       { source: "/contact-with-us/", destination: "/contact", permanent: true },
       { source: "/our-courses/", destination: "/courses", permanent: true },
-      { source: "/blog/", destination: "/blog", permanent: true },
       { source: "/live/", destination: "/courses/live", permanent: true },
     ];
   },

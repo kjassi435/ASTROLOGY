@@ -12,8 +12,7 @@ import { CONTACT } from "@/lib/site";
 import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 async function resolveCourse(slug: string): Promise<Course | undefined> {
   const base = matchSlug(COURSES, slug);

@@ -12,7 +12,8 @@ export async function GET() {
 
 export async function DELETE() {
   const cookieStore = await cookies();
-  cookieStore.delete("admin-token");
+  // Clear with matching path so Secure/prod cookies are actually removed.
+  cookieStore.set("admin-token", "", { path: "/", maxAge: 0 });
   return NextResponse.json({ authenticated: false });
 }
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import React from "react";
 import Link from "next/link";
 import { APPS, CONTACT } from "@/lib/site";
@@ -6,16 +7,18 @@ import { getServices, getCourses, getPosts, getTestimonials, getPageContent, pag
 import { FAQS } from "@/lib/faqs";
 import { JsonLd } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Arvindrun Vnjay | Astrologer, Name Numerology Expert & Vastu Consultant",
   description:
     "Consult with Arvindrun Vnjay — Astrologer, Name Numerology Expert & Vastu Consultant. Get personalized guidance and join our courses on Astrology, Name Numerology, and Vastu.",
+  path: "/",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology", "best astrologer in Greater Noida", "vastu for home", "name correction numerology"],
-  };
+});
 import { SectionHeader, CourseCard, TestimonialCard, RevealCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 import { FaqList } from "@/components/FaqList";
 import { BookingForm } from "@/components/Forms";
+import { YouTubeFacade } from "@/components/YouTubeFacade";
 import { ServicesSection } from "@/components/ServicesSection";
 import { PlanetTransitChart } from "@/components/PlanetTransitChart";
 import { WhatsAppCommunity } from "@/components/WhatsAppCommunity";
@@ -38,7 +41,7 @@ function AboutStrip({ aboutText, expertImage, expertName, expertText, kicker, di
             <div className="relative">
               <div className="relative w-full aspect-[3/4] gradient-band rounded-[var(--radius-xl)] overflow-hidden shadow-[var(--shadow-lg)] border-8 border-card">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={expertImage || "/images/about.png"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
+                <img src={expertImage || "/images/about.webp"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
               </div>
               {badgeValue ? (
                 <div className="absolute -bottom-7 -right-4 sm:right-8 bg-foreground text-bg p-5 sm:p-6 rounded-[var(--radius-md)] shadow-[var(--shadow-lg)] text-center border-[3px] border-primary">
@@ -178,16 +181,7 @@ function YouTubeSection({ videos = [], kicker, title, desc }: { videos?: string[
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               {videosData.map((v) => (
               <div key={v.id} className="rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-sm)] border border-primary-hover/15 bg-card">
-                <div className="relative w-full" style={{ paddingBottom: "177.78%" }}>
-                  <iframe
-                    src={`https://www.youtube.com/embed/${v.id}`}
-                    title={v.title}
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                  />
-                </div>
+                <YouTubeFacade id={v.id} title={v.title} />
               </div>
             ))}
           </div>
@@ -338,7 +332,7 @@ function AppSection({ kicker, title, desc1, desc2 }: { kicker?: string; title?: 
             </div>
             <div className="hidden lg:flex justify-center items-center">
               <img
-                src="/images/app-mockup.png"
+                src="/images/app-mockup.webp"
                 alt="Arvin Astro App"
                 style={{ width: "180px", height: "auto" }}
                 className="drop-shadow-2xl"

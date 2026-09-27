@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/PageHero";
 import { ContactForm } from "@/components/Forms";
 import { CONTACT } from "@/lib/site";
@@ -6,12 +7,13 @@ import { waLink } from "@/lib/utils";
 import { IconClock, IconMail, IconPhone, IconPin, IconWhatsApp } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Contact Us - Astrology, Numerology & Vastu Expert | Arvin Astro",
   description:
     "Contact Arvindrun Vnjay for Astrology, Name Numerology, Numerology & Vastu consultation, courses and vastu products. Call, WhatsApp or email - we reply quickly.",
+  path: "/contact",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default function ContactPage() {
   return (

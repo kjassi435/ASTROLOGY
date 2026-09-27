@@ -185,7 +185,13 @@ export function CourseCard({ course }: { course: Course }) {
   const isFree = course.type === "free";
   const externalBuy = course.type === "recorded" && !!course.buyUrl;
   const ctaLabel = course.type === "live" ? "Know More" : course.type === "free" ? "Learn Now" : course.price ? "Buy Now" : "Buy Now";
-  const ctaHref = isFree ? (course.learnLink || course.youtubeUrl!) : externalBuy ? course.buyUrl! : `/courses/${course.type}/${course.slug}`;
+  const ctaHref = isFree
+    ? course.learnLink || course.youtubeUrl || "/courses/free"
+    : externalBuy
+      ? course.buyUrl!
+      : course.type === "recorded"
+        ? "/courses/recorded"
+        : `/courses/${course.type}/${course.slug}`;
   const typeLabel = course.type === "live" ? "Live" : course.type === "recorded" ? "Recorded" : "Free";
   const typeColor = course.type === "live" ? "bg-primary text-white" : course.type === "recorded" ? "bg-card text-foreground" : "bg-foreground text-bg";
 

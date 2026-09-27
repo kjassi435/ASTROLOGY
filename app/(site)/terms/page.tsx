@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/PageHero";
 import { getPageContent } from "@/lib/cms";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Terms & Conditions | Arvin Astro",
   description: "Terms and conditions for using Arvin Astro services.",
-  robots: { index: false },
-  };
+  path: "/terms",
+});
 
 export default async function TermsPage() {
   const terms = await getPageContent("terms");

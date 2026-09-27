@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { BRAND, CONTACT, SOCIALS } from "./site";
 
 export const SITE_URL = `https://${BRAND.domain}`;
@@ -12,6 +13,37 @@ export function toAbsoluteImage(url?: string | null): string {
   return `${SITE_URL}${u.startsWith("/") ? u : `/${u}`}`;
 }
 
+// Shared metadata for static pages: canonical + per-page OG/Twitter so
+// WhatsApp/Facebook show the right title instead of the homepage card.
+export function staticMetadata(opts: {
+  title: string;
+  description: string;
+  path: string;
+  keywords?: string[];
+}): Metadata {
+  const url = `${SITE_URL}${opts.path}`;
+  return {
+    title: opts.title,
+    description: opts.description,
+    ...(opts.keywords ? { keywords: opts.keywords } : {}),
+    alternates: { canonical: opts.path },
+    openGraph: {
+      title: opts.title,
+      description: opts.description,
+      url,
+      siteName: BRAND.brand,
+      type: "website",
+      images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: opts.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: opts.title,
+      description: opts.description,
+      images: [DEFAULT_OG_IMAGE],
+    },
+  };
+}
+
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",
@@ -20,7 +52,7 @@ export function organizationSchema() {
     name: BRAND.brand,
     alternateName: BRAND.name,
     url: SITE_URL,
-    logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.png` },
+    logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.webp` },
     description: BRAND.description,
     address: {
       "@type": "PostalAddress",

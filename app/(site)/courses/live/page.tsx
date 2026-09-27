@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { CourseCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Live Courses - Numerology, Vastu & Astrology | Arvin Astro",
   description:
     "Professional live Numerology, Vastu & Astrology occult courses. Learn from India's expert Numerologist and Vastu Consultant Arvindrun Vnjay with interactive live classes.",
+  path: "/courses/live",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default async function LiveCoursesPage() {
   const liveCourses = (await getCourses()).filter((c) => c.type === "live");

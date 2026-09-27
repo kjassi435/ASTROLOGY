@@ -25,10 +25,10 @@ export function Hero({
   const rawSlides =
     desktopSlides && desktopSlides.length
       ? desktopSlides
-      : ["/images/hero-1.png", "/images/hero-2.png", "/images/hero-3.png"];
+      : ["/images/hero-1.webp", "/images/hero-2.webp", "/images/hero-3.webp"];
   const slides = [...new Set(rawSlides)];
   const multi = slides.length > 1;
-  const mobile = mobileSlide || "/images/hero-mobile.png";
+  const mobile = mobileSlide || "/images/hero-mobile.webp";
   const marquee = marqueeItems && marqueeItems.length ? marqueeItems : MARQUEE_ITEMS;
   const marqueeTrack = [...marquee, ...marquee];
 

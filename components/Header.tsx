@@ -50,7 +50,7 @@ function LogoText({ logo }: { logo: string }) {
 
 export function Header({ global }: { global?: Record<string, string> }) {
   const g = global ?? {};
-  const logo = g.logoUrl || "/images/logo.png";
+  const logo = g.logoUrl || "/images/logo.webp";
   const phone = g.phoneMain ?? CONTACT.phoneMain;
   const phoneRaw = toRaw(g.phoneMain ?? CONTACT.phoneMain);
   const appsIos = g.appsIos ?? APPS.ios;

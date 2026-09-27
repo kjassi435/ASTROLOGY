@@ -12,7 +12,8 @@ function normalizeImageUrl(url: string): string {
 }
 
 // Client-side image resize -> data URL so uploads persist in the DB (no server storage needed).
-async function fileToDataUrl(file: File, maxDim = 1600): Promise<string> {
+// Hard cap ~350KB: oversized uploads once bloated listing pages to 40MB+.
+async function fileToDataUrl(file: File, maxDim = 1200): Promise<string> {
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result));
@@ -25,17 +26,23 @@ async function fileToDataUrl(file: File, maxDim = 1600): Promise<string> {
     el.onerror = () => reject(new Error("Invalid image"));
     el.src = dataUrl;
   });
-  const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
-  if (scale >= 1 && file.size < 400 * 1024) return dataUrl;
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(img.width * scale));
-  canvas.height = Math.max(1, Math.round(img.height * scale));
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return dataUrl;
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  const type = file.type === "image/png" ? "image/png" : "image/jpeg";
-  const quality = type === "image/png" ? undefined : 0.82;
-  return canvas.toDataURL(type, quality);
+  const encode = (dim: number, quality: number): string | null => {
+    const scale = Math.min(1, dim / Math.max(img.width, img.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(img.width * scale));
+    canvas.height = Math.max(1, Math.round(img.height * scale));
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL("image/jpeg", quality);
+  };
+  if (file.size < 350 * 1024 && Math.max(img.width, img.height) <= maxDim) {
+    if (dataUrl.length < 450 * 1024) return dataUrl;
+  }
+  let out = encode(maxDim, 0.8) ?? dataUrl;
+  if (out.length > 450 * 1024) out = encode(800, 0.72) ?? out;
+  if (out.length > 500 * 1024) throw new Error("Image too large after compression");
+  return out;
 }
 
 export function ImageInput({

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import type { ReactNode } from "react";
 import { STATS } from "@/lib/site";
 import { getPageContent, pageJson, pageList } from "@/lib/cms";
@@ -9,12 +10,13 @@ import { WhatsAppCommunity } from "@/components/WhatsAppCommunity";
 import { IconAward, IconCheck, IconHeart, IconPhone, IconSparkle, IconUsers } from "@/components/Icons";
 import { InlineText } from "@/components/Inline";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "About Us | Arvindrun Vnjay: Astrologer, Numerologist & Vastu Expert",
   description:
     "Meet Arvindrun Vnjay - 8+ years of experience, 2666+ students enrolled, 999+ consultations globally. Vedic Astrology, Name Numerology & Vastu expert.",
+  path: "/about",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 // Blank line = new paragraph.
 function Paras({ text, className = "" }: { text?: string; className?: string }) {
@@ -126,7 +128,7 @@ export default async function AboutPage() {
               <Reveal>
                 <div className="relative w-full aspect-[3/4] gradient-band rounded-[var(--radius-xl)] overflow-hidden shadow-[var(--shadow-lg)] border-8 border-white">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={about.aboutImage || "/images/about.png"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
+                  <img src={about.aboutImage || "/images/about.webp"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
                 </div>
               </Reveal>
               {about.badgeValue ? (

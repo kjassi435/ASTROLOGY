@@ -31,7 +31,7 @@ export interface Service {
 export const SERVICES: Service[] = [
   {
     slug: "kundli-analysis",
-    heroImage: "/images/services/kundli-analysis.png",
+    heroImage: "/images/services/kundli-analysis.webp",
     name: "Kundli Analysis",
     tagline: "Understand the cosmic blueprint influencing your personality, success and life events.",
     icon: "kundli",
@@ -49,7 +49,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Kundli Analysis Pro",
-        image: "/images/services/kundli-pro.png",
+        image: "/images/services/kundli-pro.webp",
         price: 4999,
         duration: "40 minutes",
         mode: "Video Call Consultation",
@@ -59,7 +59,7 @@ export const SERVICES: Service[] = [
       },
       {
         name: "Kundli Analysis",
-        image: "/images/services/Untitled-design-7.png",
+        image: "/images/services/Untitled-design-7.webp",
         price: 2999,
         duration: "20 minutes",
         mode: "Video Call Consultation",
@@ -77,7 +77,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "vastu-consultation",
-    heroImage: "/images/services/vastu-consultation.png",
+    heroImage: "/images/services/vastu-consultation.webp",
     name: "Vastu Consultation",
     tagline: "Balance Your Space. Align Your Energy. Transform Your Life.",
     icon: "vastu",
@@ -116,7 +116,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "On-Site Vastu Consultation",
-        image: "/images/services/vastu-onsite.png",
+        image: "/images/services/vastu-onsite.webp",
         price: 40999,
         duration: "For residential & office spaces in Delhi/NCR UPTO 1500 SQ. FT.",
         mode: "Essential: Review the above description before booking any service or class.",
@@ -128,7 +128,7 @@ export const SERVICES: Service[] = [
       },
       {
         name: "Online Vastu Consultation",
-        image: "/images/services/vastu-online.png",
+        image: "/images/services/vastu-online.webp",
         price: 30999,
         duration: "For residential & office spaces in Delhi/NCR UPTO 1500 SQ. FT.",
         mode: "Essential: Review the above description before booking any service or class.",
@@ -148,7 +148,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "name-analysis",
-    heroImage: "/images/services/name-analysis.png",
+    heroImage: "/images/services/name-analysis.webp",
     name: "Name Analysis",
     tagline: "Your Name Holds the Power to Shape Your Life",
     icon: "name",
@@ -162,7 +162,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Name Analysis",
-        image: "/images/services/name-analysis.png",
+        image: "/images/services/name-analysis.webp",
         price: 1999,
         duration: "Consultation Video Call for 10 minutes.",
         mode: "Essential: Review the description before booking any service or class.",
@@ -181,7 +181,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "consultation-combos",
-    heroImage: "/images/services/consultation-combos.png",
+    heroImage: "/images/services/consultation-combos.webp",
     name: "Consultation Combos",
     tagline: "Career, relationship & personal growth – in one powerful package.",
     icon: "combos",
@@ -196,7 +196,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Combo Horoscope & Name Analysis",
-        image: "/images/services/combo.png",
+        image: "/images/services/combo.webp",
         price: 6999,
         duration: "50 minutes",
         mode: "Essential: Review the above description before booking any service or class.",
@@ -207,7 +207,7 @@ export const SERVICES: Service[] = [
       },
       {
         name: "Super Combo Horoscope &Name& Mobile Number",
-        image: "/images/services/super-combo.png",
+        image: "/images/services/super-combo.webp",
         price: 9999,
         duration: "60 minutes",
         mode: "Essential: Review the above description before booking any service or class.",
@@ -226,7 +226,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "company-name",
-    heroImage: "/images/services/company-name.png",
+    heroImage: "/images/services/company-name.webp",
     name: "Company Name Designing",
     tagline: "Fuel your business with a name that performs.",
     icon: "company",
@@ -240,7 +240,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Company Name Designing",
-        image: "/images/services/company-name.png",
+        image: "/images/services/company-name.webp",
         price: 15999,
         duration: "Consultation Video Call Meeting for 15 minutes.",
         mode: "Essential: Review the above description before booking any service or class.",
@@ -259,7 +259,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "company-analysis",
-    heroImage: "/images/services/company-analysis.png",
+    heroImage: "/images/services/company-analysis.webp",
     name: "Company Name Analysis",
     tagline: "Unlock Business Success Through Powerful Company Name Astrology Analysis Today",
     icon: "analysis",
@@ -273,7 +273,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Company Name Analysis",
-        image: "/images/services/company-analysis.png",
+        image: "/images/services/company-analysis.webp",
         price: 3999,
         duration: "Consultation Video Call Meeting for 15 minutes.",
         mode: "Essential: Review the above description before booking any service or class.",
@@ -292,7 +292,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "newborn-name",
-    heroImage: "/images/services/newborn-name.png",
+    heroImage: "/images/services/newborn-name.webp",
     name: "Newborn Baby Name Design",
     tagline: "Newborn Baby Name Designing",
     icon: "baby",
@@ -306,7 +306,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "New Born Baby Name Designing",
-        image: "/images/services/newborn-name.png",
+        image: "/images/services/newborn-name.webp",
         price: 9999,
         duration: "Consultation Video Call Meeting for 15 minutes.",
         mode: "Essential: Review the above description before booking any service or class.",
@@ -325,7 +325,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "mobile-analysis",
-    heroImage: "/images/services/mobile-analysis.png",
+    heroImage: "/images/services/mobile-analysis.webp",
     name: "Complete One Mobile Number Analysis",
     tagline: "Complete One Mobile Number Analysis",
     icon: "mobile",
@@ -339,7 +339,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Complete Mobile Number Analysis",
-        image: "/images/services/mobile-analysis.png",
+        image: "/images/services/mobile-analysis.webp",
         price: 2999,
         duration: "Consultation Video Call Meeting for 15 minutes.",
         mode: "Read the above description first before booking the consultation.",
@@ -358,7 +358,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "logo-designing",
-    heroImage: "/images/services/logo-designing.png",
+    heroImage: "/images/services/logo-designing.webp",
     name: "Logo Designing",
     tagline: "Designing Logos That Capture Your Cosmic Signature.",
     icon: "logo",
@@ -372,7 +372,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Logo Designing",
-        image: "/images/services/logo-designing.png",
+        image: "/images/services/logo-designing.webp",
         price: 16999,
         duration: "Consultation Video Call for 15 minutes.",
         mode: "Essential: Review the description before booking any service or class.",
@@ -391,7 +391,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "meet-me-personally",
-    heroImage: "/images/services/meet-me-personally.png",
+    heroImage: "/images/services/meet-me-personally.webp",
     name: "Meet Me Personally",
     tagline: "One Conversation. Infinite Clarity. A Better You.",
     icon: "meet",
@@ -405,7 +405,7 @@ export const SERVICES: Service[] = [
     tiers: [
       {
         name: "Meet me Personally",
-        image: "/images/services/meet-me.png",
+        image: "/images/services/meet-me.webp",
         price: 11999,
         duration: "Personal meet with me for 75 minutes.",
         mode: "Essential: Review the description before booking any service or class.",

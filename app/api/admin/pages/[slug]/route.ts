@@ -15,14 +15,13 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
   const { slug } = await params;
+  const page = SITE_PAGES.find((p) => p.slug === slug);
+  if (!page) return NextResponse.json({ error: "Unknown page" }, { status: 404 });
   const body = (await req.json()) as { fields: Record<string, string> };
   const fields = body.fields ?? {};
-  const page = SITE_PAGES.find((p) => p.slug === slug);
-  if (page) {
-    for (const f of page.fields) {
-      if (f.type === "image" && typeof fields[f.key] === "string") {
-        fields[f.key] = normalizeImageUrl(fields[f.key]) ?? "";
-      }
+  for (const f of page.fields) {
+    if (f.type === "image" && typeof fields[f.key] === "string") {
+      fields[f.key] = normalizeImageUrl(fields[f.key]) ?? "";
     }
   }
   await saveSiteContent(slug, fields);

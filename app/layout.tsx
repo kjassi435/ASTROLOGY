@@ -78,10 +78,10 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/images/logo.png", type: "image/png" }],
+    icon: [{ url: "/favicon.ico" }, { url: "/images/logo.webp", type: "image/png" }],
     apple: "/apple-touch-icon.png",
     other: [
-      { rel: "mask-icon", url: "/images/logo.png", color: "#0083fe" },
+      { rel: "mask-icon", url: "/images/logo.webp", color: "#0083fe" },
     ],
   },
   manifest: "/site.webmanifest",

@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { CourseCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 import { WhatsAppCommunity } from "@/components/WhatsAppCommunity";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Free Courses - Astrology, Numerology & Vastu | Arvin Astro",
   description:
     "Start your occult journey for free! Learn Astrology, Numerology & Vastu with expert teacher Arvindrun Vnjay. Free recorded lessons and tutorials on YouTube.",
+  path: "/courses/free",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default async function FreeCoursesPage() {
   const freeCourses = (await getCourses()).filter((c) => c.type === "free");

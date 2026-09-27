@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 
 const COOKIE = "admin-token";
-const TTL_SECONDS = 60 * 60 * 24; // 24h
+const TTL_SECONDS = 60 * 60 * 12; // 12h
 
 function secret(): string {
   return process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASSWORD || "arvin-astro-dev-secret";

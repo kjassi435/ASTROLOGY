@@ -48,10 +48,10 @@ async function rows(sql: string, params: unknown[] = []): Promise<Row[]> {
 export function normalizeImageUrl(url?: string | null): string | undefined {
   if (!url) return undefined;
   const s = url.trim();
-  // Block inline base64 uploads — a single 3MB data URL inflates every page
-  // that lists posts into 40MB+ HTML (was causing 12s loads). Admin must
-  // upload a file or paste an http(s)/Drive URL instead.
-  if (s.startsWith("data:")) return undefined;
+  // Guard against giant inline base64 uploads — a single 3MB data URL once
+  // inflated listing pages into 40MB+ HTML (12s loads). Small compressed
+  // uploads (<=500KB, as produced by the admin image inputs) are allowed.
+  if (s.startsWith("data:")) return s.length <= 500 * 1024 ? s : undefined;
   const m = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || s.match(/[?&]id=([a-zA-Z0-9_-]+)/);
   if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
   return s;
@@ -129,7 +129,6 @@ export type ServiceInput = {
 };
 
 export async function getServices(): Promise<Service[]> {
-  noStore();
   const base = SERVICES;
   try {
     const r = await rows("SELECT * FROM services ORDER BY id");
@@ -246,7 +245,6 @@ export type CourseInput = {
 };
 
 export async function getCourses(): Promise<Course[]> {
-  noStore();
   const base = [...LIVE_COURSES, ...RECORDED_COURSES, ...FREE_COURSES];
   try {
     const r = await rows("SELECT * FROM courses ORDER BY id");
@@ -352,7 +350,6 @@ export async function deleteCourse(id: number) {
 export type BookInput = { title: string; note?: string; image?: string; buy_url?: string };
 
 export async function getBooks(): Promise<Book[]> {
-  noStore();
   try {
     const r = await rows("SELECT * FROM books ORDER BY id");
     if (r.length)
@@ -387,7 +384,6 @@ export async function deleteBook(id: number) {
 export type ProductInput = { title: string; note?: string; image?: string; buy_url?: string };
 
 export async function getProducts(): Promise<Product[]> {
-  noStore();
   try {
     const r = await rows("SELECT * FROM products ORDER BY id");
     if (r.length)
@@ -460,7 +456,6 @@ function contentToHtml(
 }
 
 export async function getPosts(): Promise<BlogPost[]> {
-  noStore();
   let dbRows: any[] = [];
   try {
     dbRows = await rows("SELECT * FROM posts ORDER BY id");
@@ -539,7 +534,6 @@ export async function deletePost(id: number) {
 export type TestimonialInput = { name: string; initials?: string; text?: string; source?: string; badge?: string };
 
 export async function getTestimonials(): Promise<Testimonial[]> {
-  noStore();
   try {
     const r = await rows("SELECT * FROM testimonials ORDER BY id");
     if (r.length)
@@ -601,7 +595,6 @@ export async function saveEnquiry(input: { name: string; phone?: string; email?:
 
 /* ----------------------------- SITE CONTENT ----------------------------- */
 export async function getSiteContent(slug: string): Promise<Record<string, string>> {
-  noStore();
   try {
     const r = await rows("SELECT fields FROM site_content WHERE slug=?", [slug]);
     if (r.length) {
@@ -879,8 +872,7 @@ export async function getAdminBooks(): Promise<Row[]> {
         const title = String(b.title);
         seen.add(title);
         const db = dbByTitle.get(title);
-        if (!db) continue;
-        merged.push(mergeOverBase(b, db));
+        merged.push(db ? mergeOverBase(b, db) : b);
       }
       for (const [title, row] of dbByTitle) {
         if (!seen.has(title)) merged.push(row);
@@ -906,8 +898,7 @@ export async function getAdminProducts(): Promise<Row[]> {
         const title = String(p.title);
         seen.add(title);
         const db = dbByTitle.get(title);
-        if (!db) continue;
-        merged.push(mergeOverBase(p, db));
+        merged.push(db ? mergeOverBase(p, db) : p);
       }
       for (const [title, row] of dbByTitle) {
         if (!seen.has(title)) merged.push(row);

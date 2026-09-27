@@ -4,6 +4,10 @@ import { SocialLinks } from "@/components/SocialLinks";
 import { Preloader } from "@/components/Preloader";
 import { getPageContent } from "@/lib/cms";
 
+// Cache public pages for 5 min (TTFB fix). Admin reads use getAdmin*
+// which still bypass cache, so the panel always shows fresh data.
+export const revalidate = 300;
+
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const global = await getPageContent("global");
   const footer = await getPageContent("footer");

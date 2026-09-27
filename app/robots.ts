@@ -4,7 +4,7 @@ import { BRAND } from "@/lib/site";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/thank-you", "/privacy", "/terms"] },
+      { userAgent: "*", allow: "/", disallow: ["/thank-you", "/admin", "/api/"] },
     ],
     sitemap: `https://${BRAND.domain}/sitemap.xml`,
   };

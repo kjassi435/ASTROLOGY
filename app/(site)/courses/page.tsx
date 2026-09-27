@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { getCourses } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
@@ -6,12 +7,13 @@ import { CourseCard, SectionHeader } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 import { IconAward, IconPlay, IconVideo } from "@/components/Icons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Courses - Astrology, Numerology & Vastu | Arvin Astro",
   description:
     "Live, Recorded and Free courses on Astrology, Name Numerology, Numerology and Vastu by Arvindrun Vnjay. Certified professional courses for India and global learners.",
+  path: "/courses",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default async function CoursesPage() {
   const courses = await getCourses();

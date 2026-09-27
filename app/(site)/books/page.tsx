@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import { getBooks } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { BookCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Recommended Books - Best Astrology, Numerology & Vastu Books | Arvin Astro",
   description:
     "Get the best recommended Astrology, Numerology, Name Numerology & Vastu books handpicked by Arvindrun Vnjay - curated occult library for serious learners.",
+  path: "/books",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default async function BooksPage() {
   const books = await getBooks();

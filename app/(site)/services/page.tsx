@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { getServices } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
@@ -6,12 +7,13 @@ import { SectionHeader, ServiceCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 import { IconArrowRight, IconCheck } from "@/components/Icons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Our Services - Astrology, Vastu & Name Designing | Arvin Astro",
   description:
     "Expert Astrology, Vastu & Name Designing services. Kundli Analysis, Vastu Consultation, Name Analysis, Company & Newborn Name Designing, Logo Designing and more.",
+  path: "/services",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default async function ServicesPage() {
   const services = await getServices();

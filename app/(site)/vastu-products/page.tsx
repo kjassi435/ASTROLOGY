@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { staticMetadata } from "@/lib/seo";
 import { getProducts } from "@/lib/cms";
 import { PageHero } from "@/components/PageHero";
 import { ProductCard } from "@/components/Cards";
 import { Reveal } from "@/components/Preloader";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticMetadata({
   title: "Vastu Products - Genuine Energy Products | Arvin Astro",
   description:
     "Buy genuine vastu products, energy products, remedies and spiritual items recommended by Arvindrun Vnjay. Certified vastu products for home and office.",
+  path: "/vastu-products",
   keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-  };
+});
 
 export default async function ProductsPage() {
   const products = await getProducts();
