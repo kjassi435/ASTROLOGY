@@ -52,7 +52,7 @@ export function organizationSchema() {
     name: BRAND.brand,
     alternateName: BRAND.name,
     url: SITE_URL,
-    logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.webp` },
+    logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.png` },
     description: BRAND.description,
     address: {
       "@type": "PostalAddress",

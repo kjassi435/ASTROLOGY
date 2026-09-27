@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/images/logo.webp",
+      "src": "/images/logo.png",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "any maskable"

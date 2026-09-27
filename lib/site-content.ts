@@ -294,7 +294,7 @@ export const SITE_DEFAULTS: Record<string, Record<string, string>> = {
   global: {
     siteName: "Arvin Astro",
     siteTagline: "Align Your Karma with Cosmic Energy.",
-    logoUrl: "/images/logo.webp",
+    logoUrl: "/images/logo.png",
     phoneMain: "+91 97186 46655",
     phoneSecondary: "",
     whatsappCommunity: "https://wa.me/919718646655",
@@ -313,13 +313,13 @@ export const SITE_DEFAULTS: Record<string, Record<string, string>> = {
   home: {
     heroTitle: "",
     heroSubtitle: "",
-    heroImage1: "/images/hero-desktop.webp",
+    heroImage1: "/images/hero-desktop.png",
     heroImage2: "",
     heroImage3: "",
-    heroImageMobile: "/images/hero-mobile.webp",
+    heroImageMobile: "/images/hero-mobile.png",
     aboutText:
       "A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights.",
-    expertImage: "/images/about.webp",
+    expertImage: "/images/about.png",
     expertName: "Arvindrun Vnjay",
     expertText:
       "A passionate practitioner of ancient Vedic sciences, helping individuals discover their true potential through celestial insights.",
@@ -415,7 +415,7 @@ export const SITE_DEFAULTS: Record<string, Record<string, string>> = {
   about: {
     heroTitle: "About Arvindrun Vnjay",
     heroSubtitle: "Astrologer · Name Numerology Expert · Vastu Consultant · Teacher",
-    aboutHeroBg: "/images/about-hero-bg.webp",
+    aboutHeroBg: "/images/about-hero-bg.png",
     aboutRoles: JSON.stringify([
       "Astrologer",
       "Name Numerology Expert",
@@ -442,7 +442,7 @@ export const SITE_DEFAULTS: Record<string, Record<string, string>> = {
     locationTitle: "Location",
     locationText: "Greater Noida West, UP, India",
     bio: "Welcome to Arvin Astro — your trusted destination for the ancient and life-transforming sciences of Vedic Astrology, Name Numerology, and Vastu Shastra. Whether you are seeking clarity in life, looking for the perfect name for your newborn, or wanting to harmonize your living or working space, you are at the right place.",
-    aboutImage: "/images/about.webp",
+    aboutImage: "/images/about.png",
     statYears: "8",
     statStudents: "2666",
     statConsultations: "999",

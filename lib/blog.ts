@@ -28,7 +28,7 @@ export const POSTS: BlogPost[] = [
       "THE UNIFIED FIELD OF PLANETARY DYNAMICS: A definitive research treatise on Gochar. Gochar Research is the primary foundation of predictive accuracy in Vedic astrology.",
     date: "April 4, 2026",
     readTime: "18 min read",
-    image: "/images/blog/gochar.webp",
+    image: "/images/blog/gochar.jpg",
     content: [
       {
         paragraphs: [
@@ -69,7 +69,7 @@ export const POSTS: BlogPost[] = [
       "The Ultimate Guide to Stock Market Astrology: Predicting Financial Cycles. A comprehensive research paper on timing financial markets with planetary cycles.",
     date: "March 22, 2026",
     readTime: "15 min read",
-    image: "/images/blog/market.webp",
+    image: "/images/blog/market.jpg",
     content: [
       {
         paragraphs: [
@@ -106,7 +106,7 @@ export const POSTS: BlogPost[] = [
       "7 Secrets of Vimshottari Dasha Research for 100% Timing. My exhaustive study on the mathematical precision of the Vimshottari timing system.",
     date: "March 9, 2026",
     readTime: "16 min read",
-    image: "/images/blog/dasha.webp",
+    image: "/images/blog/dasha.jpg",
     content: [
       {
         paragraphs: [
@@ -145,7 +145,7 @@ export const POSTS: BlogPost[] = [
       "The Science of Predictive Accuracy — my comprehensive research bringing scientific accuracy to Vedic Astrology through the Ashtakavarga system.",
     date: "March 1, 2026",
     readTime: "14 min read",
-    image: "/images/blog/ashtakavarga.webp",
+    image: "/images/blog/ashtakavarga.jpg",
     content: [
       {
         paragraphs: [
@@ -182,7 +182,7 @@ export const POSTS: BlogPost[] = [
       "An expert-level research post on the 81-grid Vastu Purusha Mandala — synthesizing classical texts with modern application for measurable results.",
     date: "February 24, 2026",
     readTime: "12 min read",
-    image: "/images/blog/vastu-mandala.webp",
+    image: "/images/blog/vastu-mandala.jpg",
     content: [
       {
         paragraphs: [
@@ -221,7 +221,7 @@ export const POSTS: BlogPost[] = [
       "This research by Arvin Astro aims to demystify the 7.5-year transit of Saturn — a blend of classical texts and modern chart verification.",
     date: "February 18, 2026",
     readTime: "13 min read",
-    image: "/images/blog/sadhe-sati.webp",
+    image: "/images/blog/sadhe-sati.jpg",
     content: [
       {
         paragraphs: [

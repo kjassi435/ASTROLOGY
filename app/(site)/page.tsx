@@ -41,7 +41,7 @@ function AboutStrip({ aboutText, expertImage, expertName, expertText, kicker, di
             <div className="relative">
               <div className="relative w-full aspect-[3/4] gradient-band rounded-[var(--radius-xl)] overflow-hidden shadow-[var(--shadow-lg)] border-8 border-card">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={expertImage || "/images/about.webp"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
+                <img src={expertImage || "/images/about.png"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
               </div>
               {badgeValue ? (
                 <div className="absolute -bottom-7 -right-4 sm:right-8 bg-foreground text-bg p-5 sm:p-6 rounded-[var(--radius-md)] shadow-[var(--shadow-lg)] text-center border-[3px] border-primary">
@@ -332,7 +332,7 @@ function AppSection({ kicker, title, desc1, desc2 }: { kicker?: string; title?: 
             </div>
             <div className="hidden lg:flex justify-center items-center">
               <img
-                src="/images/app-mockup.webp"
+                src="/images/app-mockup.png"
                 alt="Arvin Astro App"
                 style={{ width: "180px", height: "auto" }}
                 className="drop-shadow-2xl"

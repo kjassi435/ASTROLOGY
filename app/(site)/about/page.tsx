@@ -128,7 +128,7 @@ export default async function AboutPage() {
               <Reveal>
                 <div className="relative w-full aspect-[3/4] gradient-band rounded-[var(--radius-xl)] overflow-hidden shadow-[var(--shadow-lg)] border-8 border-white">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={about.aboutImage || "/images/about.webp"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
+                  <img src={about.aboutImage || "/images/about.png"} alt="Arvindrun Vnjay — Astrologer, Numerologist and Vastu Teacher" className="absolute inset-0 w-full h-full object-cover" />
                 </div>
               </Reveal>
               {about.badgeValue ? (
