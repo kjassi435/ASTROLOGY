@@ -2,6 +2,16 @@ import { BRAND, CONTACT, SOCIALS } from "./site";
 
 export const SITE_URL = `https://${BRAND.domain}`;
 
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+
+export function toAbsoluteImage(url?: string | null): string {
+  if (!url || !url.trim()) return DEFAULT_OG_IMAGE;
+  const u = url.trim();
+  if (u.startsWith("http://") || u.startsWith("https://")) return u;
+  if (u.startsWith("//")) return `https:${u}`;
+  return `${SITE_URL}${u.startsWith("/") ? u : `/${u}`}`;
+}
+
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",

@@ -40,7 +40,7 @@ export default async function BlogPage() {
                 <Link href={`/blog/${post.slug}`} className="group bg-card rounded-[var(--radius-lg)] border border-primary-hover/20 overflow-hidden flex flex-col h-full card-lift">
                   <div className="aspect-[16/10] overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-center gap-3 text-xs text-foreground/60 mb-3">

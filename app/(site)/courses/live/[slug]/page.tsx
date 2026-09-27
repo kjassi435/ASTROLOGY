@@ -9,6 +9,7 @@ import { IconCheck, IconClock, IconUsers, IconVideo } from "@/components/Icons";
 import { waLink, stripPerClass, stripRecordingRefs, formatINR } from "@/lib/utils";
 import { InlineText } from "@/components/Inline";
 import { CONTACT } from "@/lib/site";
+import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
 export const dynamic = "force-dynamic";
@@ -26,11 +27,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const course = (await getCourses()).find((c) => c.type === "live" && c.slug === slug);
   if (!course) return { title: "Course Not Found" };
   const title = `${course.title} - Live Course | Arvin Astro`;
+  const desc = course.tagline ?? course.description;
+  const url = `${SITE_URL}/courses/live/${slug}`;
+  const ogImage = toAbsoluteImage(course.image);
   return {
     title,
-    description: course.tagline ?? course.description,
+    description: desc,
     keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-    };
+    alternates: { canonical: `/courses/live/${slug}` },
+    openGraph: {
+      title,
+      description: desc,
+      url,
+      siteName: "Arvin Astro",
+      type: "website",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: course.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: desc,
+      images: [ogImage],
+    },
+  };
 }
 
 const DEFAULT_LIVE_BOX_TITLE = "Every session is **live** — join in real time, ask questions on the spot, and stay connected with the community between classes.";

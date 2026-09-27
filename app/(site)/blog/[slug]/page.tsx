@@ -9,6 +9,7 @@ import { waLink, sanitizeHtml } from "@/lib/utils";
 import { CONTACT } from "@/lib/site";
 import { IconArrowLeft, IconWhatsApp } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
+import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
 
@@ -44,11 +45,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return { title: "Article Not Found | Arvin Astro Blog" };
   const title = `${post.title} | Arvin Astro Blog`;
   const desc = post.excerpt ?? "";
+  const url = `${SITE_URL}/blog/${slug}`;
+  const ogImage = toAbsoluteImage(post.image);
   return {
     title,
     description: desc,
     keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-    };
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      title,
+      description: desc,
+      url,
+      siteName: "Arvin Astro",
+      type: "article",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: desc,
+      images: [ogImage],
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -5,7 +5,7 @@ import { BRAND } from "@/lib/site";
 import { Providers } from "@/components/Providers";
 import { JsonLd } from "@/components/JsonLd";
 import { Analytics } from "@/components/Analytics";
-import { organizationSchema, websiteSchema } from "@/lib/seo";
+import { organizationSchema, websiteSchema, SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -53,20 +53,28 @@ export const metadata: Metadata = {
     "vastu products",
     "cosmic energy alignment",
   ],
-  alternates: { canonical: "/" },
   verification: { google: "oPjdvWmK9gi5pEONGPBjjqbKXg-fI_0Hwzs0NVxwqiA" },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "/",
+    url: SITE_URL,
     siteName: "Arvin Astro",
     title: "Arvindrun Vnjay | Astrologer • Name Numerology • Vastu Expert",
     description: BRAND.description,
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "Arvin Astro — Arvindrun Vnjay | Astrologer • Name Numerology • Vastu Expert",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Arvindrun Vnjay | Astrologer • Name Numerology • Vastu Expert",
     description: BRAND.description,
+    images: [DEFAULT_OG_IMAGE],
   },
   robots: { index: true, follow: true },
   icons: {

@@ -48,6 +48,10 @@ async function rows(sql: string, params: unknown[] = []): Promise<Row[]> {
 export function normalizeImageUrl(url?: string | null): string | undefined {
   if (!url) return undefined;
   const s = url.trim();
+  // Block inline base64 uploads — a single 3MB data URL inflates every page
+  // that lists posts into 40MB+ HTML (was causing 12s loads). Admin must
+  // upload a file or paste an http(s)/Drive URL instead.
+  if (s.startsWith("data:")) return undefined;
   const m = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || s.match(/[?&]id=([a-zA-Z0-9_-]+)/);
   if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
   return s;

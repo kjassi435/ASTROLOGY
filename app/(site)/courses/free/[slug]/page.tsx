@@ -9,6 +9,7 @@ import { CourseEnrollBar } from "@/components/Cards";
 import { IconCheck, IconClock, IconUsers, IconPlay, IconWhatsApp } from "@/components/Icons";
 import { CONTACT } from "@/lib/site";
 import { InlineText } from "@/components/Inline";
+import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
 
@@ -35,11 +36,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const course = (await getCourses()).find((c) => c.type === "free" && c.slug === slug);
   if (!course) return { title: "Course Not Found" };
   const title = `${course.title} - Free Course | Arvin Astro`;
+  const desc = course.tagline ?? course.description;
+  const url = `${SITE_URL}/courses/free/${slug}`;
+  const ogImage = toAbsoluteImage(course.image);
   return {
     title,
-    description: course.tagline ?? course.description,
+    description: desc,
     keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-    };
+    alternates: { canonical: `/courses/free/${slug}` },
+    openGraph: {
+      title,
+      description: desc,
+      url,
+      siteName: "Arvin Astro",
+      type: "website",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: course.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: desc,
+      images: [ogImage],
+    },
+  };
 }
 
 export default async function FreeCoursePage({ params }: { params: Promise<{ slug: string }> }) {

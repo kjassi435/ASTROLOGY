@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Preloader";
 import { IconCheck } from "@/components/Icons";
 import { formatINR } from "@/lib/utils";
+import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
 
@@ -22,12 +23,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const service = await resolveService(slug);
   if (!service) return { title: "Service Not Found" };
   const title = `${service.name} - Book Consultation | Arvin Astro`;
+  const desc = service.tagline;
+  const url = `${SITE_URL}/services/${service.slug}`;
+  const ogImage = toAbsoluteImage(service.heroImage);
   return {
     title,
-    description: service.tagline,
+    description: desc,
     alternates: { canonical: `/services/${service.slug}` },
     keywords: ["astrologer", "numerologist", "vastu", "name numerology", "kundli analysis", "Arvindrun Vnjay", "Arvin Astro", "online consultation", "occult science", "vedic astrology"],
-    };
+    openGraph: {
+      title,
+      description: desc,
+      url,
+      siteName: "Arvin Astro",
+      type: "website",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: service.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: desc,
+      images: [ogImage],
+    },
+  };
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
