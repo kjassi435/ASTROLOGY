@@ -498,6 +498,8 @@ export async function getPosts(): Promise<BlogPost[]> {
         image: d.image ?? p.image,
         body: d.body ?? p.body ?? (p.content ? contentToHtml(p.content) : undefined),
         status: d.status ?? p.status,
+        author: d.author ?? p.author,
+        tags: d.tags ?? p.tags,
       });
     } else {
       merged.push(p);

@@ -64,7 +64,10 @@ export function PostsAdmin() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Save failed");
+      if (!res.ok) {
+        const j = await res.json().catch(() => null);
+        throw new Error((j as { error?: string } | null)?.error || "Save failed");
+      }
     },
     onSuccess: () => {
       toast.success("Post saved");

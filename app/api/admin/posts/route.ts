@@ -8,11 +8,17 @@ export async function GET() {
   return NextResponse.json({ items: await getPosts() });
 }
 
+function imageTooLarge(v: unknown): boolean {
+  return typeof v === "string" && v.startsWith("data:") && v.length > 500 * 1024;
+}
+
 export async function POST(req: Request) {
   if (!(await requireAdmin())) return unauthorized();
   await ensureDb();
   const body = (await req.json()) as PostInput;
   if (!body.title) return NextResponse.json({ error: "title required" }, { status: 400 });
+  if (imageTooLarge(body.image))
+    return NextResponse.json({ error: "Image too large (max 500KB). Compress or use a smaller file." }, { status: 400 });
   const id = await savePost(body);
   return NextResponse.json({ id });
 }
