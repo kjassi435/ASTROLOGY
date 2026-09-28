@@ -24,24 +24,10 @@ export function FloatingNotice({ data, embedded = false }: { data: Record<string
   const slides = slidesFromData(data);
   const intervalMs = Math.max(1500, Number(data.noticeInterval) || 4000);
   const [idx, setIdx] = useState(0);
-  const [dismissed, setDismissed] = useState(true);
+  // Session-only dismissal: closing hides the popup for this page view,
+  // but a refresh always shows it again (no localStorage suppression).
+  const [dismissed, setDismissed] = useState(false);
   const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (!enabled || slides.length === 0) return;
-    try {
-      const raw = localStorage.getItem("noticeDismissedAt");
-      if (raw) {
-        const at = Number(raw);
-        if (Number.isFinite(at) && Date.now() - at < 24 * 60 * 60 * 1000) {
-          setDismissed(true);
-          return;
-        }
-        localStorage.removeItem("noticeDismissedAt");
-      }
-    } catch {}
-    setDismissed(false);
-  }, [enabled, slides.length]);
 
   const go = useCallback((next: number) => {
     if (slides.length <= 1) return;
@@ -67,7 +53,6 @@ export function FloatingNotice({ data, embedded = false }: { data: Record<string
 
   function handleClose() {
     setDismissed(true);
-    try { localStorage.setItem("noticeDismissedAt", String(Date.now())); } catch {}
   }
 
   if (!enabled || dismissed || slides.length === 0) return null;
