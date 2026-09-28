@@ -119,9 +119,9 @@ export function Hero({
         </div>
       )}
 
-      {/* Offers slider — lives INSIDE the hero only (scrolls away with it) */}
+      {/* Offers slider — bottom-right INSIDE the hero only (scrolls away with it) */}
       {notice ? (
-        <div className="absolute z-30 right-3 top-24 w-[250px] sm:w-[270px] md:top-28 md:right-8 md:w-[300px]">
+        <div className="absolute z-30 right-3 bottom-16 w-[250px] sm:w-[270px] md:bottom-20 md:right-8 md:w-[300px]">
           <FloatingNotice data={notice} embedded />
         </div>
       ) : null}
