@@ -12,7 +12,11 @@ import { CONTACT } from "@/lib/site";
 import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
-export const revalidate = 300;
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+  return COURSES.filter((c) => c.type === "live").map((c) => ({ slug: c.slug }));
+}
 
 async function resolveCourse(slug: string): Promise<Course | undefined> {
   const base = matchSlug(COURSES, slug);

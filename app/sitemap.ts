@@ -2,12 +2,11 @@ import type { MetadataRoute } from "next";
 import { getServices, getCourses, getPosts } from "@/lib/cms";
 import { BRAND } from "@/lib/site";
 
-// Always fresh from the database (with static fallbacks), so anything the
-// client adds in the admin panel — services, courses, blogs — automatically
-// appears here. Recorded-course detail pages are intentionally excluded:
-// those cards link out to the ClassPlus store and have no on-site page.
-export const dynamic = "force-dynamic";
-export const revalidate = 3600;
+// Cached for 24h at CDN (Vercel usage fix). DB-driven but static-ish:
+// force-dynamic har /sitemap.xml hit pe 3x Turso query + origin transfer
+// jala raha tha (bots roz hammer karte hain). Ab 1 din me 1 baar regenerate.
+export const dynamic = "force-static";
+export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();

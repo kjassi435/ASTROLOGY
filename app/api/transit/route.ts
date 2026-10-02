@@ -1,5 +1,14 @@
 import { NextResponse } from "next/server";
 
+// 12h CDN cache (Vercel usage fix): har home-load pe drikpanchang scrape +
+// CPU burn rukega. Users ko instant cached JSON, bots origin tak nahi.
+export const dynamic = "force-static";
+export const revalidate = 43200;
+
+const CDN_CACHE = {
+  headers: { "Cache-Control": "public, s-maxage=43200, stale-while-revalidate=86400" },
+};
+
 interface PlanetPosition {
   planet: string;
   planetHi: string;
@@ -215,7 +224,7 @@ const FALLBACK = (): { planets: PlanetPosition[]; bhavas: Bhava[] } => ({
 
 export async function GET() {
   if (cache && Date.now() - cache.timestamp < CACHE_TTL) {
-    return NextResponse.json({ ...cache.data, source: "cache", lastUpdated: new Date(cache.timestamp).toISOString() });
+    return NextResponse.json({ ...cache.data, source: "cache", lastUpdated: new Date(cache.timestamp).toISOString() }, CDN_CACHE);
   }
 
   try {
@@ -231,11 +240,11 @@ export async function GET() {
       const parsed = parseDrik(await res.text());
       if (parsed && parsed.planets.length >= 9) {
         cache = { data: parsed, timestamp: Date.now() };
-        return NextResponse.json({ ...parsed, source: "drikpanchang", lastUpdated: new Date().toISOString() });
+        return NextResponse.json({ ...parsed, source: "drikpanchang", lastUpdated: new Date().toISOString() }, CDN_CACHE);
       }
     }
   } catch {}
 
   cache = { data: FALLBACK(), timestamp: Date.now() };
-  return NextResponse.json({ ...FALLBACK(), source: "fallback", lastUpdated: new Date().toISOString() });
+  return NextResponse.json({ ...FALLBACK(), source: "fallback", lastUpdated: new Date().toISOString() }, CDN_CACHE);
 }

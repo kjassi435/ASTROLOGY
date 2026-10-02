@@ -26,6 +26,25 @@ const nextConfig: NextConfig = {
       { source: "/live/", destination: "/courses/live", permanent: true },
     ];
   },
+  async headers() {
+    // Vercel usage fix: API + sitemap ko CDN pe cache karo taaki har hit
+    // origin compute (Fast Origin Transfer + Fluid CPU) na jalaye.
+    // Real users ko fresh-ish data milta rahega, bots origin tak nahi pahunchenge.
+    return [
+      {
+        source: "/api/transit",
+        headers: [{ key: "Cache-Control", value: "public, s-maxage=43200, stale-while-revalidate=86400" }],
+      },
+      {
+        source: "/api/horoscope/:path*",
+        headers: [{ key: "Cache-Control", value: "public, s-maxage=86400, stale-while-revalidate=86400" }],
+      },
+      {
+        source: "/sitemap.xml",
+        headers: [{ key: "Cache-Control", value: "public, s-maxage=86400, stale-while-revalidate=86400" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

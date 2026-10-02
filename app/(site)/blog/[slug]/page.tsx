@@ -12,6 +12,13 @@ import { JsonLd } from "@/components/JsonLd";
 import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
+// 1h cache (Vercel usage fix): har bot-hit pe DB + render rokta hai,
+// users ko CDN se instant page, admin edits 1h me live.
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+  return POSTS.filter((p) => (p.status ?? "published") !== "draft").map((p) => ({ slug: p.slug }));
+}
 
 async function resolvePost(slug: string): Promise<BlogPost | undefined> {
   const base = matchSlug(POSTS, slug);

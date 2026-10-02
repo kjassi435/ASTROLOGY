@@ -13,6 +13,14 @@ import { formatINR } from "@/lib/utils";
 import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
+// 1h cache (Vercel usage fix): har bot-hit pe DB + render rokta hai,
+// users ko CDN se instant page, admin edits 1h me live.
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+  // Static fallbacks se build-time pre-render; DB wale slugs on-demand + cached.
+  return ["kundli-analysis", "vastu-consultation", "name-analysis", "consultation-combos", "company-name", "company-analysis", "newborn-name", "mobile-analysis", "logo-designing", "meet-me-personally"].map((slug) => ({ slug }));
+}
 
 async function resolveService(slug: string): Promise<Service | undefined> {
   return matchSlug(await getServices(), slug);

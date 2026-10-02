@@ -25,6 +25,31 @@ const BAD_BOTS = [
   "ev-crawler",
   "zoominfobot",
   "crawlson",
+  // AI scraper storm (Sep 21 se Fast Origin Transfer 89%): ye polite nahi,
+  // robots.txt ignore karte hain, isliye edge pe 403. Google/Bing/WhatsApp/
+  // Facebook/Twitter/LinkedIn previews allow rehte hain — SEO + sharing safe.
+  "gptbot",
+  "chatgpt-user",
+  "ccbot",
+  "claudebot",
+  "anthropic-ai",
+  "anthropic",
+  "bytespider",
+  "perplexitybot",
+  "perplexity",
+  "youbot",
+  "cohere-ai",
+  "ai2bot-dolma",
+  "diffbot",
+  "omgilibot",
+  "omgili",
+  "facebookbot",
+  "meta-externalagent",
+  "bedver",
+  "petalbot",
+  "yandexbot",
+  "sogou",
+  "baiduspider",
 ];
 
 export function middleware(req: NextRequest) {

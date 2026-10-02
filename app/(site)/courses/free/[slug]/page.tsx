@@ -12,6 +12,12 @@ import { InlineText } from "@/components/Inline";
 import { SITE_URL, toAbsoluteImage } from "@/lib/seo";
 
 export const dynamicParams = true;
+// 1h cache (Vercel usage fix): har bot-hit pe DB + render rokta hai.
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+  return COURSES.filter((c) => c.type === "free").map((c) => ({ slug: c.slug }));
+}
 
 async function resolveCourse(slug: string): Promise<Course | undefined> {
   const base = matchSlug(COURSES, slug);

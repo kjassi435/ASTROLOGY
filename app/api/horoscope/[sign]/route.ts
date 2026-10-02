@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// 24h CDN cache (Vercel usage fix): daily horoscope roz 1 baar compute,
+// baaki sab CDN se. Modal open pe function invocation + CPU bachata hai.
+export const dynamic = "force-static";
+export const revalidate = 86400;
+
+const CDN_CACHE = {
+  headers: { "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=86400" },
+};
+
 interface CacheEntry {
   data: object;
   timestamp: number;
@@ -158,7 +167,7 @@ export async function GET(
 
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    return NextResponse.json(cached.data);
+    return NextResponse.json(cached.data, CDN_CACHE);
   }
 
   try {
@@ -182,11 +191,11 @@ export async function GET(
     };
 
     cache.set(cacheKey, { data: result, timestamp: Date.now() });
-    return NextResponse.json(result);
+    return NextResponse.json(result, CDN_CACHE);
   } catch {
     const fb = FALLBACK[sign];
     const fallback = { ...fb, date: today };
     cache.set(cacheKey, { data: fallback, timestamp: Date.now() });
-    return NextResponse.json(fallback);
+    return NextResponse.json(fallback, CDN_CACHE);
   }
 }
